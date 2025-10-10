@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">Project_Group_17</string>
     <string name="register">Register</string>
+    <string name="login">Login</string>
+    <string name="email">email</string>
+    <string name="password">password</string>
+    <string name="Login" />
 </resources>

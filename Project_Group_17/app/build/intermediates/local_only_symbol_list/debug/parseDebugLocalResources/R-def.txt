@@ -7,6 +7,11 @@ drawable ic_launcher_foreground
 id btnGoRegister
 id btnGoStudent
 id btnGoTutor
+id logoImage
+id postalCodeId
+id submitId
+id teamNameViewId
+id titleTextView
 layout activity_main
 layout registration
 layout studentreg
@@ -14,6 +19,10 @@ layout tutorreg
 mipmap ic_launcher
 mipmap ic_launcher_round
 string app_name
+string email
+string login
+string password
+string register
 style Base.Theme.Project_Group_17
 style Theme.Project_Group_17
 xml backup_rules
