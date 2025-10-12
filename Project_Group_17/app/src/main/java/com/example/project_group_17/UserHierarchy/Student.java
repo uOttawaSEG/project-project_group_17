@@ -1,0 +1,15 @@
+package com.example.project_group_17.UserHierarchy;
+
+public class Student extends User{
+
+    private String programOfStudy;
+
+    public Student(String first, String last, String email, String pass, String pn, String programOfStudy) {
+        super("Student", first, last, email, pass, pn);
+        this.programOfStudy = programOfStudy;
+    }
+
+    public String getProgramOfStudy() {
+        return this.programOfStudy;
+    }
+}
