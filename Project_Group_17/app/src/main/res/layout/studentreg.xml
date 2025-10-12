@@ -12,7 +12,8 @@
         android:layout_marginBottom="64dp"
         android:hint="Program of study"
         app:layout_constraintBottom_toTopOf="@+id/submitButton"
-        tools:layout_editor_absoluteX="40dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/phoneNumber"
@@ -21,7 +22,8 @@
         android:layout_marginBottom="12dp"
         android:hint="Phone Number"
         app:layout_constraintBottom_toTopOf="@+id/programOfStudy"
-        tools:layout_editor_absoluteX="40dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/password"
@@ -30,7 +32,8 @@
         android:layout_marginBottom="12dp"
         android:hint="Password"
         app:layout_constraintBottom_toTopOf="@+id/phoneNumber"
-        tools:layout_editor_absoluteX="40dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/email"
@@ -39,7 +42,8 @@
         android:layout_marginBottom="12dp"
         android:hint="E-Mail"
         app:layout_constraintBottom_toTopOf="@+id/password"
-        tools:layout_editor_absoluteX="40dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/lastName"
@@ -48,7 +52,8 @@
         android:layout_marginBottom="12dp"
         android:hint="Last Name"
         app:layout_constraintBottom_toTopOf="@+id/email"
-        tools:layout_editor_absoluteX="40dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/registerTopLabel"
@@ -59,9 +64,10 @@
         android:textAlignment="center"
         android:textSize="25sp"
         app:layout_constraintBottom_toTopOf="@+id/firstName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.391"
-        tools:layout_editor_absoluteX="84dp" />
+        app:layout_constraintVertical_bias="0.391" />
 
     <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/firstName"
@@ -70,7 +76,8 @@
         android:layout_marginBottom="12dp"
         android:hint="First Name"
         app:layout_constraintBottom_toTopOf="@+id/lastName"
-        tools:layout_editor_absoluteX="40dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/submitButton"
@@ -79,5 +86,6 @@
         android:layout_marginBottom="64dp"
         android:text="Submit"
         app:layout_constraintBottom_toBottomOf="parent"
-        tools:layout_editor_absoluteX="152dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
