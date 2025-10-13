@@ -16,7 +16,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 public class StudentRegScreen extends AppCompatActivity {
-    DatabaseReference databaseStudents;
+    DatabaseReference databaseUsers;
     EditText firstNametxt;
     EditText lastNametxt;
     EditText emailtxt;
@@ -36,7 +36,7 @@ public class StudentRegScreen extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.studentreg);
 
-        databaseStudents = FirebaseDatabase.getInstance().getReference("students");
+        databaseUsers = FirebaseDatabase.getInstance().getReference("Users");
 
         firstNametxt = (EditText) findViewById(R.id.firstName);
         lastNametxt = (EditText) findViewById(R.id.lastName);
@@ -78,10 +78,10 @@ public class StudentRegScreen extends AppCompatActivity {
     }
 
     public void registerStudent() {
-        String id = databaseStudents.push().getKey();
+        String id = databaseUsers.push().getKey();
         Student student = new Student(id, firstName, lastName, email, password, phoneNumber, programOfStudy);
 
-        databaseStudents.child(id).setValue(student);
+        databaseUsers.child(id).setValue(student);
         Toast.makeText(this, "Registered Successfully", Toast.LENGTH_LONG).show();
         firstNametxt.setText("");
         lastNametxt.setText("");
