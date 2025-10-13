@@ -30,7 +30,11 @@
         </activity>
         <activity
             android:name=".Screens.TutorRegScreen"
-            android:exported="true">
+            android:exported="false">
+        </activity>
+        <activity
+            android:name=".Screens.TutorRegScreen2"
+            android:exported="false">
         </activity>
         <activity
             android:name=".Screens.UserScreen"
