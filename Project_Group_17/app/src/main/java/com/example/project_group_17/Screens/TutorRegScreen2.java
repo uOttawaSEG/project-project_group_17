@@ -13,13 +13,13 @@ import java.util.List;
 import com.example.project_group_17.R;
 import com.google.android.material.button.MaterialButton;
 import com.example.project_group_17.UserHierarchy.Tutor;
-
-
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 
 public class TutorRegScreen2 extends AppCompatActivity{
-
-    private EditText etUsername, etEmail, etPassword, etRepassword;
+    private DatabaseReference databaseUsers;
+    private EditText etEmail, etPassword, etRepassword;
     private MaterialButton btnRegister;
 
     private String first, last, phone, degree, coursesCsv;
@@ -31,13 +31,14 @@ public class TutorRegScreen2 extends AppCompatActivity{
         EdgeToEdge.enable(this);
         setContentView(R.layout.tutorreg2);
 
+        databaseUsers = FirebaseDatabase.getInstance().getReference("Users");
+
         first = getIntent().getStringExtra("firstName");
         last = getIntent().getStringExtra("lastname");
         phone = getIntent().getStringExtra("phone");
         degree = getIntent().getStringExtra("degree");
         coursesCsv = getIntent().getStringExtra("coursesCsv");
 
-        etUsername = findViewById(R.id.username);
         etEmail = findViewById(R.id.email);
         etPassword = findViewById(R.id.password);
         etRepassword = findViewById(R.id.repassword);
@@ -49,15 +50,10 @@ public class TutorRegScreen2 extends AppCompatActivity{
     }
 
     private void register() {
-        String username = textOf(etUsername);
         String email = textOf(etEmail);
         String pass = textOf(etPassword);
         String repass = textOf(etRepassword);
-
-        if (username.isEmpty()) {
-            errorToast("Username Cannot be Left Blank");
-            return;
-        }
+        
         if (!validEmail(email)) {
             errorToast("Please Enter a Valid Email");
             return;
@@ -70,7 +66,10 @@ public class TutorRegScreen2 extends AppCompatActivity{
 
         List<String> courses = convert(coursesCsv);
 
-        Tutor tutor = new Tutor(first, last, phone, degree, courses, username, email, pass);
+        String id = databaseUsers.push().getKey();
+        Tutor tutor = new Tutor(id, first, last, email, pass, phone, degree, courses);
+
+        databaseUsers.child(id).setValue(tutor);
 
         Intent intent = new Intent(TutorRegScreen2.this, UserScreen.class);
         startActivity(intent);
