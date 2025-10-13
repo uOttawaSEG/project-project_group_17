@@ -26,7 +26,7 @@
         app:layout_constraintTop_toBottomOf="@+id/logoImage" />
 
     <EditText
-        android:id="@+id/teamNameViewId"
+        android:id="@+id/emailId"
         android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
@@ -37,7 +37,7 @@
         app:layout_constraintTop_toBottomOf="@+id/titleTextView" />
 
     <EditText
-        android:id="@+id/postalCodeId"
+        android:id="@+id/passwordId"
         android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
@@ -48,4 +48,11 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/teamNameViewId"
         app:layout_constraintVertical_bias="0.02" />
+    <Button
+        android:id="@+id/login"
+        android:onClick="login"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="@string/Login" />
 </LinearLayout>

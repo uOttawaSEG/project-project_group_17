@@ -28,7 +28,7 @@
         android:testOnly="true"
         android:theme="@style/Theme.Project_Group_17" >
         <activity
-            android:name="com.example.project_group_17.LoginScreen"
+            android:name="com.example.project_group_17.Screens.LoginScreen"
             android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -37,17 +37,20 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.example.project_group_17.RegistrationScreen"
+            android:name="com.example.project_group_17.Screens.RegistrationScreen"
             android:exported="true" >
         </activity>
         <activity
-            android:name="com.example.project_group_17.StudentRegScreen"
+            android:name="com.example.project_group_17.Screens.StudentRegScreen"
             android:exported="true" >
         </activity>
         <activity
-            android:name="com.example.project_group_17.TutorRegScreen"
+            android:name="com.example.project_group_17.Screens.TutorRegScreen"
             android:exported="true" >
         </activity>
+        <activity
+            android:name="com.example.project_group_17.Screens.TutorRegScreen2"
+            android:exported="false" />
 
         <provider
             android:name="androidx.startup.InitializationProvider"
