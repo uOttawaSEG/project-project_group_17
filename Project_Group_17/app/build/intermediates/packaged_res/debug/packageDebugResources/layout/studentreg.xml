@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/programOfStudy"
+        android:layout_width="331dp"
+        android:layout_height="51dp"
+        android:layout_marginBottom="64dp"
+        android:hint="Program of study"
+        app:layout_constraintBottom_toTopOf="@+id/submitButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/phoneNumber"
+        android:layout_width="331dp"
+        android:layout_height="51dp"
+        android:layout_marginBottom="12dp"
+        android:hint="Phone Number"
+        app:layout_constraintBottom_toTopOf="@+id/programOfStudy"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/password"
+        android:layout_width="331dp"
+        android:layout_height="51dp"
+        android:layout_marginBottom="12dp"
+        android:hint="Password"
+        app:layout_constraintBottom_toTopOf="@+id/phoneNumber"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/email"
+        android:layout_width="331dp"
+        android:layout_height="51dp"
+        android:layout_marginBottom="12dp"
+        android:hint="E-Mail"
+        app:layout_constraintBottom_toTopOf="@+id/password"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/lastName"
+        android:layout_width="331dp"
+        android:layout_height="51dp"
+        android:layout_marginBottom="12dp"
+        android:hint="Last Name"
+        app:layout_constraintBottom_toTopOf="@+id/email"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/registerTopLabel"
+        android:layout_width="243dp"
+        android:layout_height="59dp"
+        android:layout_marginTop="44dp"
+        android:text="Student Register"
+        android:textAlignment="center"
+        android:textSize="25sp"
+        app:layout_constraintBottom_toTopOf="@+id/firstName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.391" />
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/firstName"
+        android:layout_width="331dp"
+        android:layout_height="51dp"
+        android:layout_marginBottom="12dp"
+        android:hint="First Name"
+        app:layout_constraintBottom_toTopOf="@+id/lastName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/submitButton"
+        android:layout_width="107dp"
+        android:layout_height="56dp"
+        android:layout_marginBottom="64dp"
+        android:text="Submit"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

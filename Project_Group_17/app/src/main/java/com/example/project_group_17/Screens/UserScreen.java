@@ -8,6 +8,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.project_group_17.R;
+import com.example.project_group_17.UserHierarchy.Admin;
 import com.example.project_group_17.UserHierarchy.User;
 
 import java.io.Serializable;
@@ -16,10 +17,11 @@ public class UserScreen extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.userscreen_main);
-        boolean admin = getIntent().getBooleanExtra("isAdmin", false);
-        if(admin){
+        Serializable admin = getIntent().getSerializableExtra("isAdmin");
+        if(admin != null){
+            Admin a = (Admin) admin;
             TextView userType = findViewById(R.id.userTypeTextViewId);
-            userType.setText( R.string.admin);
+            userType.setText( a.getUserType());
         } else{
             Serializable s = getIntent().getSerializableExtra("userInfo");
             User u = (User) s;
