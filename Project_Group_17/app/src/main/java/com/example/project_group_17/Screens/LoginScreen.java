@@ -2,6 +2,7 @@ package com.example.project_group_17.Screens;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -10,20 +11,21 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.project_group_17.R;
+import com.example.project_group_17.UserHierarchy.Admin;
 import com.example.project_group_17.UserRecordingDatastructure.LinkedList;
 import com.example.project_group_17.UserRecordingDatastructure.Node;
 
 public class LoginScreen extends AppCompatActivity {
 
     Button btnGoRegister;
-    private final String adminUsername = "Admin";
-    private final String adminPassword = "Admin";
     LinkedList<Node> list = new LinkedList<>();
+    Admin admin = new Admin();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
 
         btnGoRegister= findViewById(R.id.btnGoRegister);
 
@@ -47,10 +49,10 @@ public class LoginScreen extends AppCompatActivity {
         String enteredEmail = emailView.getText().toString();
         String enteredPassword = passwordView.getText().toString();
         //Checks to see if the user entered the admin login information
-        if(enteredEmail.equals(adminUsername)&&enteredPassword.equals(adminPassword)){
+        if(enteredEmail.equals(admin.getUsername())&&enteredPassword.equals(admin.getPassword())){
             Intent intent = new Intent(LoginScreen.this,
                     UserScreen.class);
-            intent.putExtra("isAdmin", true);
+            intent.putExtra("isAdmin", admin);
             startActivity(intent);
 
         }else{
@@ -66,7 +68,6 @@ public class LoginScreen extends AppCompatActivity {
             } else{
                 Intent intent = new Intent(LoginScreen.this,
                         UserScreen.class);
-                intent.putExtra("isAdmin", false);
                 intent.putExtra("userInfo", currentUser);
                 startActivity(intent);
             }
