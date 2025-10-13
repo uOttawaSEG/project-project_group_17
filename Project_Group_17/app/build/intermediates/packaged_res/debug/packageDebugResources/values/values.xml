@@ -2,10 +2,17 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <string name="Login"/>
     <string name="app_name">Project_Group_17</string>
     <string name="email">email</string>
+    <string name="gcm_defaultSenderId" translatable="false">542313121805</string>
+    <string name="google_api_key" translatable="false">AIzaSyBkpWQGP5TFPH9ty9WDEya3SzLx_k1_C58</string>
+    <string name="google_app_id" translatable="false">1:542313121805:android:6ae3b9e6dbf2d748592d44</string>
+    <string name="google_crash_reporting_api_key" translatable="false">AIzaSyBkpWQGP5TFPH9ty9WDEya3SzLx_k1_C58</string>
+    <string name="google_storage_bucket" translatable="false">project-group-17.firebasestorage.app</string>
     <string name="login">Login</string>
     <string name="password">password</string>
+    <string name="project_id" translatable="false">project-group-17</string>
     <string name="register">Register</string>
     <style name="Base.Theme.Project_Group_17" parent="Theme.Material3.DayNight.NoActionBar">
         
