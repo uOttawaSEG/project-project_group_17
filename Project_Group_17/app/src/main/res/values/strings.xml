@@ -5,4 +5,7 @@
     <string name="email">email</string>
     <string name="password">password</string>
     <string name="Login" />
+    <string name="Logout" />
+    <string name="welcome_logged_in_as">Welcome, logged in as</string>
+    <string name="admin">Admin</string>
 </resources>

@@ -33,8 +33,9 @@
             android:exported="true">
         </activity>
         <activity
-            android:name=".Screens.TutorRegScreen2"
-            android:exported="false"/>
+            android:name=".Screens.UserScreen"
+            android:exported="true">
+        </activity>
     </application>
 
 </manifest>
