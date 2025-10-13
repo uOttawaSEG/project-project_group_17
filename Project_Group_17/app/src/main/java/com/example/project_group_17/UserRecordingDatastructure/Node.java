@@ -2,7 +2,9 @@ package com.example.project_group_17.UserRecordingDatastructure;
 
 import com.example.project_group_17.UserHierarchy.User;
 
-public class Node<E> {
+import java.io.Serializable;
+
+public class Node<E> implements Serializable {
     private Node<E> next;
     private Node<E> prev;
     private E user;

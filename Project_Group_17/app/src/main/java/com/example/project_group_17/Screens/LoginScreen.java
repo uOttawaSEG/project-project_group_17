@@ -5,16 +5,20 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.project_group_17.R;
 import com.example.project_group_17.UserRecordingDatastructure.LinkedList;
+import com.example.project_group_17.UserRecordingDatastructure.Node;
 
 public class LoginScreen extends AppCompatActivity {
 
     Button btnGoRegister;
-    LinkedList list = new LinkedList();
+    private final String adminUsername = "Admin";
+    private final String adminPassword = "Admin";
+    LinkedList<Node> list = new LinkedList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,16 +40,36 @@ public class LoginScreen extends AppCompatActivity {
 
     public void login(View view){
         //checks if email and password are valid and if so sends to the appropriate user page
-        EditText emailView = (EditText)
+        EditText emailView =
                 findViewById(R.id.emailId);
-        EditText passwordView = (EditText)
+        EditText passwordView =
                 findViewById(R.id.passwordId);
         String enteredEmail = emailView.getText().toString();
         String enteredPassword = passwordView.getText().toString();
-        //Team team = new Team(teamName, postalCode, drawableName);
-        Intent intent = new Intent(LoginScreen.this,
-                UserScreen.class);
-        //intent.putExtra("teamInfo", team);
-        startActivity(intent);
+        //Checks to see if the user entered the admin login information
+        if(enteredEmail.equals(adminUsername)&&enteredPassword.equals(adminPassword)){
+            Intent intent = new Intent(LoginScreen.this,
+                    UserScreen.class);
+            intent.putExtra("isAdmin", true);
+            startActivity(intent);
+
+        }else{
+            Node currentUser = list.userExists(enteredEmail, enteredPassword);
+            String[] fields = {enteredEmail, enteredPassword};
+            for (String s : fields) {
+                if (s.isEmpty()) {
+                    Toast.makeText(this, "Please enter both email and password  ", Toast.LENGTH_LONG).show();
+                }
+            }
+            if (currentUser == null){
+                Toast.makeText(this, "Incorrect email or password please try again ", Toast.LENGTH_LONG).show();
+            } else{
+                Intent intent = new Intent(LoginScreen.this,
+                        UserScreen.class);
+                intent.putExtra("isAdmin", false);
+                intent.putExtra("userInfo", currentUser);
+                startActivity(intent);
+            }
+        }
     }
 }
