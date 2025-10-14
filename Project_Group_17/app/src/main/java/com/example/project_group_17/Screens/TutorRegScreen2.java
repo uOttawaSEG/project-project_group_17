@@ -70,6 +70,7 @@ public class TutorRegScreen2 extends AppCompatActivity{
         Tutor tutor = new Tutor(id, first, last, email, pass, phone, degree, courses);
 
         databaseUsers.child(id).setValue(tutor);
+        Toast.makeText(this, "Registered Successfully", Toast.LENGTH_LONG).show();
 
         Intent intent = new Intent(TutorRegScreen2.this, UserScreen.class);
         startActivity(intent);
