@@ -15,20 +15,10 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 public class StudentRegScreen extends AppCompatActivity {
-    DatabaseReference databaseUsers;
-    EditText firstNametxt;
-    EditText lastNametxt;
-    EditText emailtxt;
-    EditText passwordtxt;
-    EditText phoneNumbertxt;
-    EditText programOfStudytxt;
-    String firstName;
-    String lastName;
-    String email;
-    String password;
-    String phoneNumber;
-    String programOfStudy;
-    Button submitButton;
+    private DatabaseReference databaseUsers;
+    private EditText firstNametxt, lastNametxt, emailtxt, passwordtxt, phoneNumbertxt, programOfStudytxt;
+    private String firstName, lastName, email, password, phoneNumber, programOfStudy;
+    private Button submitButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
