@@ -52,6 +52,7 @@ public class TutorRegScreen extends AppCompatActivity {
             intent.putExtra("degree",degree);
             intent.putExtra("coursesCsv",coursesCsv);
             startActivity(intent);
+            finish();
 
 
         });

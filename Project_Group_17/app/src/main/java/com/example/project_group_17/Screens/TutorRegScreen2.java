@@ -53,7 +53,7 @@ public class TutorRegScreen2 extends AppCompatActivity{
         String email = textOf(etEmail);
         String pass = textOf(etPassword);
         String repass = textOf(etRepassword);
-        
+
         if (!validEmail(email)) {
             errorToast("Please Enter a Valid Email");
             return;
@@ -73,6 +73,7 @@ public class TutorRegScreen2 extends AppCompatActivity{
 
         Intent intent = new Intent(TutorRegScreen2.this, UserScreen.class);
         startActivity(intent);
+        finish();
 
         //TutorRepository repo = TutorRepository.getInstance(this);
         //repo.addTutor(tutor);
@@ -82,7 +83,6 @@ public class TutorRegScreen2 extends AppCompatActivity{
         //Intent intent = new Intent(this, RegisteredSuccessfully.class);
         //intent.putExtra("firstName", first);
         //startActivity(intent);
-        finish();
     }
 
     private String textOf(EditText txt) {

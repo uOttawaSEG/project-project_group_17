@@ -72,9 +72,7 @@ public class LoginScreen extends AppCompatActivity {
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     if (snapshot.exists()) {
                         for (DataSnapshot userSnapshot : snapshot.getChildren()) {
-                            Toast.makeText(LoginScreen.this, "heloooooo", Toast.LENGTH_LONG).show();
                             User user = userSnapshot.getValue(User.class);
-                            Toast.makeText(LoginScreen.this, "testing", Toast.LENGTH_LONG).show();
                             if (user.getPassword().equals(enteredPassword)) {
                                 Toast.makeText(LoginScreen.this, "Login successful", Toast.LENGTH_LONG).show();
                                 Intent intent = new Intent(LoginScreen.this, UserScreen.class);

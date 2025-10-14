@@ -28,11 +28,13 @@ public class RegistrationScreen extends AppCompatActivity {
         btnGoStudent.setOnClickListener(v -> {
             Intent intent = new Intent(RegistrationScreen.this, StudentRegScreen.class);
             startActivity(intent);
+            finish();
         });
         // Start new Activity with explicit Intent
         btnGoTutor.setOnClickListener(v -> {
             Intent intent = new Intent(RegistrationScreen.this, TutorRegScreen.class);
             startActivity(intent);
+            finish();
         });
     }
 }

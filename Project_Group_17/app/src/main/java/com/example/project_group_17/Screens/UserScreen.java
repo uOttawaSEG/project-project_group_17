@@ -36,5 +36,6 @@ public class UserScreen extends AppCompatActivity {
         Intent intent = new Intent(UserScreen.this,
                 LoginScreen.class);
         startActivity(intent);
+        finish();
     }
 }

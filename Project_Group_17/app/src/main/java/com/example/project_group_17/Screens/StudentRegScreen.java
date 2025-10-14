@@ -59,6 +59,7 @@ public class StudentRegScreen extends AppCompatActivity {
                 registerStudent();
                 Intent intent = new Intent(StudentRegScreen.this, UserScreen.class);
                 startActivity(intent);
+                finish();
             } else {
                 Toast.makeText(this, "Please fill in all required fields", Toast.LENGTH_LONG).show();
             }
