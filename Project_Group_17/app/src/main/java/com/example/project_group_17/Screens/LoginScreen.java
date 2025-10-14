@@ -14,8 +14,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.project_group_17.R;
 import com.example.project_group_17.UserHierarchy.Admin;
 import com.example.project_group_17.UserHierarchy.User;
-import com.example.project_group_17.UserRecordingDatastructure.LinkedList;
-import com.example.project_group_17.UserRecordingDatastructure.Node;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -25,7 +23,6 @@ import com.google.firebase.database.ValueEventListener;
 public class LoginScreen extends AppCompatActivity {
     DatabaseReference databaseUsers;
     Button btnGoRegister;
-    LinkedList<Node> list = new LinkedList<>();
     Admin admin = new Admin();
 
     @Override
