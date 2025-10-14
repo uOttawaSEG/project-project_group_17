@@ -1,6 +1,8 @@
 package com.example.project_group_17.UserHierarchy;
 
-public class User {
+import java.io.Serializable;
+
+public class User implements Serializable {
     private String userType;
     private String id;
     private String firstName;
@@ -8,6 +10,10 @@ public class User {
     private String email;
     private String password;
     private String phoneNumber;
+
+    public User() {
+
+    }
     public User(String userType, String id, String first, String last, String email, String pass, String pn){
         this.userType = userType;
         this.id = id;
