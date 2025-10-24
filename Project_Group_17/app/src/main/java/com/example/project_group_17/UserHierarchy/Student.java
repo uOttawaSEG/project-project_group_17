@@ -11,4 +11,8 @@ public class Student extends User{
     public String getProgramOfStudy() {
         return this.programOfStudy;
     }
+
+    public String toString(){
+        return "User Type "+this.getUserType()+" Name: "+ this.getFirstName() + " " +this.getLastName() +" Email: "+this.getEmail()+" Phone Number: "+this.getPhoneNumber()+" Progrem of Study: "+this.getProgramOfStudy();
+    }
 }

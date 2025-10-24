@@ -21,5 +21,7 @@ public class Tutor extends User {
         return courses;
     }
 
-
+    public String toString(){
+        return "User Type "+this.getUserType()+" Name: "+ this.getFirstName() + " " +this.getLastName() +" Email: "+this.getEmail()+" Phone Number: "+this.getPhoneNumber()+" Degree: "+this.getDegree()+" Courses: "+this.getCourses();
+    }
 }

@@ -10,6 +10,7 @@ public class User implements Serializable {
     private String email;
     private String password;
     private String phoneNumber;
+    private String registrationStatus;
 
     public User() {
 
@@ -22,6 +23,7 @@ public class User implements Serializable {
         this.email = email;
         this.password = pass;
         this.phoneNumber = pn;
+        this.registrationStatus="pending";
     }
 
     public String getUserType(){
@@ -44,5 +46,14 @@ public class User implements Serializable {
     }
     public String getPhoneNumber() {
         return phoneNumber;
+    }
+    public String getRegistrationStatus(){
+        return  registrationStatus;
+    }
+    public void setRegistrationStatus(String reg){
+        if(!reg.equals("approved")||!reg.equals("rejected")){
+            System.out.println("Invalid");
+        }
+        registrationStatus=reg;
     }
 }

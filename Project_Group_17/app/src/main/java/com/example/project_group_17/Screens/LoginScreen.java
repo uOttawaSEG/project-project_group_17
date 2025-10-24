@@ -2,7 +2,6 @@ package com.example.project_group_17.Screens;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -11,6 +10,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.project_group_17.AdminFunctions.AdminInbox;
 import com.example.project_group_17.R;
 import com.example.project_group_17.UserHierarchy.Admin;
 import com.example.project_group_17.UserHierarchy.User;
@@ -51,8 +51,7 @@ public class LoginScreen extends AppCompatActivity {
         String enteredPassword = passwordView.getText().toString();
         //Checks to see if the user entered the admin login information
         if(enteredEmail.equals(admin.getUsername())&&enteredPassword.equals(admin.getPassword())){
-            Intent intent = new Intent(LoginScreen.this, UserScreen.class);
-            intent.putExtra("isAdmin", admin);
+            Intent intent = new Intent(LoginScreen.this, AdminInbox.class);
             startActivity(intent);
             finish();
         }else{
@@ -70,13 +69,18 @@ public class LoginScreen extends AppCompatActivity {
                     if (snapshot.exists()) {
                         for (DataSnapshot userSnapshot : snapshot.getChildren()) {
                             User user = userSnapshot.getValue(User.class);
-                            if (user.getPassword().equals(enteredPassword)) {
+                             if(user.getRegistrationStatus().equals("pending")){
+                                Toast.makeText(LoginScreen.this, "Your account approval is pending. Please try again later.", Toast.LENGTH_LONG).show();
+                            }
+                            else if(user.getRegistrationStatus().equals("rejected")){
+                                Toast.makeText(LoginScreen.this, "Your account has been rejected. Please contact 123456 for more information.", Toast.LENGTH_LONG).show();
+                            }else if(user.getPassword().equals(enteredPassword)){
                                 Toast.makeText(LoginScreen.this, "Login successful", Toast.LENGTH_LONG).show();
                                 Intent intent = new Intent(LoginScreen.this, UserScreen.class);
                                 intent.putExtra("userInfo", user);
                                 startActivity(intent);
                                 finish();
-                            } else {
+                            } else{
                                 Toast.makeText(LoginScreen.this, "Incorrect password", Toast.LENGTH_LONG).show();
                             }
                         }

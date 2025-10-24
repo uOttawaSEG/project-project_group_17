@@ -40,6 +40,18 @@
             android:name=".Screens.UserScreen"
             android:exported="true">
         </activity>
+        <activity
+            android:name=".AdminFunctions.AdminInbox"
+            android:exported="true">
+        </activity>
+        <activity
+            android:name=".AdminFunctions.PendingRequests"
+            android:exported="true">
+        </activity>
+        <activity
+            android:name=".AdminFunctions.RejectedRequests"
+            android:exported="true">
+        </activity>
     </application>
 
 </manifest>

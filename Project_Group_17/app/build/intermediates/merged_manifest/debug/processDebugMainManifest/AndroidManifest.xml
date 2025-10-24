@@ -51,6 +51,26 @@
         </activity>
         <activity
             android:name="com.example.project_group_17.Screens.TutorRegScreen"
+            android:exported="false" >
+        </activity>
+        <activity
+            android:name="com.example.project_group_17.Screens.TutorRegScreen2"
+            android:exported="false" >
+        </activity>
+        <activity
+            android:name="com.example.project_group_17.Screens.UserScreen"
+            android:exported="true" >
+        </activity>
+        <activity
+            android:name="com.example.project_group_17.AdminFunctions.AdminInbox"
+            android:exported="true" >
+        </activity>
+        <activity
+            android:name="com.example.project_group_17.AdminFunctions.PendingRequests"
+            android:exported="true" >
+        </activity>
+        <activity
+            android:name="com.example.project_group_17.AdminFunctions.RejectedRequests"
             android:exported="true" >
         </activity>
 

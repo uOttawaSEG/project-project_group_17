@@ -3614,6 +3614,7 @@ drawable ic_mtrl_chip_checked_black
 drawable ic_mtrl_chip_checked_circle
 drawable ic_mtrl_chip_close_circle
 drawable ic_search_black_24
+drawable img
 drawable m3_avd_hide_password
 drawable m3_avd_show_password
 drawable m3_bottom_sheet_drag_handle
@@ -3687,6 +3688,11 @@ drawable notification_template_icon_bg
 drawable notification_template_icon_low_bg
 drawable notification_tile_bg
 drawable notify_panel_notification_icon_bg
+drawable outline_account_balance_24
+drawable outline_article_person_24
+drawable outline_attach_email_24
+drawable outline_contact_phone_24
+drawable outline_contextual_token_24
 drawable test_level_drawable
 drawable tooltip_frame_dark
 drawable tooltip_frame_light
@@ -3830,10 +3836,12 @@ id container
 id content
 id contentPanel
 id contiguous
+id continuebtn
 id continuousVelocity
 id coordinator
 id cos
 id counterclockwise
+id courses
 id cradle
 id currentState
 id custom
@@ -3845,6 +3853,7 @@ id decelerate
 id decelerateAndComplete
 id decor_content_parent
 id default_activity_button
+id degree
 id deltaRelative
 id dependency_ordering
 id design_bottom_sheet
@@ -3895,6 +3904,7 @@ id fill_horizontal
 id fill_vertical
 id filled
 id firstName
+id firstname
 id fitCenter
 id fitEnd
 id fitStart
@@ -3943,6 +3953,7 @@ id jumpToEnd
 id jumpToStart
 id labeled
 id lastName
+id lastname
 id layout
 id left
 id leftToRight
@@ -3952,10 +3963,15 @@ id line1
 id line3
 id linear
 id listMode
+id listView
 id list_item
+id loadPending
+id loadRejected
 id login
 id logoImage
+id logout
 id m3_side_sheet
+id main
 id marquee
 id masked
 id match_constraint
@@ -4072,6 +4088,7 @@ id pathRelative
 id peekHeight
 id percent
 id phoneNumber
+id phonenumber
 id pin
 id position
 id postLayout
@@ -4083,6 +4100,7 @@ id radio
 id ratio
 id rectangles
 id registerTopLabel
+id repassword
 id report_drawn
 id retreat
 id reverseSawtooth
@@ -4121,6 +4139,8 @@ id shortcut
 id showCustom
 id showHome
 id showTitle
+id signupbtn
+id signuptitle
 id sin
 id skipCollapsed
 id skipped
@@ -4178,6 +4198,7 @@ id textSpacerNoButtons
 id textSpacerNoTitle
 id textStart
 id textTop
+id textView5
 id text_input_end_icon
 id text_input_error_icon
 id text_input_start_icon
@@ -4213,6 +4234,7 @@ id uniform
 id unlabeled
 id up
 id useLogo
+id userTypeTextViewId
 id vertical
 id vertical_only
 id view_offset_helper
@@ -4224,6 +4246,7 @@ id view_tree_saved_state_registry_owner
 id view_tree_view_model_store_owner
 id visible
 id visible_removing_fragment_view_tag
+id welcomeTextViewId
 id west
 id wide
 id withText
@@ -4353,6 +4376,7 @@ layout abc_search_view
 layout abc_select_dialog_material
 layout abc_tooltip
 layout activity_main
+layout admin_inbox
 layout custom_dialog
 layout design_bottom_navigation_item
 layout design_bottom_sheet_dialog
@@ -4430,18 +4454,23 @@ layout notification_template_custom_big
 layout notification_template_icon_group
 layout notification_template_part_chronometer
 layout notification_template_part_time
+layout pending_requests
 layout registration
+layout rejected_requests
 layout select_dialog_item_material
 layout select_dialog_multichoice_material
 layout select_dialog_singlechoice_material
 layout studentreg
 layout support_simple_spinner_dropdown_item
 layout tutorreg
+layout tutorreg2
+layout userscreen_main
 mipmap ic_launcher
 mipmap ic_launcher_round
 plurals mtrl_badge_content_description
 raw firebase_common_keep
 string Login
+string Logout
 string abc_action_bar_home_description
 string abc_action_bar_up_description
 string abc_action_menu_overflow_description
@@ -4469,6 +4498,7 @@ string abc_searchview_description_voice
 string abc_shareactionprovider_share_with
 string abc_shareactionprovider_share_with_application
 string abc_toolbar_collapse_description
+string admin
 string androidx_startup
 string app_name
 string appbar_scrolling_view_behavior
@@ -4512,6 +4542,7 @@ string error_icon_content_description
 string exposed_dropdown_menu_content_description
 string fab_transformation_scrim_behavior
 string fab_transformation_sheet_behavior
+string firebase_database_url
 string gcm_defaultSenderId
 string google_api_key
 string google_app_id
@@ -4643,6 +4674,7 @@ string searchview_navigation_content_description
 string side_sheet_accessibility_pane_title
 string side_sheet_behavior
 string status_bar_notification_info_overflow
+string welcome_logged_in_as
 style AlertDialog_AppCompat
 style AlertDialog_AppCompat_Light
 style Animation_AppCompat_Dialog
