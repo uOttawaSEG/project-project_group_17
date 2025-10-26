@@ -1,5 +1,7 @@
 package com.example.project_group_17.UserHierarchy;
 
+import androidx.annotation.NonNull;
+
 import java.util.List;
 
 public class Tutor extends User {
@@ -21,6 +23,7 @@ public class Tutor extends User {
         return courses;
     }
 
+    @Override @NonNull
     public String toString(){
         return "User Type "+this.getUserType()+" Name: "+ this.getFirstName() + " " +this.getLastName() +" Email: "+this.getEmail()+" Phone Number: "+this.getPhoneNumber()+" Degree: "+this.getDegree()+" Courses: "+this.getCourses();
     }
