@@ -46,7 +46,7 @@ public class TutorRegScreen extends AppCompatActivity {
                 return;
             }
             Intent intent = new Intent(TutorRegScreen.this, TutorRegScreen2.class);
-            intent.putExtra("firstname",first);
+            intent.putExtra("firstName",first);
             intent.putExtra("lastName",last);
             intent.putExtra("phone",phone);
             intent.putExtra("degree",degree);

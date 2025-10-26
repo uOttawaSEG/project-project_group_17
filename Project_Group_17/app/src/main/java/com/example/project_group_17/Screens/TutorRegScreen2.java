@@ -5,6 +5,7 @@ import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.text.TextUtils;
+import android.util.Log;
 import android.util.Patterns;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -34,7 +35,7 @@ public class TutorRegScreen2 extends AppCompatActivity{
         databaseUsers = FirebaseDatabase.getInstance().getReference("Users");
 
         first = getIntent().getStringExtra("firstName");
-        last = getIntent().getStringExtra("lastname");
+        last = getIntent().getStringExtra("lastName");
         phone = getIntent().getStringExtra("phone");
         degree = getIntent().getStringExtra("degree");
         coursesCsv = getIntent().getStringExtra("coursesCsv");
@@ -45,7 +46,6 @@ public class TutorRegScreen2 extends AppCompatActivity{
         btnRegister = findViewById(R.id.signupbtn);
 
         btnRegister.setOnClickListener(v -> register());
-
 
     }
 
@@ -68,7 +68,7 @@ public class TutorRegScreen2 extends AppCompatActivity{
 
         String id = databaseUsers.push().getKey();
         Tutor tutor = new Tutor(id, first, last, email, pass, phone, degree, courses);
-
+        
         databaseUsers.child(id).setValue(tutor);
         Toast.makeText(this, "Registered Successfully", Toast.LENGTH_LONG).show();
 
