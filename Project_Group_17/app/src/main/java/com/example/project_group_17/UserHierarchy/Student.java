@@ -20,6 +20,6 @@ public class Student extends User{
 
     @Override @NonNull
     public String toString(){
-        return "User Type: " + this.getUserType() + "\nName: " + this.getFirstName() + this.getLastName() + "\nEmail: " + this.getEmail() + "\nPhone Number: " + this.getPhoneNumber() + "\nProgram of Study: " + this.getProgramOfStudy();
+        return "User Type: " + this.getUserType() + "\nName: " + this.getFirstName() + " " + this.getLastName() + "\nEmail: " + this.getEmail() + "\nPhone Number: " + this.getPhoneNumber() + "\nProgram of Study: " + this.getProgramOfStudy();
     }
 }
