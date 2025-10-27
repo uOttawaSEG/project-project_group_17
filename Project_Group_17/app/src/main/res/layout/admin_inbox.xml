@@ -6,6 +6,7 @@
     android:gravity="center"
     android:padding="20dp">
 
+
     <Button
         android:id="@+id/loadPending"
         android:layout_width="wrap_content"
@@ -13,6 +14,16 @@
         android:layout_marginTop="20dp"
         android:onClick="loadPending"
         android:text="Pending" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="200dp"
+        android:id="@+id/adminLogout"
+        android:text="Logout"
+        android:onClick="adminLogout"
+        android:textStyle="bold"
+        android:backgroundTint="#8f001a"/>
 
     <Button
         android:id="@+id/loadRejected"
