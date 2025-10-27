@@ -9,6 +9,9 @@ public class Tutor extends User {
     private String degree;
     private List<String> courses;
 
+    public Tutor() { // hey guys it's Victor please don't remove this I know it looks useless but Firebase will decapitate itself if there isn't a no arg constructor
+        super();
+    }
 
     public Tutor(String id, String firstName, String lastName, String email, String password, String phone, String degree, List<String> courses) {
         super("Tutor", id, firstName, lastName, email, password, phone);
@@ -25,6 +28,6 @@ public class Tutor extends User {
 
     @Override @NonNull
     public String toString(){
-        return "User Type "+this.getUserType()+" Name: "+ this.getFirstName() + " " +this.getLastName() +" Email: "+this.getEmail()+" Phone Number: "+this.getPhoneNumber()+" Degree: "+this.getDegree()+" Courses: "+this.getCourses();
+        return "User Type: " + this.getUserType()+"\nName: " + this.getFirstName() + "\n" + this.getLastName() + "\nEmail: " + this.getEmail() + "\nPhone Number: " + this.getPhoneNumber() + "\nDegree: " + this.getDegree() + "\nCourses: " + this.getCourses();
     }
 }

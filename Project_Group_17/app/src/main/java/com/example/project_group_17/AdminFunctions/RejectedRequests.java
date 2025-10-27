@@ -15,6 +15,8 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.project_group_17.R;
+import com.example.project_group_17.UserHierarchy.Student;
+import com.example.project_group_17.UserHierarchy.Tutor;
 import com.example.project_group_17.UserHierarchy.User;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -59,7 +61,15 @@ public class RejectedRequests extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()) {
                     for (DataSnapshot userSnapshot : snapshot.getChildren()) {
-                        User user = userSnapshot.getValue(User.class);
+                        User user;
+                        String userType = userSnapshot.child("userType").getValue(String.class);
+
+                        if ("Student".equals(userType)) {
+                            user = userSnapshot.getValue(Student.class);
+                        } else {
+                            user = userSnapshot.getValue(Tutor.class);
+                        }
+
                         rejectedRequests.add(user);
                     }
                     adapter.notifyDataSetChanged();
