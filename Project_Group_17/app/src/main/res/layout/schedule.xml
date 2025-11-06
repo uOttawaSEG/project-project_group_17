@@ -6,7 +6,7 @@
     android:padding="24dp"
     android:background="@drawable/img">
 
-    <!-- Date -->
+
     <EditText
         android:id="@+id/etDate"
         android:layout_width="0dp"
@@ -21,7 +21,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <!-- Start Time -->
+
     <EditText
         android:id="@+id/etStartTime"
         android:layout_width="0dp"
@@ -36,7 +36,7 @@
         app:layout_constraintBottom_toTopOf="@+id/etEndTime"
         android:layout_marginTop="16dp"/>
 
-    <!-- End Time -->
+
     <EditText
         android:id="@+id/etEndTime"
         android:layout_width="0dp"
@@ -50,7 +50,7 @@
         app:layout_constraintEnd_toEndOf="@id/etStartTime"
         android:layout_marginTop="16dp"/>
 
-    <!-- Auto Approve Checkbox -->
+
     <CheckBox
         android:id="@+id/cbAutoApprove"
         android:layout_width="wrap_content"
@@ -61,7 +61,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="20dp" />
 
-    <!-- Submit Button -->
+
     <Button
         android:id="@+id/btnCreate"
         android:layout_width="wrap_content"
