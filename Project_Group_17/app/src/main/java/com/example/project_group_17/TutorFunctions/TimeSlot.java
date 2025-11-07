@@ -1,13 +1,11 @@
 package com.example.project_group_17.TutorFunctions;
 
 import java.io.Serializable;
-import java.sql.Time;
-import java.util.*;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
 
-public class TimeSlot implements Serializable {
+import java.util.*;
+
+
+public class TimeSlot implements Serializable, Comparable<TimeSlot> {
 
     public enum Status {
 
@@ -90,18 +88,50 @@ public class TimeSlot implements Serializable {
         return start+" - "+end;
     }
 
+    public String getStart() {
+        return start;
+    }
+
     public String getEnd() {
+
         return end;
     }
 
     public Status getStatus() {
+
         return status;
     }
 
     public String getStudentID() {
+
         return studentID;
     }
 
+
+    @Override
+    public int compareTo(TimeSlot time) {
+
+        return this.start.compareTo((time.start));
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        else if (!(obj instanceof TimeSlot)) {
+            return false;
+        }
+
+        TimeSlot other = (TimeSlot) obj;
+        return Objects.equals(this.start,other.start) && Objects.equals(this.end, other.end);
+
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(start,end);
+    }
 
 
 
