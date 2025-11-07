@@ -39,17 +39,17 @@
 
     <Button
         android:id="@+id/logout"
-        android:layout_width="wrap_content"
+        android:layout_width="154dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
+        android:backgroundTint="#8f001a"
         android:onClick="logout"
-        android:text="Logout"
-        android:backgroundTint="#8f001a"/>
+        android:text="Logout" />
 
     <Button
         android:id="@+id/cnt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="174dp"
+        android:layout_height="60dp"
         android:layout_marginTop="20dp"
         android:backgroundTint="#8f001a"
         android:onClick="cnt"
