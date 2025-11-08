@@ -11,8 +11,10 @@ import com.example.project_group_17.TutorFunctions.Schedule;
 import com.example.project_group_17.TutorFunctions.TimeSlot;
 
 import java.util.List;
+import android.util.Log;
 
 public class TutorCreatingSlots extends AppCompatActivity {
+    private static final String TAG = "TutorCreatingSlots";
 
     private EditText date;
     private EditText startTime;
@@ -48,6 +50,16 @@ public class TutorCreatingSlots extends AppCompatActivity {
         Schedule schedule = new Schedule("FETCH FROM FIREBASE",d,auto,slots);
 
         //NEED TO FIND A WAY TO STORE SCHEDULE IN FIREBASE.
+        Log.d(TAG, "Schedule: tutor=" + schedule.getTutorID()
+                + " date=" + schedule.getDate()
+                + " auto=" + schedule.isAuto()
+                + " slots=" + schedule.getTimeSlots().size());
+
+        for (TimeSlot s : schedule.getTimeSlots()) {
+            Log.d(TAG, "  slot " + s.getStart() + "-" + s.getEnd() + " status=" + s.getStatus());
+        }
+
+
 
 
     }

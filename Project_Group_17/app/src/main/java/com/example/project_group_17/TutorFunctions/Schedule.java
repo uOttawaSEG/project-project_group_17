@@ -169,6 +169,12 @@ public class Schedule implements Serializable {
         return String.format(java.util.Locale.getDefault(), "%02d:%02d",hour,min);
     }
 
+    @Override
+    public String toString() {
+        return "Schedule{tutorID=" + tutorID + ", date=" + date + ", auto=" + auto +
+                ", slots=" + slots + "}";
+    }
+
 
 
 }

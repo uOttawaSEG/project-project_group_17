@@ -133,7 +133,10 @@ public class TimeSlot implements Serializable, Comparable<TimeSlot> {
         return Objects.hash(start,end);
     }
 
-
+    @Override
+    public String toString() {
+        return "TimeSlot{" + getStart() + "-" + getEnd() + ", status=" + getStatus() + "}";
+    }
 
 
 }
