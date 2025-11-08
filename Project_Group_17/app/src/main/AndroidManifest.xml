@@ -52,6 +52,10 @@
             android:name=".AdminFunctions.RejectedRequests"
             android:exported="true">
         </activity>
+        <activity
+            android:name=".Screens.TutorCreatingSlots"
+            android:exported="true">
+        </activity>
     </application>
 
 </manifest>
