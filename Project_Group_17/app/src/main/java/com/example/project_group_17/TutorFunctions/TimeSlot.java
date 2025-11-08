@@ -1,8 +1,14 @@
 package com.example.project_group_17.TutorFunctions;
 
+import android.widget.Toast;
+
 import java.io.Serializable;
 
 import java.util.*;
+
+import android.widget.Toast;
+
+import android.text.TextUtils;
 
 
 public class TimeSlot implements Serializable, Comparable<TimeSlot> {
@@ -137,6 +143,8 @@ public class TimeSlot implements Serializable, Comparable<TimeSlot> {
     public String toString() {
         return "TimeSlot{" + getStart() + "-" + getEnd() + ", status=" + getStatus() + "}";
     }
+
+
 
 
 }
