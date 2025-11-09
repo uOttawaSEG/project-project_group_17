@@ -9,7 +9,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.project_group_17.R;
 import com.example.project_group_17.TutorFunctions.Schedule;
 import com.example.project_group_17.TutorFunctions.TimeSlot;
+import com.example.project_group_17.UserHierarchy.User;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import android.widget.Toast;
 import java.util.Collections;
@@ -51,41 +53,44 @@ public class TutorCreatingSlots extends AppCompatActivity {
         String start = startTime.getText().toString().trim();
         String end = endTime.getText().toString().trim();
         boolean auto = isAutoApporved.isChecked();
+        Serializable se = getIntent().getSerializableExtra("userInfo");
+        User u = (User) se;
 
-    try{
+        try{
 
-        List<TimeSlot> slots = Schedule.incrSlots(start, end);
+            List<TimeSlot> slots = Schedule.incrSlots(start, end, u.getId());
 
-        int added = merge(accumlatedSlots, slots);
-        Collections.sort(accumlatedSlots);
+            int added = merge(accumlatedSlots, slots);
+            Collections.sort(accumlatedSlots);
 
-        if (added > 0) {
-            Toast.makeText(this, "Added " + added + " slot(s). Total: " + accumlatedSlots.size(), Toast.LENGTH_SHORT).show();
-        } else {
-            Toast.makeText(this, "No new slots (duplicates/overlap). Total: " + accumlatedSlots.size(), Toast.LENGTH_SHORT).show();
+            if (added > 0) {
+                Toast.makeText(this, "Added " + added + " slot(s). Total: " + accumlatedSlots.size(), Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, "No new slots (duplicates/overlap). Total: " + accumlatedSlots.size(), Toast.LENGTH_SHORT).show();
+            }
+
+            Schedule schedule = new Schedule("FETCH FROM FIREBASE", d, auto, accumlatedSlots);
+
+            //NEED TO FIND A WAY TO STORE SCHEDULE IN FIREBASE.
+            Log.d(TAG, "Schedule: tutor=" + schedule.getUserID()
+                    + " date=" + schedule.getDate()
+                    + " auto=" + schedule.isAuto()
+                    + " slots=" + schedule.getTimeSlots().size());
+
+            for (TimeSlot s : schedule.getTimeSlots()) {
+                Log.d(TAG, "  slot " + s.getStart() + "-" + s.getEnd() + " status=" + s.getStatus());
+            }
+
+
+        } catch (IllegalArgumentException ex) {
+            Toast.makeText(this, ex.getMessage(), Toast.LENGTH_LONG).show();
+            Log.e(TAG, "Validation error: " + ex.getMessage());
+        } catch (NullPointerException e) {
+            Log.e(TAG, "Null user error", e);
+        } catch (Exception ex) {
+            Toast.makeText(this, "Unexpected error while creating availability.", Toast.LENGTH_LONG).show();
+            Log.e(TAG, "Unexpected error", ex);
         }
-
-        Schedule schedule = new Schedule("FETCH FROM FIREBASE", d, auto, accumlatedSlots);
-
-        //NEED TO FIND A WAY TO STORE SCHEDULE IN FIREBASE.
-        Log.d(TAG, "Schedule: tutor=" + schedule.getTutorID()
-                + " date=" + schedule.getDate()
-                + " auto=" + schedule.isAuto()
-                + " slots=" + schedule.getTimeSlots().size());
-
-        for (TimeSlot s : schedule.getTimeSlots()) {
-            Log.d(TAG, "  slot " + s.getStart() + "-" + s.getEnd() + " status=" + s.getStatus());
-        }
-
-
-    } catch (IllegalArgumentException ex) {
-        Toast.makeText(this, ex.getMessage(), Toast.LENGTH_LONG).show();
-        Log.e(TAG, "Validation error: " + ex.getMessage());
-    } catch (Exception ex) {
-        Toast.makeText(this, "Unexpected error while creating availability.", Toast.LENGTH_LONG).show();
-        Log.e(TAG, "Unexpected error", ex);
-    }
-
     }
 
     private int merge(List<TimeSlot> a, List<TimeSlot> b) {

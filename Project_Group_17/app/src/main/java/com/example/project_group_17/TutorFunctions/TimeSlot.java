@@ -23,17 +23,19 @@ public class TimeSlot implements Serializable, Comparable<TimeSlot> {
 
     protected final String start;
     protected final String end;
-    protected final Status status;
+    protected Status status;
+    protected String studentID;
+    private String tutorID;
 
-    protected final String studentID;
 
 
-    public TimeSlot(String start, String end) {
+    public TimeSlot(String start, String end, String tutorID) {
 
         this.start = start;
         this.end = end;
         this.status = Status.FREE;
         this.studentID = null;
+        this.tutorID = tutorID;
 
     }
 
@@ -111,6 +113,10 @@ public class TimeSlot implements Serializable, Comparable<TimeSlot> {
     public String getStudentID() {
 
         return studentID;
+    }
+
+    public String getTutorID() {
+        return tutorID;
     }
 
 

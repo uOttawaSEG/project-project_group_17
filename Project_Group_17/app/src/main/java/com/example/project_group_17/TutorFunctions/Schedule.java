@@ -3,19 +3,18 @@ package com.example.project_group_17.TutorFunctions;
 import java.io.Serializable;
 import java.util.*;
 public class Schedule implements Serializable {
-
-    protected final String tutorID;
+    protected final String userID;
     protected final String date;
     protected final boolean auto;
     protected final List<TimeSlot> slots;
 
-    public Schedule(String tutorID, String date, boolean auto, List<TimeSlot> slots) {
+    public Schedule(String userID, String date, boolean auto, List<TimeSlot> slots) {
 
         isValid(date);
         isPast(date);
         isOverlap(slots);
 
-        this.tutorID = tutorID;
+        this.userID = userID;
         this.date = date;
         this.auto = auto;
 
@@ -25,8 +24,8 @@ public class Schedule implements Serializable {
 
     }
 
-    public String getTutorID() {
-        return tutorID;
+    public String getUserID() {
+        return userID;
     }
 
     public String getDate() {
@@ -41,7 +40,7 @@ public class Schedule implements Serializable {
         return slots;
     }
 
-    public static List<TimeSlot> incrSlots(String start, String end) {
+    public static List<TimeSlot> incrSlots(String start, String end, String tutorID) {
 
         is30Apart(start);
         is30Apart(end);
@@ -61,7 +60,7 @@ public class Schedule implements Serializable {
                 break;
             }
 
-            saved.add(new TimeSlot(st,incr));
+            saved.add(new TimeSlot(st,incr, tutorID));
             st = incr;
         }
         if (saved.isEmpty()) {
@@ -87,7 +86,7 @@ public class Schedule implements Serializable {
     public Map<String, Object> store() {
 
         Map<String, Object> map = new LinkedHashMap<>();
-        map.put("TutorID", tutorID);
+        map.put("userID", userID);
         map.put("Date", date);
         map.put("Auto Approval Enabled", auto);
 
@@ -171,7 +170,7 @@ public class Schedule implements Serializable {
 
     @Override
     public String toString() {
-        return "Schedule{tutorID=" + tutorID + ", date=" + date + ", auto=" + auto +
+        return "Schedule{userID=" + userID + ", date=" + date + ", auto=" + auto +
                 ", slots=" + slots + "}";
     }
 

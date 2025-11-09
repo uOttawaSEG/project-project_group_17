@@ -30,13 +30,14 @@ public class UserScreen extends AppCompatActivity {
         } else{
             Serializable s = getIntent().getSerializableExtra("userInfo");
             User u = (User) s;
-            TextView userType =  findViewById(R.id.userTypeTextViewId);
+            TextView userType = findViewById(R.id.userTypeTextViewId);
             assert u != null;
             userType.setText(u.getUserType());
             if (u.getUserType().equals("Tutor")) {
                 continueBtn.setText("Create Schedule");
                 continueBtn.setOnClickListener(v -> {
                     Intent intent = new Intent(UserScreen.this, TutorCreatingSlots.class);
+                    intent.putExtra("userInfo", u);
                     startActivity(intent);
                     finish();
                 });
