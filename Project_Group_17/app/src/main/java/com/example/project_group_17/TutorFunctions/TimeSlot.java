@@ -13,7 +13,7 @@ import android.text.TextUtils;
 
 public class TimeSlot implements Serializable, Comparable<TimeSlot> {
 
-    private enum Status {
+    public enum Status {
 
         FREE,
         PENDING,
