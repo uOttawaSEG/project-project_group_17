@@ -26,6 +26,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.ValueEventListener;
 
 import java.io.Serializable;
@@ -34,7 +35,7 @@ import java.util.List;
 import java.util.Objects;
 
 public class PreviousSessions extends AppCompatActivity {
-    DatabaseReference databaseUsers;
+    DatabaseReference databaseSchedule;
     private Button goBack;
     User u;
 
@@ -45,16 +46,17 @@ public class PreviousSessions extends AppCompatActivity {
         Serializable se = getIntent().getSerializableExtra("userInfo");
         u = (User) se;
 
+        databaseSchedule = FirebaseDatabase.getInstance().getReference("Schedules");
+        loadUpcomingSessions();
+
         goBack = findViewById(R.id.seerejectedBtn);
 
         goBack.setOnClickListener(v ->{
             Intent intent = new Intent(com.example.project_group_17.TutorFunctions.ListDisplays.PreviousSessions.this, TutorListView.class);
+            intent.putExtra("userInfo", u);
             startActivity(intent);
             finish();
         });
-
-        databaseUsers = FirebaseDatabase.getInstance().getReference("Schedules");
-        loadUpcomingSessions();
     }
 
     //Load requests loops through all of the users active in the database and finds the ones
@@ -68,12 +70,13 @@ public class PreviousSessions extends AppCompatActivity {
         ArrayAdapter<TimeSlot> adapter = new ArrayAdapter<TimeSlot>(this, android.R.layout.simple_list_item_1, upComingSlots);
         listView.setAdapter(adapter);
         //IN the schedules database see if there is one with the same userid as the tutor that opened this class
-        databaseUsers.orderByChild("userID").equalTo(u.getId()).addListenerForSingleValueEvent(new ValueEventListener() {
+        databaseSchedule.orderByChild("userID").equalTo(u.getId()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()) {
-                    for (DataSnapshot userSnapshot : snapshot.getChildren()) {
-                        List<TimeSlot> allSlots =userSnapshot.child("timeSlots").getValue(List.class);
+                    for (DataSnapshot scheduleSnapshot : snapshot.getChildren()) {
+                        GenericTypeIndicator<List<TimeSlot>> t = new GenericTypeIndicator<List<TimeSlot>>() {};
+                        List<TimeSlot> allSlots = scheduleSnapshot.child("timeSlots").getValue(t);
                         for(int i = 0; i< Objects.requireNonNull(allSlots).size(); i++){
                             TimeSlot slot = allSlots.get(i);
                             if(slot.getPast()){

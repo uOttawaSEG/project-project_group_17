@@ -52,6 +52,7 @@ public class UpcomingSessions extends AppCompatActivity {
 
         goBack.setOnClickListener(v ->{
             Intent intent = new Intent(com.example.project_group_17.TutorFunctions.ListDisplays.UpcomingSessions.this, TutorListView.class);
+            intent.putExtra("userInfo", u);
             startActivity(intent);
             finish();
         });
