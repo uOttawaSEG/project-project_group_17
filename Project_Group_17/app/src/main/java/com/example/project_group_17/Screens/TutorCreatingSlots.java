@@ -105,6 +105,8 @@ public class TutorCreatingSlots extends AppCompatActivity {
             Toast.makeText(this, "Invalid Time Format: Times must be in increments of 30 minutes", Toast.LENGTH_SHORT).show();
         } else if (TimeSlot.compareStartEnd(start, end)) {
             Toast.makeText(this, "Invalid Time Format: Start time must be before end time", Toast.LENGTH_SHORT).show();
+        } else if (schedule.overlapChecking(d, start, end)) {
+            Toast.makeText(this, "Conflicting Slot: A timeslot is already registered within that period", Toast.LENGTH_SHORT).show();
         } else {
             TimeSlot timeSlot = new TimeSlot(d, start, end, auto, tutorID);
             schedule.add(timeSlot);
