@@ -27,7 +27,23 @@ public class Schedule implements Serializable {
     }
 
     public void add(TimeSlot timeSlot) {
-        timeSlots.add(timeSlot);
+        ListIterator<TimeSlot> iterator = timeSlots.listIterator(); // WOOHOO I LOVE ITERATORS CONSTANT O(1) TIME WOOHOO
+
+        while (iterator.hasNext()) {
+            TimeSlot curr = iterator.next();
+
+            if ((timeSlot.getDate() + timeSlot.getStart()).compareTo(curr.getDate() + curr.getStart()) < 0) {
+                iterator.previous();
+                iterator.add(timeSlot);
+                return;
+            }
+        }
+
+        iterator.add(timeSlot);
+    }
+
+    public boolean overlapChecking(String d, String s, String e) {
+        return false;
     }
 
     public void clear() {
