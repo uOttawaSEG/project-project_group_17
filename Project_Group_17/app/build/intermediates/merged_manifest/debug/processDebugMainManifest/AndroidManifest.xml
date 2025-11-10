@@ -73,6 +73,26 @@
             android:name="com.example.project_group_17.AdminFunctions.RejectedRequests"
             android:exported="true" >
         </activity>
+        <activity
+            android:name="com.example.project_group_17.Screens.TutorCreatingSlots"
+            android:exported="true" >
+        </activity>
+        <activity
+            android:name="com.example.project_group_17.TutorFunctions.ListDisplays.UpcomingSessions"
+            android:exported="true" >
+        </activity>
+        <activity
+            android:name="com.example.project_group_17.TutorFunctions.ListDisplays.PreviousSessions"
+            android:exported="true" >
+        </activity>
+        <activity
+            android:name="com.example.project_group_17.TutorFunctions.ListDisplays.PendingSessions"
+            android:exported="true" >
+        </activity>
+        <activity
+            android:name="com.example.project_group_17.TutorFunctions.TutorListView"
+            android:exported="true" >
+        </activity>
 
         <service
             android:name="com.google.firebase.components.ComponentDiscoveryService"

@@ -1,9 +1,9 @@
 -- Merging decision tree log ---
 manifest
-ADDED from C:\Users\User\AndroidStudioProjects\project-project_group_17\Project_Group_17\app\src\main\AndroidManifest.xml:2:1-57:12
-INJECTED from C:\Users\User\AndroidStudioProjects\project-project_group_17\Project_Group_17\app\src\main\AndroidManifest.xml:2:1-57:12
-INJECTED from C:\Users\User\AndroidStudioProjects\project-project_group_17\Project_Group_17\app\src\main\AndroidManifest.xml:2:1-57:12
-INJECTED from C:\Users\User\AndroidStudioProjects\project-project_group_17\Project_Group_17\app\src\main\AndroidManifest.xml:2:1-57:12
+ADDED from C:\Users\User\AndroidStudioProjects\project-project_group_17\Project_Group_17\app\src\main\AndroidManifest.xml:2:1-77:12
+INJECTED from C:\Users\User\AndroidStudioProjects\project-project_group_17\Project_Group_17\app\src\main\AndroidManifest.xml:2:1-77:12
+INJECTED from C:\Users\User\AndroidStudioProjects\project-project_group_17\Project_Group_17\app\src\main\AndroidManifest.xml:2:1-77:12
+INJECTED from C:\Users\User\AndroidStudioProjects\project-project_group_17\Project_Group_17\app\src\main\AndroidManifest.xml:2:1-77:12
 MERGED from [com.google.android.material:material:1.13.0] C:\Users\User\.gradle\caches\8.13\transforms\1161dbf90e4cc11959408feb9f83e813\transformed\material-1.13.0\AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.constraintlayout:constraintlayout:2.2.1] C:\Users\User\.gradle\caches\8.13\transforms\293c5c099d7d62a10e811a318719f7a1\transformed\constraintlayout-2.2.1\AndroidManifest.xml:2:1-9:12
 MERGED from [androidx.appcompat:appcompat-resources:1.7.1] C:\Users\User\.gradle\caches\8.13\transforms\87835e4c39b84d7dbf2cc8a5760b940e\transformed\appcompat-resources-1.7.1\AndroidManifest.xml:2:1-7:12
@@ -67,8 +67,8 @@ MERGED from [androidx.annotation:annotation-experimental:1.4.1] C:\Users\User\.g
 	xmlns:android
 		ADDED from C:\Users\User\AndroidStudioProjects\project-project_group_17\Project_Group_17\app\src\main\AndroidManifest.xml:2:11-69
 application
-ADDED from C:\Users\User\AndroidStudioProjects\project-project_group_17\Project_Group_17\app\src\main\AndroidManifest.xml:5:5-55:19
-INJECTED from C:\Users\User\AndroidStudioProjects\project-project_group_17\Project_Group_17\app\src\main\AndroidManifest.xml:5:5-55:19
+ADDED from C:\Users\User\AndroidStudioProjects\project-project_group_17\Project_Group_17\app\src\main\AndroidManifest.xml:5:5-75:19
+INJECTED from C:\Users\User\AndroidStudioProjects\project-project_group_17\Project_Group_17\app\src\main\AndroidManifest.xml:5:5-75:19
 MERGED from [com.google.android.material:material:1.13.0] C:\Users\User\.gradle\caches\8.13\transforms\1161dbf90e4cc11959408feb9f83e813\transformed\material-1.13.0\AndroidManifest.xml:22:5-20
 MERGED from [com.google.android.material:material:1.13.0] C:\Users\User\.gradle\caches\8.13\transforms\1161dbf90e4cc11959408feb9f83e813\transformed\material-1.13.0\AndroidManifest.xml:22:5-20
 MERGED from [androidx.constraintlayout:constraintlayout:2.2.1] C:\Users\User\.gradle\caches\8.13\transforms\293c5c099d7d62a10e811a318719f7a1\transformed\constraintlayout-2.2.1\AndroidManifest.xml:7:5-20
@@ -183,6 +183,36 @@ ADDED from C:\Users\User\AndroidStudioProjects\project-project_group_17\Project_
 		ADDED from C:\Users\User\AndroidStudioProjects\project-project_group_17\Project_Group_17\app\src\main\AndroidManifest.xml:53:13-36
 	android:name
 		ADDED from C:\Users\User\AndroidStudioProjects\project-project_group_17\Project_Group_17\app\src\main\AndroidManifest.xml:52:13-60
+activity#com.example.project_group_17.Screens.TutorCreatingSlots
+ADDED from C:\Users\User\AndroidStudioProjects\project-project_group_17\Project_Group_17\app\src\main\AndroidManifest.xml:55:9-58:20
+	android:exported
+		ADDED from C:\Users\User\AndroidStudioProjects\project-project_group_17\Project_Group_17\app\src\main\AndroidManifest.xml:57:13-36
+	android:name
+		ADDED from C:\Users\User\AndroidStudioProjects\project-project_group_17\Project_Group_17\app\src\main\AndroidManifest.xml:56:13-55
+activity#com.example.project_group_17.TutorFunctions.ListDisplays.UpcomingSessions
+ADDED from C:\Users\User\AndroidStudioProjects\project-project_group_17\Project_Group_17\app\src\main\AndroidManifest.xml:59:9-62:20
+	android:exported
+		ADDED from C:\Users\User\AndroidStudioProjects\project-project_group_17\Project_Group_17\app\src\main\AndroidManifest.xml:61:13-36
+	android:name
+		ADDED from C:\Users\User\AndroidStudioProjects\project-project_group_17\Project_Group_17\app\src\main\AndroidManifest.xml:60:13-73
+activity#com.example.project_group_17.TutorFunctions.ListDisplays.PreviousSessions
+ADDED from C:\Users\User\AndroidStudioProjects\project-project_group_17\Project_Group_17\app\src\main\AndroidManifest.xml:63:9-66:20
+	android:exported
+		ADDED from C:\Users\User\AndroidStudioProjects\project-project_group_17\Project_Group_17\app\src\main\AndroidManifest.xml:65:13-36
+	android:name
+		ADDED from C:\Users\User\AndroidStudioProjects\project-project_group_17\Project_Group_17\app\src\main\AndroidManifest.xml:64:13-73
+activity#com.example.project_group_17.TutorFunctions.ListDisplays.PendingSessions
+ADDED from C:\Users\User\AndroidStudioProjects\project-project_group_17\Project_Group_17\app\src\main\AndroidManifest.xml:67:9-70:20
+	android:exported
+		ADDED from C:\Users\User\AndroidStudioProjects\project-project_group_17\Project_Group_17\app\src\main\AndroidManifest.xml:69:13-36
+	android:name
+		ADDED from C:\Users\User\AndroidStudioProjects\project-project_group_17\Project_Group_17\app\src\main\AndroidManifest.xml:68:13-72
+activity#com.example.project_group_17.TutorFunctions.TutorListView
+ADDED from C:\Users\User\AndroidStudioProjects\project-project_group_17\Project_Group_17\app\src\main\AndroidManifest.xml:71:9-74:20
+	android:exported
+		ADDED from C:\Users\User\AndroidStudioProjects\project-project_group_17\Project_Group_17\app\src\main\AndroidManifest.xml:73:13-36
+	android:name
+		ADDED from C:\Users\User\AndroidStudioProjects\project-project_group_17\Project_Group_17\app\src\main\AndroidManifest.xml:72:13-57
 uses-sdk
 INJECTED from C:\Users\User\AndroidStudioProjects\project-project_group_17\Project_Group_17\app\src\main\AndroidManifest.xml reason: use-sdk injection requested
 INJECTED from C:\Users\User\AndroidStudioProjects\project-project_group_17\Project_Group_17\app\src\main\AndroidManifest.xml

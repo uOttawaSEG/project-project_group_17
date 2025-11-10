@@ -9,6 +9,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.project_group_17.R;
+import com.example.project_group_17.TutorFunctions.TutorListView;
 import com.example.project_group_17.UserHierarchy.Admin;
 import com.example.project_group_17.UserHierarchy.User;
 
@@ -17,6 +18,7 @@ import java.io.Serializable;
 public class UserScreen extends AppCompatActivity {
 
     Button continueBtn;
+    Button listBtn;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,6 +39,15 @@ public class UserScreen extends AppCompatActivity {
                 continueBtn.setText("Create Schedule");
                 continueBtn.setOnClickListener(v -> {
                     Intent intent = new Intent(UserScreen.this, TutorCreatingSlots.class);
+                    intent.putExtra("userInfo", u);
+                    startActivity(intent);
+                    finish();
+                });
+                //Create a similar button to view the lists of sessions
+                listBtn = findViewById(R.id.list);
+                listBtn.setText("View Sessions and Pending Requests");
+                listBtn.setOnClickListener(v -> {
+                    Intent intent = new Intent(UserScreen.this, TutorListView.class);
                     intent.putExtra("userInfo", u);
                     startActivity(intent);
                     finish();

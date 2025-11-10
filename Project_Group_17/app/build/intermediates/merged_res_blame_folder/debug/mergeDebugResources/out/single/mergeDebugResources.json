@@ -1,126 +1,158 @@
 [
     {
-        "merged": "com.example.project_group_17.app-debug-42:/mipmap-mdpi_ic_launcher_round.webp.flat",
-        "source": "com.example.project_group_17.app-main-44:/mipmap-mdpi/ic_launcher_round.webp"
+        "merged": "C:\\Users\\User\\.gradle\\daemon\\8.13\\com.example.project_group_17.app-debug-42:\\mipmap-xhdpi_ic_launcher.webp.flat",
+        "source": "C:\\Users\\User\\.gradle\\daemon\\8.13\\com.example.project_group_17.app-main-44:\\mipmap-xhdpi\\ic_launcher.webp"
     },
     {
-        "merged": "com.example.project_group_17.app-debug-42:/drawable_img.png.flat",
-        "source": "com.example.project_group_17.app-main-44:/drawable/img.png"
+        "merged": "C:\\Users\\User\\.gradle\\daemon\\8.13\\com.example.project_group_17.app-debug-42:\\layout_upcoming_sessions.xml.flat",
+        "source": "C:\\Users\\User\\.gradle\\daemon\\8.13\\com.example.project_group_17.app-main-44:\\layout\\upcoming_sessions.xml"
     },
     {
-        "merged": "com.example.project_group_17.app-debug-42:/mipmap-xxxhdpi_ic_launcher_round.webp.flat",
-        "source": "com.example.project_group_17.app-main-44:/mipmap-xxxhdpi/ic_launcher_round.webp"
+        "merged": "C:\\Users\\User\\.gradle\\daemon\\8.13\\com.example.project_group_17.app-debug-42:\\drawable_outline_contact_phone_24.xml.flat",
+        "source": "C:\\Users\\User\\.gradle\\daemon\\8.13\\com.example.project_group_17.app-main-44:\\drawable\\outline_contact_phone_24.xml"
     },
     {
-        "merged": "com.example.project_group_17.app-debug-42:/drawable_outline_attach_email_24.xml.flat",
-        "source": "com.example.project_group_17.app-main-44:/drawable/outline_attach_email_24.xml"
+        "merged": "C:\\Users\\User\\.gradle\\daemon\\8.13\\com.example.project_group_17.app-debug-42:\\layout_pending_requests.xml.flat",
+        "source": "C:\\Users\\User\\.gradle\\daemon\\8.13\\com.example.project_group_17.app-main-44:\\layout\\pending_requests.xml"
     },
     {
-        "merged": "com.example.project_group_17.app-debug-42:/mipmap-hdpi_ic_launcher.webp.flat",
-        "source": "com.example.project_group_17.app-main-44:/mipmap-hdpi/ic_launcher.webp"
+        "merged": "C:\\Users\\User\\.gradle\\daemon\\8.13\\com.example.project_group_17.app-debug-42:\\drawable_outline_contextual_token_24.xml.flat",
+        "source": "C:\\Users\\User\\.gradle\\daemon\\8.13\\com.example.project_group_17.app-main-44:\\drawable\\outline_contextual_token_24.xml"
     },
     {
-        "merged": "com.example.project_group_17.app-debug-42:/mipmap-xxhdpi_ic_launcher.webp.flat",
-        "source": "com.example.project_group_17.app-main-44:/mipmap-xxhdpi/ic_launcher.webp"
+        "merged": "C:\\Users\\User\\.gradle\\daemon\\8.13\\com.example.project_group_17.app-debug-42:\\layout_admin_inbox.xml.flat",
+        "source": "C:\\Users\\User\\.gradle\\daemon\\8.13\\com.example.project_group_17.app-main-44:\\layout\\admin_inbox.xml"
     },
     {
-        "merged": "com.example.project_group_17.app-debug-42:/mipmap-xhdpi_ic_launcher_round.webp.flat",
-        "source": "com.example.project_group_17.app-main-44:/mipmap-xhdpi/ic_launcher_round.webp"
+        "merged": "C:\\Users\\User\\.gradle\\daemon\\8.13\\com.example.project_group_17.app-debug-42:\\layout_rejected_requests.xml.flat",
+        "source": "C:\\Users\\User\\.gradle\\daemon\\8.13\\com.example.project_group_17.app-main-44:\\layout\\rejected_requests.xml"
     },
     {
-        "merged": "com.example.project_group_17.app-debug-42:/drawable_ic_launcher_foreground.xml.flat",
-        "source": "com.example.project_group_17.app-main-44:/drawable/ic_launcher_foreground.xml"
+        "merged": "C:\\Users\\User\\.gradle\\daemon\\8.13\\com.example.project_group_17.app-debug-42:\\drawable_img_1.png.flat",
+        "source": "C:\\Users\\User\\.gradle\\daemon\\8.13\\com.example.project_group_17.app-main-44:\\drawable\\img_1.png"
     },
     {
-        "merged": "com.example.project_group_17.app-debug-42:/mipmap-xxxhdpi_ic_launcher.webp.flat",
-        "source": "com.example.project_group_17.app-main-44:/mipmap-xxxhdpi/ic_launcher.webp"
+        "merged": "C:\\Users\\User\\.gradle\\daemon\\8.13\\com.example.project_group_17.app-debug-42:\\mipmap-mdpi_ic_launcher_round.webp.flat",
+        "source": "C:\\Users\\User\\.gradle\\daemon\\8.13\\com.example.project_group_17.app-main-44:\\mipmap-mdpi\\ic_launcher_round.webp"
     },
     {
-        "merged": "com.example.project_group_17.app-debug-42:/layout_tutorreg2.xml.flat",
-        "source": "com.example.project_group_17.app-main-44:/layout/tutorreg2.xml"
+        "merged": "C:\\Users\\User\\.gradle\\daemon\\8.13\\com.example.project_group_17.app-debug-42:\\drawable_ic_launcher_background.xml.flat",
+        "source": "C:\\Users\\User\\.gradle\\daemon\\8.13\\com.example.project_group_17.app-main-44:\\drawable\\ic_launcher_background.xml"
     },
     {
-        "merged": "com.example.project_group_17.app-debug-42:/layout_registration.xml.flat",
-        "source": "com.example.project_group_17.app-main-44:/layout/registration.xml"
+        "merged": "C:\\Users\\User\\.gradle\\daemon\\8.13\\com.example.project_group_17.app-debug-42:\\mipmap-hdpi_ic_launcher_round.webp.flat",
+        "source": "C:\\Users\\User\\.gradle\\daemon\\8.13\\com.example.project_group_17.app-main-44:\\mipmap-hdpi\\ic_launcher_round.webp"
     },
     {
-        "merged": "com.example.project_group_17.app-debug-42:/xml_backup_rules.xml.flat",
-        "source": "com.example.project_group_17.app-main-44:/xml/backup_rules.xml"
+        "merged": "C:\\Users\\User\\.gradle\\daemon\\8.13\\com.example.project_group_17.app-debug-42:\\drawable_img_2.png.flat",
+        "source": "C:\\Users\\User\\.gradle\\daemon\\8.13\\com.example.project_group_17.app-main-44:\\drawable\\img_2.png"
     },
     {
-        "merged": "com.example.project_group_17.app-debug-42:/layout_admin_inbox.xml.flat",
-        "source": "com.example.project_group_17.app-main-44:/layout/admin_inbox.xml"
+        "merged": "C:\\Users\\User\\.gradle\\daemon\\8.13\\com.example.project_group_17.app-debug-42:\\mipmap-xxxhdpi_ic_launcher.webp.flat",
+        "source": "C:\\Users\\User\\.gradle\\daemon\\8.13\\com.example.project_group_17.app-main-44:\\mipmap-xxxhdpi\\ic_launcher.webp"
     },
     {
-        "merged": "com.example.project_group_17.app-debug-42:/drawable_outline_contextual_token_24.xml.flat",
-        "source": "com.example.project_group_17.app-main-44:/drawable/outline_contextual_token_24.xml"
+        "merged": "C:\\Users\\User\\.gradle\\daemon\\8.13\\com.example.project_group_17.app-debug-42:\\drawable_img.png.flat",
+        "source": "C:\\Users\\User\\.gradle\\daemon\\8.13\\com.example.project_group_17.app-main-44:\\drawable\\img.png"
     },
     {
-        "merged": "com.example.project_group_17.app-debug-42:/mipmap-xhdpi_ic_launcher.webp.flat",
-        "source": "com.example.project_group_17.app-main-44:/mipmap-xhdpi/ic_launcher.webp"
+        "merged": "C:\\Users\\User\\.gradle\\daemon\\8.13\\com.example.project_group_17.app-debug-42:\\layout_tutorreg.xml.flat",
+        "source": "C:\\Users\\User\\.gradle\\daemon\\8.13\\com.example.project_group_17.app-main-44:\\layout\\tutorreg.xml"
     },
     {
-        "merged": "com.example.project_group_17.app-debug-42:/layout_rejected_requests.xml.flat",
-        "source": "com.example.project_group_17.app-main-44:/layout/rejected_requests.xml"
+        "merged": "C:\\Users\\User\\.gradle\\daemon\\8.13\\com.example.project_group_17.app-debug-42:\\drawable_outline_article_person_24.xml.flat",
+        "source": "C:\\Users\\User\\.gradle\\daemon\\8.13\\com.example.project_group_17.app-main-44:\\drawable\\outline_article_person_24.xml"
     },
     {
-        "merged": "com.example.project_group_17.app-debug-42:/layout_activity_main.xml.flat",
-        "source": "com.example.project_group_17.app-main-44:/layout/activity_main.xml"
+        "merged": "C:\\Users\\User\\.gradle\\daemon\\8.13\\com.example.project_group_17.app-debug-42:\\layout_tutor_list_view.xml.flat",
+        "source": "C:\\Users\\User\\.gradle\\daemon\\8.13\\com.example.project_group_17.app-main-44:\\layout\\tutor_list_view.xml"
     },
     {
-        "merged": "com.example.project_group_17.app-debug-42:/layout_tutorreg.xml.flat",
-        "source": "com.example.project_group_17.app-main-44:/layout/tutorreg.xml"
+        "merged": "C:\\Users\\User\\.gradle\\daemon\\8.13\\com.example.project_group_17.app-debug-42:\\layout_pending_sessions.xml.flat",
+        "source": "C:\\Users\\User\\.gradle\\daemon\\8.13\\com.example.project_group_17.app-main-44:\\layout\\pending_sessions.xml"
     },
     {
-        "merged": "com.example.project_group_17.app-debug-42:/xml_data_extraction_rules.xml.flat",
-        "source": "com.example.project_group_17.app-main-44:/xml/data_extraction_rules.xml"
+        "merged": "C:\\Users\\User\\.gradle\\daemon\\8.13\\com.example.project_group_17.app-debug-42:\\xml_data_extraction_rules.xml.flat",
+        "source": "C:\\Users\\User\\.gradle\\daemon\\8.13\\com.example.project_group_17.app-main-44:\\xml\\data_extraction_rules.xml"
     },
     {
-        "merged": "com.example.project_group_17.app-debug-42:/layout_studentreg.xml.flat",
-        "source": "com.example.project_group_17.app-main-44:/layout/studentreg.xml"
+        "merged": "C:\\Users\\User\\.gradle\\daemon\\8.13\\com.example.project_group_17.app-debug-42:\\layout_userscreen_main.xml.flat",
+        "source": "C:\\Users\\User\\.gradle\\daemon\\8.13\\com.example.project_group_17.app-main-44:\\layout\\userscreen_main.xml"
     },
     {
-        "merged": "com.example.project_group_17.app-debug-42:/mipmap-anydpi-v26_ic_launcher.xml.flat",
-        "source": "com.example.project_group_17.app-main-44:/mipmap-anydpi-v26/ic_launcher.xml"
+        "merged": "C:\\Users\\User\\.gradle\\daemon\\8.13\\com.example.project_group_17.app-debug-42:\\mipmap-xxxhdpi_ic_launcher_round.webp.flat",
+        "source": "C:\\Users\\User\\.gradle\\daemon\\8.13\\com.example.project_group_17.app-main-44:\\mipmap-xxxhdpi\\ic_launcher_round.webp"
     },
     {
-        "merged": "com.example.project_group_17.app-debug-42:/drawable_ic_launcher_background.xml.flat",
-        "source": "com.example.project_group_17.app-main-44:/drawable/ic_launcher_background.xml"
+        "merged": "C:\\Users\\User\\.gradle\\daemon\\8.13\\com.example.project_group_17.app-debug-42:\\layout_schedule.xml.flat",
+        "source": "C:\\Users\\User\\.gradle\\daemon\\8.13\\com.example.project_group_17.app-main-44:\\layout\\schedule.xml"
     },
     {
-        "merged": "com.example.project_group_17.app-debug-42:/layout_pending_requests.xml.flat",
-        "source": "com.example.project_group_17.app-main-44:/layout/pending_requests.xml"
+        "merged": "C:\\Users\\User\\.gradle\\daemon\\8.13\\com.example.project_group_17.app-debug-42:\\drawable_outline_attach_email_24.xml.flat",
+        "source": "C:\\Users\\User\\.gradle\\daemon\\8.13\\com.example.project_group_17.app-main-44:\\drawable\\outline_attach_email_24.xml"
     },
     {
-        "merged": "com.example.project_group_17.app-debug-42:/drawable_outline_article_person_24.xml.flat",
-        "source": "com.example.project_group_17.app-main-44:/drawable/outline_article_person_24.xml"
+        "merged": "C:\\Users\\User\\.gradle\\daemon\\8.13\\com.example.project_group_17.app-debug-42:\\layout_past_sessions.xml.flat",
+        "source": "C:\\Users\\User\\.gradle\\daemon\\8.13\\com.example.project_group_17.app-main-44:\\layout\\past_sessions.xml"
     },
     {
-        "merged": "com.example.project_group_17.app-debug-42:/mipmap-hdpi_ic_launcher_round.webp.flat",
-        "source": "com.example.project_group_17.app-main-44:/mipmap-hdpi/ic_launcher_round.webp"
+        "merged": "C:\\Users\\User\\.gradle\\daemon\\8.13\\com.example.project_group_17.app-debug-42:\\layout_registration.xml.flat",
+        "source": "C:\\Users\\User\\.gradle\\daemon\\8.13\\com.example.project_group_17.app-main-44:\\layout\\registration.xml"
     },
     {
-        "merged": "com.example.project_group_17.app-debug-42:/mipmap-mdpi_ic_launcher.webp.flat",
-        "source": "com.example.project_group_17.app-main-44:/mipmap-mdpi/ic_launcher.webp"
+        "merged": "C:\\Users\\User\\.gradle\\daemon\\8.13\\com.example.project_group_17.app-debug-42:\\layout_activity_main.xml.flat",
+        "source": "C:\\Users\\User\\.gradle\\daemon\\8.13\\com.example.project_group_17.app-main-44:\\layout\\activity_main.xml"
     },
     {
-        "merged": "com.example.project_group_17.app-debug-42:/drawable_outline_contact_phone_24.xml.flat",
-        "source": "com.example.project_group_17.app-main-44:/drawable/outline_contact_phone_24.xml"
+        "merged": "C:\\Users\\User\\.gradle\\daemon\\8.13\\com.example.project_group_17.app-debug-42:\\mipmap-mdpi_ic_launcher.webp.flat",
+        "source": "C:\\Users\\User\\.gradle\\daemon\\8.13\\com.example.project_group_17.app-main-44:\\mipmap-mdpi\\ic_launcher.webp"
     },
     {
-        "merged": "com.example.project_group_17.app-debug-42:/drawable_outline_account_balance_24.xml.flat",
-        "source": "com.example.project_group_17.app-main-44:/drawable/outline_account_balance_24.xml"
+        "merged": "C:\\Users\\User\\.gradle\\daemon\\8.13\\com.example.project_group_17.app-debug-42:\\mipmap-xhdpi_ic_launcher_round.webp.flat",
+        "source": "C:\\Users\\User\\.gradle\\daemon\\8.13\\com.example.project_group_17.app-main-44:\\mipmap-xhdpi\\ic_launcher_round.webp"
     },
     {
-        "merged": "com.example.project_group_17.app-debug-42:/mipmap-anydpi-v26_ic_launcher_round.xml.flat",
-        "source": "com.example.project_group_17.app-main-44:/mipmap-anydpi-v26/ic_launcher_round.xml"
+        "merged": "C:\\Users\\User\\.gradle\\daemon\\8.13\\com.example.project_group_17.app-debug-42:\\layout_tutorreg2.xml.flat",
+        "source": "C:\\Users\\User\\.gradle\\daemon\\8.13\\com.example.project_group_17.app-main-44:\\layout\\tutorreg2.xml"
+    },
+    {
+        "merged": "C:\\Users\\User\\.gradle\\daemon\\8.13\\com.example.project_group_17.app-debug-42:\\drawable_ic_launcher_foreground.xml.flat",
+        "source": "C:\\Users\\User\\.gradle\\daemon\\8.13\\com.example.project_group_17.app-main-44:\\drawable\\ic_launcher_foreground.xml"
+    },
+    {
+        "merged": "C:\\Users\\User\\.gradle\\daemon\\8.13\\com.example.project_group_17.app-debug-42:\\mipmap-xxhdpi_ic_launcher_round.webp.flat",
+        "source": "C:\\Users\\User\\.gradle\\daemon\\8.13\\com.example.project_group_17.app-main-44:\\mipmap-xxhdpi\\ic_launcher_round.webp"
+    },
+    {
+        "merged": "C:\\Users\\User\\.gradle\\daemon\\8.13\\com.example.project_group_17.app-debug-42:\\mipmap-xxhdpi_ic_launcher.webp.flat",
+        "source": "C:\\Users\\User\\.gradle\\daemon\\8.13\\com.example.project_group_17.app-main-44:\\mipmap-xxhdpi\\ic_launcher.webp"
+    },
+    {
+        "merged": "C:\\Users\\User\\.gradle\\daemon\\8.13\\com.example.project_group_17.app-debug-42:\\xml_backup_rules.xml.flat",
+        "source": "C:\\Users\\User\\.gradle\\daemon\\8.13\\com.example.project_group_17.app-main-44:\\xml\\backup_rules.xml"
+    },
+    {
+        "merged": "C:\\Users\\User\\.gradle\\daemon\\8.13\\com.example.project_group_17.app-debug-42:\\drawable_outline_account_balance_24.xml.flat",
+        "source": "C:\\Users\\User\\.gradle\\daemon\\8.13\\com.example.project_group_17.app-main-44:\\drawable\\outline_account_balance_24.xml"
+    },
+    {
+        "merged": "C:\\Users\\User\\.gradle\\daemon\\8.13\\com.example.project_group_17.app-debug-42:\\mipmap-hdpi_ic_launcher.webp.flat",
+        "source": "C:\\Users\\User\\.gradle\\daemon\\8.13\\com.example.project_group_17.app-main-44:\\mipmap-hdpi\\ic_launcher.webp"
+    },
+    {
+        "merged": "C:\\Users\\User\\.gradle\\daemon\\8.13\\com.example.project_group_17.app-debug-42:\\mipmap-anydpi-v26_ic_launcher_round.xml.flat",
+        "source": "C:\\Users\\User\\.gradle\\daemon\\8.13\\com.example.project_group_17.app-main-44:\\mipmap-anydpi-v26\\ic_launcher_round.xml"
+    },
+    {
+        "merged": "C:\\Users\\User\\.gradle\\daemon\\8.13\\com.example.project_group_17.app-debug-42:\\mipmap-anydpi-v26_ic_launcher.xml.flat",
+        "source": "C:\\Users\\User\\.gradle\\daemon\\8.13\\com.example.project_group_17.app-main-44:\\mipmap-anydpi-v26\\ic_launcher.xml"
+    },
+    {
+        "merged": "C:\\Users\\User\\.gradle\\daemon\\8.13\\com.example.project_group_17.app-debug-42:\\layout_studentreg.xml.flat",
+        "source": "C:\\Users\\User\\.gradle\\daemon\\8.13\\com.example.project_group_17.app-main-44:\\layout\\studentreg.xml"
     },
     {
         "merged": "com.example.project_group_17.app-debug-42:/layout_userscreen_main.xml.flat",
         "source": "com.example.project_group_17.app-main-44:/layout/userscreen_main.xml"
-    },
-    {
-        "merged": "com.example.project_group_17.app-debug-42:/mipmap-xxhdpi_ic_launcher_round.webp.flat",
-        "source": "com.example.project_group_17.app-main-44:/mipmap-xxhdpi/ic_launcher_round.webp"
     }
 ]

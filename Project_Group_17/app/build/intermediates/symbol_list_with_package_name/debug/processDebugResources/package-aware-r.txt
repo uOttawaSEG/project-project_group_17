@@ -3615,6 +3615,8 @@ drawable ic_mtrl_chip_checked_circle
 drawable ic_mtrl_chip_close_circle
 drawable ic_search_black_24
 drawable img
+drawable img_1
+drawable img_2
 drawable m3_avd_hide_password
 drawable m3_avd_show_password
 drawable m3_bottom_sheet_drag_handle
@@ -3770,6 +3772,7 @@ id activity_chooser_view_content
 id add
 id adjust_height
 id adjust_width
+id adminLogout
 id advance
 id alertTitle
 id aligned
@@ -3803,6 +3806,7 @@ id bounce
 id bounceBoth
 id bounceEnd
 id bounceStart
+id btnCreate
 id btnGoRegister
 id btnGoStudent
 id btnGoTutor
@@ -3811,6 +3815,7 @@ id cache_measures
 id callMeasure
 id cancel_button
 id carryVelocity
+id cbAutoApprove
 id center
 id centerCrop
 id centerInside
@@ -3828,6 +3833,7 @@ id clip_horizontal
 id clip_vertical
 id clockwise
 id closest
+id cnt
 id collapseActionView
 id compress
 id confirm_button
@@ -3895,6 +3901,9 @@ id enterAlways
 id enterAlwaysCollapsed
 id entireSpace
 id escape
+id etDate
+id etEndTime
+id etStartTime
 id exitUntilCollapsed
 id expand_activities_button
 id expanded_menu
@@ -3962,11 +3971,14 @@ id light
 id line1
 id line3
 id linear
+id list
 id listMode
 id listView
 id list_item
 id loadPending
+id loadPrevious
 id loadRejected
+id loadUpcoming
 id login
 id logoImage
 id logout
@@ -4130,6 +4142,8 @@ id search_mag_icon
 id search_plate
 id search_src_text
 id search_voice_btn
+id seependingBtn
+id seerejectedBtn
 id select_dialog_listview
 id selected
 id selection_type
@@ -4198,6 +4212,8 @@ id textSpacerNoButtons
 id textSpacerNoTitle
 id textStart
 id textTop
+id textView
+id textView2
 id textView5
 id text_input_end_icon
 id text_input_error_icon
@@ -4454,16 +4470,21 @@ layout notification_template_custom_big
 layout notification_template_icon_group
 layout notification_template_part_chronometer
 layout notification_template_part_time
+layout past_sessions
 layout pending_requests
+layout pending_sessions
 layout registration
 layout rejected_requests
+layout schedule
 layout select_dialog_item_material
 layout select_dialog_multichoice_material
 layout select_dialog_singlechoice_material
 layout studentreg
 layout support_simple_spinner_dropdown_item
+layout tutor_list_view
 layout tutorreg
 layout tutorreg2
+layout upcoming_sessions
 layout userscreen_main
 mipmap ic_launcher
 mipmap ic_launcher_round

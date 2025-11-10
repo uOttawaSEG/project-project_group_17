@@ -30,4 +30,6 @@ public class Tutor extends User {
     public String toString(){
         return "User Type: " + this.getUserType()+"\nName: " + this.getFirstName() + " " + this.getLastName() + "\nEmail: " + this.getEmail() + "\nPhone Number: " + this.getPhoneNumber() + "\nDegree: " + this.getDegree() + "\nCourses: " + this.getCourses();
     }
+
+
 }

@@ -56,6 +56,22 @@
             android:name=".Screens.TutorCreatingSlots"
             android:exported="true">
         </activity>
+        <activity
+            android:name=".TutorFunctions.ListDisplays.UpcomingSessions"
+            android:exported="true">
+        </activity>
+        <activity
+            android:name=".TutorFunctions.ListDisplays.PreviousSessions"
+            android:exported="true">
+        </activity>
+        <activity
+            android:name=".TutorFunctions.ListDisplays.PendingSessions"
+            android:exported="true">
+        </activity>
+        <activity
+            android:name=".TutorFunctions.TutorListView"
+            android:exported="true">
+        </activity>
     </application>
 
 </manifest>

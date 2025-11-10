@@ -54,4 +54,12 @@
         android:backgroundTint="#8f001a"
         android:onClick="cnt"
         android:text="Continue" />
+
+    <Button
+        android:id="@+id/list"
+        android:layout_width="174dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="20dp"
+        android:backgroundTint="#8f001a"
+        android:text="View Lists" />
 </LinearLayout>

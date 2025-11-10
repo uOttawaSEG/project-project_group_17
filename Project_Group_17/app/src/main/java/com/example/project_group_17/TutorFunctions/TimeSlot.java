@@ -17,7 +17,8 @@ public class TimeSlot implements Serializable, Comparable<TimeSlot> {
 
         FREE,
         PENDING,
-        BOOKED
+        BOOKED,
+        CANCELLED
 
     }
 
@@ -123,7 +124,17 @@ public class TimeSlot implements Serializable, Comparable<TimeSlot> {
         return "TimeSlot{" + getDate() + " " + getStart() + "-" + getEnd() + ", status=" + getStatus() + ", created by: " + getTutorID() + "}";
     }
 
+    public boolean getPast() {
+        String today = new java.text.SimpleDateFormat("yyyy-MM-dd", java.util.Locale.getDefault()).format((new Date()));
 
+        return (this.getDate().compareTo(today) < 0);
+    }
 
+    public void cancel(){
+        this.status = Status.CANCELLED;
+    }
+    public boolean isCancelled(){
+        return getStatus() == Status.CANCELLED;
+    }
 
 }
