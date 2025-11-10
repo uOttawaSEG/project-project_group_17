@@ -13,7 +13,7 @@ import android.text.TextUtils;
 
 public class TimeSlot implements Serializable, Comparable<TimeSlot> {
 
-    public enum Status {
+    private enum Status {
 
         FREE,
         PENDING,
@@ -21,79 +21,31 @@ public class TimeSlot implements Serializable, Comparable<TimeSlot> {
 
     }
 
-    protected final String start;
-    protected final String end;
-    protected Status status;
-    protected String studentID;
+    private String date;
+    private String start;
+    private String end;
+    private Status status;
+    private boolean auto;
+    private String studentID;
     private String tutorID;
 
 
+    public TimeSlot() {}
 
-    public TimeSlot(String start, String end, String tutorID) {
+    public TimeSlot(String date, String start, String end, boolean auto, String tutorID) {
 
+        this.date = date;
         this.start = start;
         this.end = end;
         this.status = Status.FREE;
-        this.studentID = null;
+        this.auto = auto;
+        this.studentID = "Not added yet";
         this.tutorID = tutorID;
 
     }
 
-    public TimeSlot(String start, String end, Status status, String studentID) {
-
-        isValid(start);
-        isValid(end);
-        is30Apart(start);
-        is30Apart(end);
-        isLogic(start,end);
-
-        this.start = start;
-        this.end = end;
-
-        if (status == null) {
-            this.status = Status.FREE;
-
-        }else {
-
-            this.status = status;
-        }
-
-        this.studentID = studentID;
-
-    }
-
-    private static void isValid(String time) {
-
-        if (time == null || !time.matches("^([01]\\d|2[0-3]):[0-5]\\d$")) {
-
-            throw new IllegalArgumentException("Invalid Format: HH:mm");
-
-        }
-    }
-
-    private static void is30Apart(String time) {
-
-        int min = Integer.parseInt(time.substring(3,5));
-
-        if (min != 0 && min != 30) {
-
-            throw new IllegalArgumentException("Time Must be in 30-min Increments");
-
-        }
-    }
-
-    private static void isLogic(String start, String end) {
-
-        if (start.compareTo(end) >= 0) {
-
-            throw new IllegalArgumentException("ERROR, Start time must be before end time");
-
-        }
-    }
-
-    public String getKey() {
-
-        return start+" - "+end;
+    public String getDate() {
+        return date;
     }
 
     public String getStart() {
@@ -101,17 +53,18 @@ public class TimeSlot implements Serializable, Comparable<TimeSlot> {
     }
 
     public String getEnd() {
-
         return end;
     }
 
     public Status getStatus() {
-
         return status;
     }
 
-    public String getStudentID() {
+    public boolean getAuto() {
+        return auto;
+    }
 
+    public String getStudentID() {
         return studentID;
     }
 
@@ -119,6 +72,26 @@ public class TimeSlot implements Serializable, Comparable<TimeSlot> {
         return tutorID;
     }
 
+    public static boolean isValidTime(String time) {
+        return !time.matches("^([01]\\d|2[0-3]):[0-5]\\d$");
+    }
+    public static boolean compareStartEnd(String s, String e) {
+        return s.compareTo(e) >= 0;
+    }
+
+    public static boolean isValidDateFormat(String date) {
+        return (date == null || !date.matches("^\\d{4}-\\d{2}-\\d{2}$"));
+    }
+
+    public static boolean isPast(String date) {
+        String today = new java.text.SimpleDateFormat("yyyy-MM-dd", java.util.Locale.getDefault()).format((new Date()));
+
+        return (date.compareTo(today) < 0);
+    }
+
+    public static boolean is30Apart(String time) {
+        return (time == null || !time.matches("^([01]\\d|2[0-3]):(00|30)$"));
+    }
 
     @Override
     public int compareTo(TimeSlot time) {
@@ -147,7 +120,7 @@ public class TimeSlot implements Serializable, Comparable<TimeSlot> {
 
     @Override
     public String toString() {
-        return "TimeSlot{" + getStart() + "-" + getEnd() + ", status=" + getStatus() + "}";
+        return "TimeSlot{" + getDate() + " " + getStart() + "-" + getEnd() + ", status=" + getStatus() + ", created by: " + getTutorID() + "}";
     }
 
 

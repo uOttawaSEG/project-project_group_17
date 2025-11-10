@@ -1,10 +1,12 @@
 package com.example.project_group_17.Screens;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import com.example.project_group_17.R;
 import com.example.project_group_17.TutorFunctions.Schedule;
@@ -12,6 +14,7 @@ import com.example.project_group_17.TutorFunctions.TimeSlot;
 import com.example.project_group_17.UserHierarchy.User;
 
 import java.io.Serializable;
+import java.sql.Time;
 import java.util.ArrayList;
 import android.widget.Toast;
 import java.util.Collections;
@@ -19,17 +22,24 @@ import java.util.List;
 import android.util.Log;
 import java.util.HashSet;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 
 public class TutorCreatingSlots extends AppCompatActivity {
     private static final String TAG = "TutorCreatingSlots";
-
+    private DatabaseReference databaseSchedules;
     private EditText date;
     private EditText startTime;
     private EditText endTime;
     private CheckBox isAutoApporved;
+    private String tutorID;
+    private Schedule schedule;
     private Button create;
-
-    private final List<TimeSlot> accumlatedSlots = new ArrayList<>();
+    private String id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,85 +47,70 @@ public class TutorCreatingSlots extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.schedule);
 
+        databaseSchedules = FirebaseDatabase.getInstance().getReference("Schedules");
+
         date = findViewById(R.id.etDate);
         startTime = findViewById(R.id.etStartTime);
         endTime = findViewById(R.id.etEndTime);
         isAutoApporved = findViewById(R.id.cbAutoApprove);
         create = findViewById(R.id.btnCreate);
+        Serializable se = getIntent().getSerializableExtra("userInfo");
+        User u = (User) se;
+        tutorID = u.getId();
 
-        create.setOnClickListener(v -> generateSchedule());
+        createSchedule();
+        create.setOnClickListener(v -> createTimeSlot());
 
     }
 
-    private void generateSchedule() {
+    public void createSchedule() {
+        databaseSchedules.orderByChild("userID").equalTo(tutorID).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    for (DataSnapshot scheduleSnapshot : snapshot.getChildren()) {
+                        schedule = scheduleSnapshot.getValue(Schedule.class);
+                    }
+                } else {
+                    schedule = new Schedule(tutorID);
+                    id = databaseSchedules.push().getKey();
+                    databaseSchedules.child(id).setValue(schedule);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(TutorCreatingSlots.this, "Database error", Toast.LENGTH_LONG).show();
+                return;
+            }
+        });
+    }
+
+    public void createTimeSlot() {
 
         String d = date.getText().toString().trim();
         String start = startTime.getText().toString().trim();
         String end = endTime.getText().toString().trim();
         boolean auto = isAutoApporved.isChecked();
-        Serializable se = getIntent().getSerializableExtra("userInfo");
-        User u = (User) se;
 
-        try{
-
-            List<TimeSlot> slots = Schedule.incrSlots(start, end, u.getId());
-
-            int added = merge(accumlatedSlots, slots);
-            Collections.sort(accumlatedSlots);
-
-            if (added > 0) {
-                Toast.makeText(this, "Added " + added + " slot(s). Total: " + accumlatedSlots.size(), Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(this, "No new slots (duplicates/overlap). Total: " + accumlatedSlots.size(), Toast.LENGTH_SHORT).show();
-            }
-
-            Schedule schedule = new Schedule("FETCH FROM FIREBASE", d, auto, accumlatedSlots);
-
-            //NEED TO FIND A WAY TO STORE SCHEDULE IN FIREBASE.
-            Log.d(TAG, "Schedule: tutor=" + schedule.getUserID()
-                    + " date=" + schedule.getDate()
-                    + " auto=" + schedule.isAuto()
-                    + " slots=" + schedule.getTimeSlots().size());
-
-            for (TimeSlot s : schedule.getTimeSlots()) {
-                Log.d(TAG, "  slot " + s.getStart() + "-" + s.getEnd() + " status=" + s.getStatus());
-            }
-
-
-        } catch (IllegalArgumentException ex) {
-            Toast.makeText(this, ex.getMessage(), Toast.LENGTH_LONG).show();
-            Log.e(TAG, "Validation error: " + ex.getMessage());
-        } catch (NullPointerException e) {
-            Log.e(TAG, "Null user error", e);
-        } catch (Exception ex) {
-            Toast.makeText(this, "Unexpected error while creating availability.", Toast.LENGTH_LONG).show();
-            Log.e(TAG, "Unexpected error", ex);
+        if (d.isEmpty() || start.isEmpty() || end.isEmpty()) {
+            Toast.makeText(this, "Invalid Format: Please fill out all fields", Toast.LENGTH_SHORT).show();
+        } else if (TimeSlot.isValidDateFormat(d)) {
+            Toast.makeText(this, "Invalid Date Format: Should be YYYY-MM-DD", Toast.LENGTH_SHORT).show();
+        } else if (TimeSlot.isPast(d)) {
+            Toast.makeText(this, "Invalid Date: Timeslot cannot be in the past", Toast.LENGTH_SHORT).show();
+        } else if (TimeSlot.isValidTime(start) || TimeSlot.isValidTime(end)) {
+            Toast.makeText(this, "Invalid Time: Must be within a 24 hour format", Toast.LENGTH_SHORT).show();
+        } else if (TimeSlot.is30Apart(start) || TimeSlot.is30Apart(end)) {
+            Toast.makeText(this, "Invalid Time Format: Times must be in increments of 30 minutes", Toast.LENGTH_SHORT).show();
+        } else if (TimeSlot.compareStartEnd(start, end)) {
+            Toast.makeText(this, "Invalid Time Format: Start time must be before end time", Toast.LENGTH_SHORT).show();
+        } else {
+            TimeSlot timeSlot = new TimeSlot(d, start, end, auto, tutorID);
+            schedule.add(timeSlot);
+            databaseSchedules.child(id).setValue(schedule);
+            Toast.makeText(this, "Successfully created timeslot.", Toast.LENGTH_SHORT).show();
         }
-    }
-
-    private int merge(List<TimeSlot> a, List<TimeSlot> b) {
-
-        HashSet<String> set = new HashSet<>();
-
-        for (TimeSlot time : a) {
-            set.add(time.getKey());
-        }
-
-        int added = 0;
-        for (TimeSlot time : b) {
-            if(!set.contains(time.getKey())) {
-                a.add(time);
-                set.add(time.getKey());
-                added++;
-            }
-        }
-
-        return added;
-
-
-
-
-
     }
 
 }

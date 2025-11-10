@@ -12,9 +12,7 @@ public class User implements Serializable {
     private String phoneNumber;
     private String registrationStatus;
 
-    public User() {
-
-    }
+    public User() {}
     public User(String userType, String id, String first, String last, String email, String pass, String pn){
         this.userType = userType;
         this.id = id;
