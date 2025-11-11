@@ -52,7 +52,28 @@ public class Schedule implements Serializable {
     }
 
     public boolean overlapChecking(String d, String s, String e) {
+
+        for (TimeSlot slot : timeSlots) {
+
+            if (d.equals(slot.getDate())) {
+
+                if ((parseTime(s) < parseTime(slot.getEnd())) && (parseTime(e) > parseTime(slot.getStart()))) {
+
+                    return true;
+                }
+            }
+        }
+
         return false;
+    }
+
+    public int parseTime(String time) {
+
+        int hour = Integer.parseInt(time.substring(0,2));
+        int min = Integer.parseInt(time.substring(3,5));
+
+        return (hour*60)+min;
+
     }
 
     @Override
