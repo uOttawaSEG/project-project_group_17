@@ -9,6 +9,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.project_group_17.R;
+import com.example.project_group_17.StudentFunctions.StudentSessions;
 import com.example.project_group_17.TutorFunctions.TutorListView;
 import com.example.project_group_17.UserHierarchy.Admin;
 import com.example.project_group_17.UserHierarchy.User;
@@ -48,6 +49,15 @@ public class UserScreen extends AppCompatActivity {
                 listBtn.setText("View Sessions and Pending Requests");
                 listBtn.setOnClickListener(v -> {
                     Intent intent = new Intent(UserScreen.this, TutorListView.class);
+                    intent.putExtra("userInfo", u);
+                    startActivity(intent);
+                    finish();
+                });
+            } else if (u.getUserType().equals("Student")) {
+                listBtn = findViewById(R.id.list);
+                listBtn.setText("View Sessions");
+                listBtn.setOnClickListener(v -> {
+                    Intent intent = new Intent(UserScreen.this, StudentSessions.class);
                     intent.putExtra("userInfo", u);
                     startActivity(intent);
                     finish();
