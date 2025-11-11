@@ -48,6 +48,7 @@ public class StudentSessions extends AppCompatActivity {
 
         goBack.setOnClickListener(v ->{
             Intent intent = new Intent(StudentSessions.this, UserScreen.class);
+            intent.putExtra("userInfo", u);
             startActivity(intent);
             finish();
         });
