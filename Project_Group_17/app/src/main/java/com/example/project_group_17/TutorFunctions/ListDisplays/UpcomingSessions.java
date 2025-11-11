@@ -78,12 +78,15 @@ public class UpcomingSessions extends AppCompatActivity {
                     for (DataSnapshot scheduleSnapshot : snapshot.getChildren()) {
                         GenericTypeIndicator<List<TimeSlot>> t = new GenericTypeIndicator<List<TimeSlot>>() {};
                         List<TimeSlot> allSlots = scheduleSnapshot.child("timeSlots").getValue(t);
-                        for(int i = 0; i< Objects.requireNonNull(allSlots).size(); i++){
-                            TimeSlot slot = allSlots.get(i);
-                            if(!slot.getPast()&&!slot.isCancelled()){
-                                upComingSlots.add(slot);
+                        if(allSlots !=null){
+                            for(int i = 0; i< Objects.requireNonNull(allSlots).size(); i++){
+                                TimeSlot slot = allSlots.get(i);
+                                if(!slot.getPast()&&!slot.isCancelled()){
+                                    upComingSlots.add(slot);
+                                }
                             }
                         }
+
                         //Get the schedule that that is related to the tutor that opened this class
                         //Retrieve the list of timeslots and check if they are in the past or not
                         //if not add them to the upcomingslots list
@@ -147,6 +150,7 @@ public class UpcomingSessions extends AppCompatActivity {
                         TimeSlot dbSlot = slotSnapshot.getValue(TimeSlot.class);
                         if (dbSlot != null && dbSlot.equals(slot)) {
                             // Update status field in Firebase
+
                             slotSnapshot.getRef().child("status").setValue("CANCELLED")
                                     .addOnSuccessListener(aVoid ->
                                             Toast.makeText(UpcomingSessions.this, "Session cancelled successfully", Toast.LENGTH_SHORT).show()

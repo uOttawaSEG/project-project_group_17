@@ -71,10 +71,12 @@ public class StudentSessions extends AppCompatActivity {
                     for (DataSnapshot scheduleSnapshot : snapshot.getChildren()) {
                         GenericTypeIndicator<List<TimeSlot>> t = new GenericTypeIndicator<List<TimeSlot>>() {};
                         List<TimeSlot> allSlots = scheduleSnapshot.child("timeSlots").getValue(t);
-                        for(int i = 0; i< Objects.requireNonNull(allSlots).size(); i++) {
-                            TimeSlot slot = allSlots.get(i);
-                            if (slot.getStatus() == TimeSlot.Status.FREE) {
-                                availableSlots.add(slot);
+                        if(allSlots !=null) {
+                            for (int i = 0; i < Objects.requireNonNull(allSlots).size(); i++) {
+                                TimeSlot slot = allSlots.get(i);
+                                if (slot.getStatus() == TimeSlot.Status.FREE) {
+                                    availableSlots.add(slot);
+                                }
                             }
                         }
                     }

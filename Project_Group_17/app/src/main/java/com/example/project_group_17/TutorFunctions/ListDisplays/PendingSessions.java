@@ -24,15 +24,18 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.ValueEventListener;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class PendingSessions extends AppCompatActivity {
-    DatabaseReference databaseUsers;
+    DatabaseReference databaseSchedules;
     private Button goBack;
+    List<TimeSlot> pendingSlots = new ArrayList<TimeSlot>();
     User u;
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,28 +54,36 @@ public class PendingSessions extends AppCompatActivity {
             finish();
         });
 
-        databaseUsers = FirebaseDatabase.getInstance().getReference("Schedules");
-        //loadRequests();
+        databaseSchedules = FirebaseDatabase.getInstance().getReference("Schedules");
+        loadRequests();
     }
 
     //Will implement once the students can make requests
-   /* private void loadRequests(){
+    private void loadRequests(){
         ListView listView = findViewById(R.id.listView);
 
-        List<TimeSlot> upComingSlots = new ArrayList<TimeSlot>();
-
-        ArrayAdapter<TimeSlot> adapter = new ArrayAdapter<TimeSlot>(this, android.R.layout.simple_list_item_1, upComingSlots);
+        ArrayAdapter<TimeSlot> adapter = new ArrayAdapter<TimeSlot>(this, android.R.layout.simple_list_item_1, pendingSlots);
         listView.setAdapter(adapter);
         //IN the schedules database see if there is one with the same userid as the tutor that opened this class
-        databaseUsers.orderByChild("userID").equalTo(u.getId()).addListenerForSingleValueEvent(new ValueEventListener() {
+        databaseSchedules.orderByChild("userID").equalTo(u.getId()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                pendingSlots.clear();
                 if (snapshot.exists()) {
-                    for (DataSnapshot userSnapshot : snapshot.getChildren()) {
-                        Schedule schedule;
+                    for (DataSnapshot scheduleSnapshot : snapshot.getChildren()) {
+                        GenericTypeIndicator<List<TimeSlot>> t = new GenericTypeIndicator<List<TimeSlot>>() {};
+                        List<TimeSlot> allSlots = scheduleSnapshot.child("timeSlots").getValue(t);
+                        if(allSlots !=null) {
+                            for (int i = 0; i < Objects.requireNonNull(allSlots).size(); i++) {
+                                TimeSlot slot = allSlots.get(i);
+                                if (slot.isPending() && !slot.getPast()) {
+                                    pendingSlots.add(slot);
+                                }
+                            }
+                        }
                         //Get the schedule that that is related to the tutor that opened this class
-                        //Retrieve the list of timeslots and check if they are in the past or not
-                        //if not add them to the upcomingslots list
+                        //Retrieve the list of timeslots and check if any of the timeslots are pending and not already past
+                        //if not add them to the pendingSlots list
                     }
                     adapter.notifyDataSetChanged();
                 }
@@ -91,23 +102,23 @@ public class PendingSessions extends AppCompatActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                TimeSlot selectedSession = upComingSlots.get(position);
-                approveOrReject(selectedSession, upComingSlots, adapter);
+                TimeSlot selectedSession = pendingSlots.get(position);
+                approveOrReject(selectedSession, pendingSlots, adapter);
             }
         });
-    }*/
+    }
 
     //Creates a new alert dialog with the users information where the admin can either approve or reject the request
-    private void approveOrReject(User selectedUser, List<User> pendingRequests, ArrayAdapter<User> adapter){
+    private void approveOrReject(TimeSlot selectedSlot, List<TimeSlot> pendingRequests, ArrayAdapter<TimeSlot> adapter){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Approve or Reject the request.");
-        builder.setMessage(selectedUser.toString());
+        builder.setMessage(selectedSlot.toString());
 
         builder.setPositiveButton("Approve", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                approveRequest(selectedUser);
-                pendingRequests.remove(selectedUser);
+                approveRequest(selectedSlot);
+                pendingRequests.remove(selectedSlot);
                 adapter.notifyDataSetChanged();
                 Toast.makeText(PendingSessions.this, "Request Approved", Toast.LENGTH_SHORT).show();
             }
@@ -115,8 +126,8 @@ public class PendingSessions extends AppCompatActivity {
         builder.setNegativeButton("Reject", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                rejectRequest(selectedUser);
-                pendingRequests.remove(selectedUser);
+                rejectRequest(selectedSlot);
+                pendingRequests.remove(selectedSlot);
                 adapter.notifyDataSetChanged();
                 Toast.makeText(PendingSessions.this, "Request Rejected", Toast.LENGTH_SHORT).show();
             }
@@ -127,10 +138,81 @@ public class PendingSessions extends AppCompatActivity {
 
     }
 
-    private void approveRequest(@NonNull User user){
+    private void approveRequest(@NonNull TimeSlot slot){
+        //Cancels locally
+        slot.book(u);
 
+
+        //Cancels in the database
+        // Get the tutor schedule
+        databaseSchedules.orderByChild("userID").equalTo(u.getId()).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot scheduleSnapshot : snapshot.getChildren()) {
+                    for (DataSnapshot slotSnapshot : scheduleSnapshot.child("timeSlots").getChildren()) {
+                        TimeSlot dbSlot = slotSnapshot.getValue(TimeSlot.class);
+                        if (dbSlot != null && dbSlot.equals(slot)) {
+                            // Update status field in Firebase
+
+                            slotSnapshot.getRef().child("status").setValue("BOOKED")
+                                    .addOnSuccessListener(aVoid ->
+                                            Toast.makeText(PendingSessions.this, "Session cancelled successfully", Toast.LENGTH_SHORT).show()
+                                    )
+                                    .addOnFailureListener(e ->
+                                            Toast.makeText(PendingSessions.this, "Error updating session: " + e.getMessage(), Toast.LENGTH_LONG).show()
+                                    );
+                            slotSnapshot.getRef().child("studentID").setValue(u.getId())
+                                    .addOnSuccessListener(aVoid ->
+                                            Toast.makeText(PendingSessions.this, "Session cancelled successfully", Toast.LENGTH_SHORT).show()
+                                    )
+                                    .addOnFailureListener(e ->
+                                            Toast.makeText(PendingSessions.this, "Error updating session: " + e.getMessage(), Toast.LENGTH_LONG).show()
+                                    );
+                            return;
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(PendingSessions.this, "Error updating session status", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
-    private void rejectRequest(@NonNull User user){
+    private void rejectRequest(@NonNull TimeSlot slot){
+        //Cancels locally
+        slot.cancel();
 
+
+        //Cancels in the database
+        // Get the tutor schedule
+        databaseSchedules.orderByChild("userID").equalTo(u.getId()).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot scheduleSnapshot : snapshot.getChildren()) {
+                    for (DataSnapshot slotSnapshot : scheduleSnapshot.child("timeSlots").getChildren()) {
+                        TimeSlot dbSlot = slotSnapshot.getValue(TimeSlot.class);
+                        if (dbSlot != null && dbSlot.equals(slot)) {
+                            // Update status field in Firebase
+
+                            slotSnapshot.getRef().child("status").setValue("CANCELLED")
+                                    .addOnSuccessListener(aVoid ->
+                                            Toast.makeText(PendingSessions.this, "Session cancelled successfully", Toast.LENGTH_SHORT).show()
+                                    )
+                                    .addOnFailureListener(e ->
+                                            Toast.makeText(PendingSessions.this, "Error updating session: " + e.getMessage(), Toast.LENGTH_LONG).show()
+                                    );
+                            return;
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(PendingSessions.this, "Error updating session status", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }

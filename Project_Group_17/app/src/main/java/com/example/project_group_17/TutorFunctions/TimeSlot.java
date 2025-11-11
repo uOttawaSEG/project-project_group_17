@@ -10,6 +10,8 @@ import android.widget.Toast;
 
 import android.text.TextUtils;
 
+import com.example.project_group_17.UserHierarchy.User;
+
 
 public class TimeSlot implements Serializable, Comparable<TimeSlot> {
 
@@ -132,6 +134,13 @@ public class TimeSlot implements Serializable, Comparable<TimeSlot> {
 
     public void cancel(){
         this.status = Status.CANCELLED;
+    }
+    public void book(User u){
+        this.status = Status.BOOKED;
+        this.studentID = u.getId();
+    }
+    public boolean isPending(){
+        return getStatus() == Status.PENDING;
     }
     public boolean isCancelled(){
         return getStatus() == Status.CANCELLED;

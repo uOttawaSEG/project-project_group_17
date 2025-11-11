@@ -77,10 +77,12 @@ public class PreviousSessions extends AppCompatActivity {
                     for (DataSnapshot scheduleSnapshot : snapshot.getChildren()) {
                         GenericTypeIndicator<List<TimeSlot>> t = new GenericTypeIndicator<List<TimeSlot>>() {};
                         List<TimeSlot> allSlots = scheduleSnapshot.child("timeSlots").getValue(t);
-                        for(int i = 0; i< Objects.requireNonNull(allSlots).size(); i++){
-                            TimeSlot slot = allSlots.get(i);
-                            if(slot.getPast()){
-                                upComingSlots.add(slot);
+                        if(allSlots !=null) {
+                            for (int i = 0; i < Objects.requireNonNull(allSlots).size(); i++) {
+                                TimeSlot slot = allSlots.get(i);
+                                if (slot.getPast()) {
+                                    upComingSlots.add(slot);
+                                }
                             }
                         }
                         //Get the schedule that that is related to the tutor that opened this class
