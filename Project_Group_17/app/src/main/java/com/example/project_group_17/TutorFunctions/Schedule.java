@@ -55,10 +55,6 @@ public class Schedule implements Serializable {
         return false;
     }
 
-    public void clear() {
-        timeSlots.clear();
-    }
-
     @Override
     public String toString() {
         return "Schedule{userID=" + userID +
