@@ -42,13 +42,8 @@ public class Schedule implements Serializable {
         iterator.add(timeSlot);
     }
 
-    public boolean delete(TimeSlot timeSlot, String deleterId) { // Hi Lucas, deleterId is the ID of the tutor attempting to remove the timeslot. It will automatically compare the deleterId to the tutorId of the timeslot
-        if (deleterId.equals(timeSlot.getTutorID())) {
-            timeSlots.remove(timeSlot);
-            return true;
-        } else {
-            return false;
-        }
+    public void delete(TimeSlot timeSlot) {
+        timeSlots.remove(timeSlot);
     }
 
     public boolean overlapChecking(String d, String s, String e) {
