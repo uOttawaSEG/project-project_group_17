@@ -10,6 +10,8 @@ import com.example.project_group_17.AdminFunctions.AdminInbox;
 import com.example.project_group_17.AdminFunctions.PendingRequests;
 import com.example.project_group_17.AdminFunctions.RejectedRequests;
 import com.example.project_group_17.R;
+import com.example.project_group_17.Screens.LoginScreen;
+import com.example.project_group_17.Screens.UserScreen;
 import com.example.project_group_17.TutorFunctions.ListDisplays.PendingSessions;
 import com.example.project_group_17.TutorFunctions.ListDisplays.PreviousSessions;
 import com.example.project_group_17.TutorFunctions.ListDisplays.UpcomingSessions;
@@ -41,6 +43,13 @@ public class TutorListView extends AppCompatActivity {
     }
     public void loadPending(View view){
         Intent intent = new Intent(TutorListView.this, PendingSessions.class);
+        intent.putExtra("userInfo", u);
+        startActivity(intent);
+        finish();
+    }
+
+    public void goBack(View view) {
+        Intent intent = new Intent(TutorListView.this, UserScreen.class);
         intent.putExtra("userInfo", u);
         startActivity(intent);
         finish();

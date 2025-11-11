@@ -46,6 +46,7 @@ public class PendingSessions extends AppCompatActivity {
 
         goBack.setOnClickListener(v ->{
             Intent intent = new Intent(com.example.project_group_17.TutorFunctions.ListDisplays.PendingSessions.this, TutorListView.class);
+            intent.putExtra("userInfo", u);
             startActivity(intent);
             finish();
         });
