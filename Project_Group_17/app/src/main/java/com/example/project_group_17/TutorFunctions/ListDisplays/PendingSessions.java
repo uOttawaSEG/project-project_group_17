@@ -35,6 +35,8 @@ import java.util.Objects;
 public class PendingSessions extends AppCompatActivity {
     DatabaseReference databaseSchedules;
     private Button goBack;
+    DatabaseReference scheduleReference;
+    Schedule schedule;
     List<TimeSlot> pendingSlots = new ArrayList<TimeSlot>();
     User u;
 
@@ -71,6 +73,10 @@ public class PendingSessions extends AppCompatActivity {
                 pendingSlots.clear();
                 if (snapshot.exists()) {
                     for (DataSnapshot scheduleSnapshot : snapshot.getChildren()) {
+                        String scheduleId = scheduleSnapshot.getKey();
+                        schedule = scheduleSnapshot.getValue(Schedule.class);
+                        scheduleReference = databaseSchedules.child(scheduleId);
+
                         GenericTypeIndicator<List<TimeSlot>> t = new GenericTypeIndicator<List<TimeSlot>>() {};
                         List<TimeSlot> allSlots = scheduleSnapshot.child("timeSlots").getValue(t);
                         if(allSlots !=null) {
@@ -183,9 +189,10 @@ public class PendingSessions extends AppCompatActivity {
     private void rejectRequest(@NonNull TimeSlot slot){
         //Cancels locally
         slot.cancel();
-
-
-        //Cancels in the database
+        schedule.delete(slot);
+        scheduleReference.setValue(schedule);
+    }
+    /*//Cancels in the database
         // Get the tutor schedule
         databaseSchedules.orderByChild("userID").equalTo(u.getId()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -213,6 +220,5 @@ public class PendingSessions extends AppCompatActivity {
             public void onCancelled(@NonNull DatabaseError error) {
                 Toast.makeText(PendingSessions.this, "Error updating session status", Toast.LENGTH_SHORT).show();
             }
-        });
-    }
+        });*/
 }
