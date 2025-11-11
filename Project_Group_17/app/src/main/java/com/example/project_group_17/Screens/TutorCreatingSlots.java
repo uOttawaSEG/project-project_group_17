@@ -2,12 +2,15 @@ package com.example.project_group_17.Screens;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.project_group_17.AdminFunctions.AdminInbox;
 import com.example.project_group_17.R;
 import com.example.project_group_17.TutorFunctions.Schedule;
 import com.example.project_group_17.TutorFunctions.TimeSlot;
@@ -113,6 +116,15 @@ public class TutorCreatingSlots extends AppCompatActivity {
             databaseSchedules.child(id).setValue(schedule);
             Toast.makeText(this, "Successfully created timeslot.", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    public void goBack(View view) {
+        Intent intent = new Intent(TutorCreatingSlots.this, UserScreen.class);
+        Serializable se = getIntent().getSerializableExtra("userInfo");
+        User u = (User) se;
+        intent.putExtra("userInfo", u);
+        startActivity(intent);
+        finish();
     }
 
 }

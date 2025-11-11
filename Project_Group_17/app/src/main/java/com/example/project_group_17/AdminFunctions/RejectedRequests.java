@@ -40,7 +40,7 @@ public class RejectedRequests extends AppCompatActivity {
         seePending = findViewById(R.id.seependingBtn);
 
         seePending.setOnClickListener(v ->{
-            Intent intent = new Intent(RejectedRequests.this, PendingRequests.class);
+            Intent intent = new Intent(RejectedRequests.this, AdminInbox.class);
             startActivity(intent);
             finish();
         });
