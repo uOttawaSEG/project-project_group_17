@@ -10,6 +10,7 @@ import android.widget.Toast;
 
 import android.text.TextUtils;
 
+import com.example.project_group_17.UserHierarchy.Student;
 import com.example.project_group_17.UserHierarchy.User;
 
 
@@ -31,6 +32,7 @@ public class TimeSlot implements Serializable, Comparable<TimeSlot> {
     private boolean auto;
     private String studentID;
     private String tutorID;
+    private Student student;
 
 
     public TimeSlot() {}
@@ -69,6 +71,9 @@ public class TimeSlot implements Serializable, Comparable<TimeSlot> {
 
     public String getStudentID() {
         return studentID;
+    }
+    public void setStudentID(String id){
+        this.studentID=id;
     }
 
     public String getTutorID() {
@@ -137,13 +142,27 @@ public class TimeSlot implements Serializable, Comparable<TimeSlot> {
     }
     public void book(User u){
         this.status = Status.BOOKED;
-        this.studentID = u.getId();
+        setStudentID(u.getId());
+        setStudent((Student)u);
     }
     public boolean isPending(){
         return getStatus() == Status.PENDING;
+    }
+    public boolean isBooked(){
+        return getStatus() == Status.BOOKED;
     }
     public boolean isCancelled(){
         return getStatus() == Status.CANCELLED;
     }
 
+    public Student getStudent(){
+        return this.student;
+    }
+    public void setStudent(Student student){
+        this.student=student;
+    }
+
+    public void setPending(){
+        this.status=Status.PENDING;
+    }
 }

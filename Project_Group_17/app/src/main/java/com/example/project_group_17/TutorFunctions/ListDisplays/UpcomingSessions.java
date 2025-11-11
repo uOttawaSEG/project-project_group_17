@@ -119,7 +119,34 @@ public class UpcomingSessions extends AppCompatActivity {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Cancel The Session?");
         //Should get the student attached to the timeslots information
-        builder.setMessage(selectedSession.toString());
+        if (selectedSession.isBooked()) {
+            DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference("Users");
+            usersRef.child(selectedSession.getStudentID()).addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    if (snapshot.exists()) {
+                        String firstName = snapshot.child("firstName").getValue(String.class);
+                        String lastName = snapshot.child("lastName").getValue(String.class);
+                        String email = snapshot.child("email").getValue(String.class);
+                        String phoneNumber = snapshot.child("phoneNumber").getValue(String.class);
+                        builder.setMessage("Booked by: " + firstName+" "+lastName+", Email: "+email+", PhoneNumber: "+phoneNumber);
+                    } else {
+                        builder.setMessage("Booked by unknown student");
+                    }
+                    builder.show();
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                    builder.setMessage("Error loading student info");
+                    builder.show();
+                }
+            });
+        } else {
+            builder.setMessage(selectedSession.toString());
+            builder.show();
+        }
+
 
         builder.setNegativeButton("Cancel Session", new DialogInterface.OnClickListener() {
             @Override
