@@ -18,6 +18,7 @@ import com.example.project_group_17.R;
 import com.example.project_group_17.Screens.UserScreen;
 import com.example.project_group_17.TutorFunctions.ListDisplays.UpcomingSessions;
 import com.example.project_group_17.TutorFunctions.TimeSlot;
+import com.example.project_group_17.UserHierarchy.Student;
 import com.example.project_group_17.UserHierarchy.User;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -35,14 +36,22 @@ public class StudentSessions extends AppCompatActivity {
     DatabaseReference databaseSchedules;
     private Button goBack;
     List<TimeSlot> availableSlots = new ArrayList<TimeSlot>();
-    User u;
+    Student u;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.student_sessions);
 
         Serializable se = getIntent().getSerializableExtra("userInfo");
-        u = (User) se;
+        if(se instanceof Student){
+            u = (Student) se;
+        } else{
+            Toast.makeText(StudentSessions.this, "Not a Student User", Toast.LENGTH_LONG).show();
+            Intent intent = new Intent(StudentSessions.this, UserScreen.class);
+            intent.putExtra("userInfo", se);
+            startActivity(intent);
+            finish();
+        }
 
         goBack = findViewById(R.id.gobackBtn);
 
@@ -112,10 +121,9 @@ public class StudentSessions extends AppCompatActivity {
         builder.setNegativeButton("Request Session", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                sessionRequested(selectedSession);
+                sessionRequested(selectedSession, adapter);
                 availableSlots.remove(selectedSession);
                 adapter.notifyDataSetChanged();
-                Toast.makeText(StudentSessions.this, "Session Requested", Toast.LENGTH_SHORT).show();
             }
         });
         builder.setNeutralButton("Exit", null);
@@ -123,14 +131,16 @@ public class StudentSessions extends AppCompatActivity {
     }
 
     // updating session status to pending and filling in student id
-    private void sessionRequested(@NonNull TimeSlot slot) {
+    private void sessionRequested(@NonNull TimeSlot slot, ArrayAdapter<TimeSlot> adapter) {
+        slot.setStudent((Student) u);
+        slot.setPending();
         databaseSchedules.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot scheduleSnapshot : snapshot.getChildren()) {
                     for (DataSnapshot slotSnapshot : scheduleSnapshot.child("timeSlots").getChildren()) {
                         TimeSlot dbSlot = slotSnapshot.getValue(TimeSlot.class);
-                        if (dbSlot != null && dbSlot.equals(slot)) {
+                        if (dbSlot != null && Objects.equals(dbSlot.getSlotID(), slot.getSlotID())) {
                             slotSnapshot.getRef().child("status").setValue("PENDING")
                                     .addOnFailureListener(e ->
                                             Toast.makeText(StudentSessions.this, "Error requesting: " + e.getMessage(), Toast.LENGTH_LONG).show()
@@ -139,6 +149,9 @@ public class StudentSessions extends AppCompatActivity {
                                     .addOnFailureListener(e ->
                                             Toast.makeText(StudentSessions.this, "Error requesting: " + e.getMessage(), Toast.LENGTH_LONG).show()
                                     );
+                            availableSlots.remove(slot);
+                            adapter.notifyDataSetChanged();
+                            Toast.makeText(StudentSessions.this, "Session Requested", Toast.LENGTH_LONG).show();
                             return;
                         }
                     }

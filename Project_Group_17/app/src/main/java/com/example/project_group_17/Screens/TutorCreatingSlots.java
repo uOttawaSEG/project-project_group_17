@@ -112,7 +112,8 @@ public class TutorCreatingSlots extends AppCompatActivity {
         } else if (schedule.overlapChecking(d, start, end)) {
             Toast.makeText(this, "Conflicting Slot: A timeslot is already registered within that period", Toast.LENGTH_SHORT).show();
         } else {
-            TimeSlot timeSlot = new TimeSlot(d, start, end, auto, tutorID);
+            String slotID = databaseSchedules.child(id).child("timeSlots").push().getKey();
+            TimeSlot timeSlot = new TimeSlot(d, start, end, auto, tutorID, slotID);
             schedule.add(timeSlot);
             databaseSchedules.child(id).setValue(schedule);
             Toast.makeText(this, "Successfully created timeslot.", Toast.LENGTH_SHORT).show();

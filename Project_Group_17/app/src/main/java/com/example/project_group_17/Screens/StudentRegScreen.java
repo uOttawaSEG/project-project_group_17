@@ -47,7 +47,7 @@ public class StudentRegScreen extends AppCompatActivity {
 
             if (validate()) {
                 registerStudent();
-                Intent intent = new Intent(StudentRegScreen.this, UserScreen.class);
+                Intent intent = new Intent(StudentRegScreen.this, LoginScreen.class);
                 startActivity(intent);
                 finish();
             } else {

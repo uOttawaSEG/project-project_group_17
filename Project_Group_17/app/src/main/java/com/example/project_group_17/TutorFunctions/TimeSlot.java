@@ -10,6 +10,7 @@ import android.widget.Toast;
 
 import android.text.TextUtils;
 
+import com.example.project_group_17.UserHierarchy.Student;
 import com.example.project_group_17.UserHierarchy.User;
 
 
@@ -31,11 +32,14 @@ public class TimeSlot implements Serializable, Comparable<TimeSlot> {
     private boolean auto;
     private String studentID;
     private String tutorID;
+    private Student student;
+
+    private String slotID;
 
 
     public TimeSlot() {}
 
-    public TimeSlot(String date, String start, String end, boolean auto, String tutorID) {
+    public TimeSlot(String date, String start, String end, boolean auto, String tutorID, String slotID) {
 
         this.date = date;
         this.start = start;
@@ -44,7 +48,7 @@ public class TimeSlot implements Serializable, Comparable<TimeSlot> {
         this.auto = auto;
         this.studentID = "Not added yet";
         this.tutorID = tutorID;
-
+        this.slotID = slotID;
     }
 
     public String getDate() {
@@ -69,6 +73,16 @@ public class TimeSlot implements Serializable, Comparable<TimeSlot> {
 
     public String getStudentID() {
         return studentID;
+    }
+    public void setStudentID(String id){
+        this.studentID=id;
+    }
+
+    public String getSlotID() {
+        return slotID;
+    }
+    public void setSlotID(String slotID){
+        this.slotID=slotID;
     }
 
     public String getTutorID() {
@@ -135,15 +149,30 @@ public class TimeSlot implements Serializable, Comparable<TimeSlot> {
     public void cancel(){
         this.status = Status.CANCELLED;
     }
-    public void book(User u){
+
+    //Book eventually needs to assign the student chosen for the slot
+    public void book(){
         this.status = Status.BOOKED;
-        this.studentID = u.getId();
     }
     public boolean isPending(){
         return getStatus() == Status.PENDING;
+    }
+    public boolean isBooked(){
+        return getStatus() == Status.BOOKED;
     }
     public boolean isCancelled(){
         return getStatus() == Status.CANCELLED;
     }
 
+    public Student getStudent(){
+        return this.student;
+    }
+
+    public void setStudent(Student student){
+        this.student=student;
+    }
+
+    public void setPending(){
+        this.status=Status.PENDING;
+    }
 }

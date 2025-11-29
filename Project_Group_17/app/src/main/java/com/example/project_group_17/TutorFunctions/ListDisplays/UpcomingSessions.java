@@ -81,7 +81,7 @@ public class UpcomingSessions extends AppCompatActivity {
                         if(allSlots !=null){
                             for(int i = 0; i< Objects.requireNonNull(allSlots).size(); i++){
                                 TimeSlot slot = allSlots.get(i);
-                                if(!slot.getPast()&&!slot.isCancelled()){
+                                if(!slot.getPast()&&!slot.isCancelled()&&!slot.isPending()){
                                     upComingSlots.add(slot);
                                 }
                             }
@@ -118,9 +118,6 @@ public class UpcomingSessions extends AppCompatActivity {
     private void approveOrReject(TimeSlot selectedSession, List<TimeSlot> upComingSlots, ArrayAdapter<TimeSlot> adapter){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Cancel The Session?");
-        //Should get the student attached to the timeslots information
-        builder.setMessage(selectedSession.toString());
-
         builder.setNegativeButton("Cancel Session", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -132,8 +129,41 @@ public class UpcomingSessions extends AppCompatActivity {
         });
 
         builder.setNeutralButton("Exit", null);
-        builder.show();
 
+        //Should get the student attached to the timeslots information
+        if (selectedSession.isBooked()) {
+            DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference("Users");
+            usersRef.child(selectedSession.getStudentID()).addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    String msg;
+                    if (snapshot.exists()) {
+                        String firstName = snapshot.child("firstName").getValue(String.class);
+                        String lastName = snapshot.child("lastName").getValue(String.class);
+                        String email = snapshot.child("email").getValue(String.class);
+                        String phoneNumber = snapshot.child("phoneNumber").getValue(String.class);
+
+                        msg = "Booked by: " + firstName + " " + lastName +
+                                "\nEmail: " + email +
+                                "\nPhone: " + phoneNumber +
+                                "\n\nSession Time: " + selectedSession.toString();
+                    } else {
+                        msg = "Booked by unknown student\n\nSession Time: " + selectedSession.toString();
+                    }
+                    builder.setMessage(msg);
+                    builder.show();
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                    builder.setMessage("Error loading student info");
+                    builder.show();
+                }
+            });
+        } else {
+            builder.setMessage(selectedSession.toString());
+            builder.show();
+        }
     }
 
     private void cancelSession(@NonNull TimeSlot slot) {
@@ -148,7 +178,7 @@ public class UpcomingSessions extends AppCompatActivity {
                 for (DataSnapshot scheduleSnapshot : snapshot.getChildren()) {
                     for (DataSnapshot slotSnapshot : scheduleSnapshot.child("timeSlots").getChildren()) {
                         TimeSlot dbSlot = slotSnapshot.getValue(TimeSlot.class);
-                        if (dbSlot != null && dbSlot.equals(slot)) {
+                        if (dbSlot != null && Objects.equals(dbSlot.getSlotID(), slot.getSlotID())) {
                             // Update status field in Firebase
 
                             slotSnapshot.getRef().child("status").setValue("CANCELLED")

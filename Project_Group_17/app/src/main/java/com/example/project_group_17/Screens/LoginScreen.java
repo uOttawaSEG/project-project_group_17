@@ -13,6 +13,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.project_group_17.AdminFunctions.AdminInbox;
 import com.example.project_group_17.R;
 import com.example.project_group_17.UserHierarchy.Admin;
+import com.example.project_group_17.UserHierarchy.Student;
+import com.example.project_group_17.UserHierarchy.Tutor;
 import com.example.project_group_17.UserHierarchy.User;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -68,7 +70,15 @@ public class LoginScreen extends AppCompatActivity {
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     if (snapshot.exists()) {
                         for (DataSnapshot userSnapshot : snapshot.getChildren()) {
-                            User user = userSnapshot.getValue(User.class);
+                            String type = userSnapshot.child("userType").getValue(String.class);
+                            User user;
+                            if(type.equals("Student")){
+                                user = userSnapshot.getValue(Student.class);
+                            } else if(type.equals("Tutor")){
+                                user = userSnapshot.getValue(Tutor.class);
+                            } else{
+                                user = userSnapshot.getValue(User.class);
+                            }
                              if(user.getRegistrationStatus().equals("pending")){
                                 Toast.makeText(LoginScreen.this, "Your account approval is pending. Please try again later.", Toast.LENGTH_LONG).show();
                             }
