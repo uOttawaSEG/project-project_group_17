@@ -2,12 +2,19 @@ package com.example.project_group_17.UserHierarchy;
 
 import androidx.annotation.NonNull;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Tutor extends User {
 
     private String degree;
     private List<String> courses;
+
+    private double averageRating;
+
+    private int numOfRatings;
+
+    private List<String> ratedBy;
 
     public Tutor() { // hey guys it's Victor please don't remove this I know it looks useless but Firebase will decapitate itself if there isn't a no arg constructor
         super();
@@ -17,6 +24,9 @@ public class Tutor extends User {
         super("Tutor", id, firstName, lastName, email, password, phone);
         this.degree = degree;
         this.courses = courses;
+        this.averageRating = 0;
+        this.numOfRatings = 0;
+        this.ratedBy = new ArrayList<>();
     }
     public String getDegree() {
         return degree;
@@ -24,6 +34,19 @@ public class Tutor extends User {
 
     public List<String> getCourses() {
         return courses;
+    }
+
+    public double getAvgRating() { return this.averageRating; }
+
+    public List<String> getRatedBy() {return this.ratedBy;}
+
+    public void addRating(double rating) {
+        this.numOfRatings++;
+        this.averageRating = this.averageRating + (rating - this.averageRating) / this.numOfRatings;
+    }
+
+    public void addRatedBy(String id) {
+        this.ratedBy.add(id);
     }
 
     @Override @NonNull
