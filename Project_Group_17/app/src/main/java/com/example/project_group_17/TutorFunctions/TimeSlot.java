@@ -36,6 +36,8 @@ public class TimeSlot implements Serializable, Comparable<TimeSlot> {
 
     private String slotID;
 
+    private List<String> studentsRequesting;
+
 
     public TimeSlot() {}
 
@@ -49,6 +51,7 @@ public class TimeSlot implements Serializable, Comparable<TimeSlot> {
         this.studentID = "Not added yet";
         this.tutorID = tutorID;
         this.slotID = slotID;
+        studentsRequesting=new ArrayList<>();
     }
 
     public String getDate() {
@@ -174,5 +177,32 @@ public class TimeSlot implements Serializable, Comparable<TimeSlot> {
 
     public void setPending(){
         this.status=Status.PENDING;
+    }
+    public void addRequest(String id){
+        if(studentsRequesting ==null){
+            studentsRequesting=new ArrayList<>();
+        }
+        studentsRequesting.add(id);
+    }
+    public void clearRequests(){
+        if(studentsRequesting!=null) {
+            studentsRequesting.clear();
+        }else{
+            studentsRequesting=new ArrayList<>();
+        }
+    }
+    public List<String> getStudentsRequesting() {
+        return studentsRequesting;
+    }
+    public int numberOfRequests(){
+        if(studentsRequesting==null){
+            return 0;
+        }
+        else {
+            return studentsRequesting.size();
+        }
+    }
+    public void removeRequest(String request){
+        studentsRequesting.remove(request);
     }
 }

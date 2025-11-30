@@ -118,112 +118,51 @@ public class PendingSessions extends AppCompatActivity {
     //Creates a new alert dialog with the users information where the admin can either approve or reject the request
     private void approveOrReject(TimeSlot selectedSlot, List<TimeSlot> pendingRequests, ArrayAdapter<TimeSlot> adapter){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Approve or Reject the request.");
+        builder.setTitle("TimeSlot");
 
-        builder.setPositiveButton("Approve", new DialogInterface.OnClickListener() {
+        builder.setPositiveButton("View Requests", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                approveRequest(selectedSlot, adapter);
-                pendingRequests.remove(selectedSlot);
+                if(selectedSlot.numberOfRequests() ==0){
+                    Toast.makeText(com.example.project_group_17.TutorFunctions.ListDisplays.PendingSessions.this, "Sorry no students have requested this slot yet. ", Toast.LENGTH_LONG).show();
+                }else{
+                    Intent intent = new Intent(com.example.project_group_17.TutorFunctions.ListDisplays.PendingSessions.this, ViewRequests.class);
+                    intent.putExtra("selectedSlot", selectedSlot);
+                    intent.putExtra("userInfo", u);
+                    startActivity(intent);
+                    finish();
+                }
+
+                /*pendingRequests.remove(selectedSlot);
                 adapter.notifyDataSetChanged();
                 Toast.makeText(PendingSessions.this, "Request Approved", Toast.LENGTH_SHORT).show();
+                */
             }
         });
-        builder.setNegativeButton("Reject", new DialogInterface.OnClickListener() {
+        builder.setNegativeButton("Cancel Session", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                rejectRequest(selectedSlot, adapter);
+                cancelSession(selectedSlot, selectedSlot.getStudentID(),adapter);
                 pendingRequests.remove(selectedSlot);
                 adapter.notifyDataSetChanged();
-                Toast.makeText(PendingSessions.this, "Request Rejected", Toast.LENGTH_SHORT).show();
+                Toast.makeText(PendingSessions.this, "Session Cancelled", Toast.LENGTH_SHORT).show();
             }
         });
 
-        builder.setNeutralButton("Cancel", null);
+        builder.setNeutralButton("Exit", null);
 
-        if (selectedSlot.isPending()) {
-            DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference("Users");
-            usersRef.child(selectedSlot.getStudentID()).addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    String msg;
-                    if (snapshot.exists()) {
-                        String firstName = snapshot.child("firstName").getValue(String.class);
-                        String lastName = snapshot.child("lastName").getValue(String.class);
-                        String email = snapshot.child("email").getValue(String.class);
-                        String phoneNumber = snapshot.child("phoneNumber").getValue(String.class);
-
-                        msg = "Requested by: " + firstName + " " + lastName +
-                                "\nEmail: " + email +
-                                "\nPhone: " + phoneNumber +
-                                "\n\nSession Time: " + selectedSlot.toString();
-                    } else {
-                        msg = "Booked by unknown student\n\nSession Time: " + selectedSlot.toString();
-                    }
-                    builder.setMessage(msg);
-                    builder.show();
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {
-                    builder.setMessage("Error loading student info");
-                    builder.show();
-                }
-            });
-        } else {
-            builder.setMessage(selectedSlot.toString());
-            builder.show();
-        }
+        String msg;
+        msg = "This slot is scheduled for "+ selectedSlot.getDate()+
+                "\n From "+selectedSlot.getStart()+" to "+selectedSlot.getEnd()+
+                "\n And has been requested by "+selectedSlot.numberOfRequests()+" students.";
+        builder.setMessage(msg);
+        builder.show();
     }
 
-    private void approveRequest(@NonNull TimeSlot slot, ArrayAdapter<TimeSlot> adapter){
-        //Books locally
-        slot.book();
-        //slot.setStudentID(u.getId());
-
-
-        //Cancels in the database
-        // Get the tutor schedule
-        databaseSchedules.orderByChild("userID").equalTo(u.getId()).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot scheduleSnapshot : snapshot.getChildren()) {
-                    for (DataSnapshot slotSnapshot : scheduleSnapshot.child("timeSlots").getChildren()) {
-                        TimeSlot dbSlot = slotSnapshot.getValue(TimeSlot.class);
-                        if (dbSlot != null && Objects.equals(dbSlot.getSlotID(), slot.getSlotID())) {
-                            // Update status field in Firebase
-
-                            slotSnapshot.getRef().child("status").setValue("BOOKED")
-                                    .addOnFailureListener(e ->
-                                            Toast.makeText(PendingSessions.this, "Error updating session: " + e.getMessage(), Toast.LENGTH_LONG).show()
-                                    );
-                            //This doesn't make much sense at all and I have no idea what I was thinking when I added it
-                            /*slotSnapshot.getRef().child("studentID").setValue(u.getId())
-                                    .addOnSuccessListener(aVoid ->
-                                            Toast.makeText(PendingSessions.this, "Session cancelled successfully", Toast.LENGTH_SHORT).show()
-                                    )
-                                    .addOnFailureListener(e ->
-                                            Toast.makeText(PendingSessions.this, "Error updating session: " + e.getMessage(), Toast.LENGTH_LONG).show()
-                                    );*/
-                            pendingSlots.remove(slot);
-                            adapter.notifyDataSetChanged();
-                            Toast.makeText(PendingSessions.this, "Session Booked", Toast.LENGTH_LONG).show();
-                            return;
-                        }
-                    }
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(PendingSessions.this, "Error updating session status", Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-    private void rejectRequest(@NonNull TimeSlot slot, ArrayAdapter<TimeSlot> adapter){
-        //Cancels locally
-        slot.cancel();
-        slot.setStudentID("Available");
+    private void cancelSession(@NonNull TimeSlot slot, String studentID,ArrayAdapter<TimeSlot> adapter){
+        //Removes the request
+        slot.clearRequests();
+        slot.setStudentID("Cancelled");
 
 
         //Cancels in the database
@@ -238,14 +177,15 @@ public class PendingSessions extends AppCompatActivity {
                             // Update status field in Firebase
 
                             //need to add functionality for when a request is rejected
-                            slotSnapshot.getRef().child("status").setValue("PENDING")
+                            slotSnapshot.getRef().child("status").setValue("CANCELLED")
                                     .addOnFailureListener(e ->
                                             Toast.makeText(PendingSessions.this, "Error updating session: " + e.getMessage(), Toast.LENGTH_LONG).show()
                                     );
-                            slotSnapshot.getRef().child("studentID").setValue("Available")
-                                    .addOnSuccessListener(aVoid ->
-                                            Toast.makeText(PendingSessions.this, "Session cancelled successfully", Toast.LENGTH_SHORT).show()
-                                    )
+                            slotSnapshot.getRef().child("studentsRequesting").setValue(slot.getStudentsRequesting())
+                                    .addOnFailureListener(e ->
+                                            Toast.makeText(PendingSessions.this, "Error requesting: " + e.getMessage(), Toast.LENGTH_LONG).show()
+                                    );
+                            slotSnapshot.getRef().child("studentID").setValue("Cancelled")
                                     .addOnFailureListener(e ->
                                             Toast.makeText(PendingSessions.this, "Error updating session: " + e.getMessage(), Toast.LENGTH_LONG).show()
                                     );
@@ -265,3 +205,57 @@ public class PendingSessions extends AppCompatActivity {
         });
     }
 }
+/*private void approveRequest(@NonNull TimeSlot slot, String studentID, ArrayAdapter<TimeSlot> adapter){
+        //Books locally
+        slot.book();
+        //Clears the list of requesting students
+        slot.clearRequests();
+        slot.setStudentID(studentID);
+
+
+        //Cancels in the database
+        // Get the tutor schedule
+        databaseSchedules.orderByChild("userID").equalTo(u.getId()).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot scheduleSnapshot : snapshot.getChildren()) {
+                    for (DataSnapshot slotSnapshot : scheduleSnapshot.child("timeSlots").getChildren()) {
+                        TimeSlot dbSlot = slotSnapshot.getValue(TimeSlot.class);
+                        if (dbSlot != null && Objects.equals(dbSlot.getSlotID(), slot.getSlotID())) {
+                            // Update status field in Firebase
+
+                            slotSnapshot.getRef().child("status").setValue("BOOKED")
+                                    .addOnFailureListener(e ->
+                                            Toast.makeText(PendingSessions.this, "Error updating session: " + e.getMessage(), Toast.LENGTH_LONG).show()
+                                    );
+                            slotSnapshot.getRef().child("studentID").setValue(studentID)
+                                    .addOnFailureListener(e ->
+                                            Toast.makeText(PendingSessions.this, "Error updating session: " + e.getMessage(), Toast.LENGTH_LONG).show()
+                                    );
+                            slotSnapshot.getRef().child("studentsRequesting").setValue(slot.getStudentsRequesting())
+                                    .addOnFailureListener(e ->
+                                            Toast.makeText(PendingSessions.this, "Error requesting: " + e.getMessage(), Toast.LENGTH_LONG).show()
+                                    );
+                            //This doesn't make much sense at all and I have no idea what I was thinking when I added it
+                            slotSnapshot.getRef().child("studentID").setValue(u.getId())
+                                    .addOnSuccessListener(aVoid ->
+                                            Toast.makeText(PendingSessions.this, "Session cancelled successfully", Toast.LENGTH_SHORT).show()
+                                    )
+                                    .addOnFailureListener(e ->
+                                            Toast.makeText(PendingSessions.this, "Error updating session: " + e.getMessage(), Toast.LENGTH_LONG).show()
+                                    );
+                            pendingSlots.remove(slot);
+                            adapter.notifyDataSetChanged();
+                            Toast.makeText(PendingSessions.this, "Session Booked", Toast.LENGTH_LONG).show();
+                            return;
+                                    }
+                                    }
+                                    }
+                                    }
+
+@Override
+public void onCancelled(@NonNull DatabaseError error) {
+    Toast.makeText(PendingSessions.this, "Error updating session status", Toast.LENGTH_SHORT).show();
+}
+        });
+                }*/

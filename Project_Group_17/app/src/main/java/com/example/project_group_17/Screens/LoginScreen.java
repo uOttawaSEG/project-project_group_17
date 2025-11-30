@@ -2,6 +2,7 @@ package com.example.project_group_17.Screens;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -51,6 +52,7 @@ public class LoginScreen extends AppCompatActivity {
         EditText passwordView = findViewById(R.id.passwordId);
         String enteredEmail = emailView.getText().toString();
         String enteredPassword = passwordView.getText().toString();
+        Log.d("DEBUG_LOGIN", "Entered Email: [" + enteredEmail + "]");
         //Checks to see if the user entered the admin login information
         if(enteredEmail.equals(admin.getUsername())&&enteredPassword.equals(admin.getPassword())){
             Intent intent = new Intent(LoginScreen.this, AdminInbox.class);
@@ -68,6 +70,8 @@ public class LoginScreen extends AppCompatActivity {
             databaseUsers.orderByChild("email").equalTo(enteredEmail).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    Log.d("DEBUG_LOGIN", "Snapshot exists: " + snapshot.exists());
+                    Log.d("DEBUG_LOGIN", "Snapshot children: " + snapshot.getValue());
                     if (snapshot.exists()) {
                         for (DataSnapshot userSnapshot : snapshot.getChildren()) {
                             String type = userSnapshot.child("userType").getValue(String.class);

@@ -84,7 +84,7 @@ public class StudentSessions extends AppCompatActivity {
                         if(allSlots !=null) {
                             for (int i = 0; i < Objects.requireNonNull(allSlots).size(); i++) {
                                 TimeSlot slot = allSlots.get(i);
-                                if (slot.getStatus() == TimeSlot.Status.FREE) {
+                                if (!slot.getPast() &&(slot.getStatus() == TimeSlot.Status.FREE||slot.getStatus()==TimeSlot.Status.PENDING)) {
                                     availableSlots.add(slot);
                                 }
                             }
@@ -132,7 +132,7 @@ public class StudentSessions extends AppCompatActivity {
 
     // updating session status to pending and filling in student id
     private void sessionRequested(@NonNull TimeSlot slot, ArrayAdapter<TimeSlot> adapter) {
-        slot.setStudent((Student) u);
+        slot.addRequest(u.getId());
         slot.setPending();
         databaseSchedules.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -145,7 +145,7 @@ public class StudentSessions extends AppCompatActivity {
                                     .addOnFailureListener(e ->
                                             Toast.makeText(StudentSessions.this, "Error requesting: " + e.getMessage(), Toast.LENGTH_LONG).show()
                                     );
-                            slotSnapshot.getRef().child("studentID").setValue(u.getId())
+                            slotSnapshot.getRef().child("studentsRequesting").setValue(slot.getStudentsRequesting())
                                     .addOnFailureListener(e ->
                                             Toast.makeText(StudentSessions.this, "Error requesting: " + e.getMessage(), Toast.LENGTH_LONG).show()
                                     );

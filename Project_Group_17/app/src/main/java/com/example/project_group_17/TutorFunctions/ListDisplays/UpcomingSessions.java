@@ -81,7 +81,7 @@ public class UpcomingSessions extends AppCompatActivity {
                         if(allSlots !=null){
                             for(int i = 0; i< Objects.requireNonNull(allSlots).size(); i++){
                                 TimeSlot slot = allSlots.get(i);
-                                if(!slot.getPast()&&!slot.isCancelled()&&!slot.isPending()){
+                                if(!slot.getPast()&&!slot.isCancelled()){
                                     upComingSlots.add(slot);
                                 }
                             }
@@ -180,14 +180,18 @@ public class UpcomingSessions extends AppCompatActivity {
                         TimeSlot dbSlot = slotSnapshot.getValue(TimeSlot.class);
                         if (dbSlot != null && Objects.equals(dbSlot.getSlotID(), slot.getSlotID())) {
                             // Update status field in Firebase
-
-                            slotSnapshot.getRef().child("status").setValue("CANCELLED")
-                                    .addOnSuccessListener(aVoid ->
-                                            Toast.makeText(UpcomingSessions.this, "Session cancelled successfully", Toast.LENGTH_SHORT).show()
-                                    )
-                                    .addOnFailureListener(e ->
-                                            Toast.makeText(UpcomingSessions.this, "Error updating session: " + e.getMessage(), Toast.LENGTH_LONG).show()
-                                    );
+                            if(slot.isBooked()){
+                                Toast.makeText(UpcomingSessions.this, "Cannot Cancel a booked session", Toast.LENGTH_LONG).show();
+                            }
+                            else{
+                                slotSnapshot.getRef().child("status").setValue("CANCELLED")
+                                        .addOnSuccessListener(aVoid ->
+                                                Toast.makeText(UpcomingSessions.this, "Session cancelled successfully", Toast.LENGTH_SHORT).show()
+                                        )
+                                        .addOnFailureListener(e ->
+                                                Toast.makeText(UpcomingSessions.this, "Error updating session: " + e.getMessage(), Toast.LENGTH_LONG).show()
+                                        );
+                            }
                             return;
                         }
                     }

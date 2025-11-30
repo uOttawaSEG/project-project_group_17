@@ -73,7 +73,15 @@
             android:exported="true">
         </activity>
         <activity
+            android:name=".TutorFunctions.ListDisplays.ViewRequests"
+            android:exported="true">
+        </activity>
+        <activity
             android:name=".StudentFunctions.StudentSessions"
+            android:exported="true">
+        </activity>
+        <activity
+            android:name=".StudentFunctions.UpcomingSessions"
             android:exported="true">
         </activity>
     </application>
