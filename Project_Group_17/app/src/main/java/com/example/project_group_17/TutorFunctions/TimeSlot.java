@@ -40,7 +40,8 @@ public class TimeSlot implements Serializable, Comparable<TimeSlot> {
     private String slotID;
 
     private List<String> studentsRequesting;
-
+    private boolean cancelled;
+    private String tutorRatingStar;
 
     public TimeSlot() {}
 
@@ -208,6 +209,9 @@ public class TimeSlot implements Serializable, Comparable<TimeSlot> {
         }
     }
     public List<String> getStudentsRequesting() {
+        if(studentsRequesting==null){
+            studentsRequesting=new ArrayList<>();
+        }
         return studentsRequesting;
     }
     public int numberOfRequests(){
@@ -219,6 +223,9 @@ public class TimeSlot implements Serializable, Comparable<TimeSlot> {
         }
     }
     public void removeRequest(String request){
+        if(studentsRequesting==null){
+            studentsRequesting=new ArrayList<>();
+        }
         studentsRequesting.remove(request);
     }
 
@@ -231,4 +238,10 @@ public class TimeSlot implements Serializable, Comparable<TimeSlot> {
     public void setStudentsRequesting(List<String> studentsRequesting) {
         this.studentsRequesting = studentsRequesting;
     }
+    //Apparently firebase needs this
+    public boolean isCancelledField() { return cancelled; }
+    public void setCancelled(boolean cancelled) { this.cancelled = cancelled; }
+
+    public String getTutorRatingStarField() { return tutorRatingStar; }
+    public void setTutorRatingStar(String tutorRatingStar) { this.tutorRatingStar = tutorRatingStar; }
 }

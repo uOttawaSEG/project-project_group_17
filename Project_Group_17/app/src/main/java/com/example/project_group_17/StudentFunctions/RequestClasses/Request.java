@@ -4,6 +4,7 @@ import android.widget.Toast;
 
 import java.io.Serializable;
 
+import java.text.ParseException;
 import java.util.*;
 
 import android.widget.Toast;
@@ -81,7 +82,7 @@ public class Request implements Serializable, Comparable<com.example.project_gro
     public String getTutorRating() {
         return tutorRating;
     }
-    public void setTutorNRating(String rating){
+    public void setTutorRating(String rating){
         this.tutorRating=rating;
     }
 
@@ -186,4 +187,26 @@ public class Request implements Serializable, Comparable<com.example.project_gro
     public void setEnd(String end) { this.end = end; }
     public void setStatus(com.example.project_group_17.StudentFunctions.RequestClasses.Request.Status status) { this.status = status; }
     public void setTutorID(String tutorID) { this.tutorID = tutorID; }
+
+    public boolean isWithin24Hrs() throws ParseException {
+        try{
+            String dateTimeString = date+" "+start;
+            java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault());
+            Date sessionDate = sdf.parse(dateTimeString);
+
+            if(sessionDate==null){
+                return false;
+            }
+            long now = System.currentTimeMillis();
+            long sessionTime = sessionDate.getTime();
+
+            long difference = sessionTime-now;
+
+            long twentyFourHrsInmills = 24L*60*60*1000;
+            return difference<=twentyFourHrsInmills;
+        } catch(ParseException e){
+            e.printStackTrace();
+            return false;
+        }
+    }
 }
