@@ -18,7 +18,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:onClick="loadUpcoming"
-            android:text="Upcoming Sessions" />
+            android:text="Upcoming" />
 
         <Button
             android:id="@+id/loadPrevious"
@@ -26,20 +26,19 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:onClick="loadPrevious"
-            android:text="Previous Sessions" />
+            android:text="Previous" />
     </LinearLayout>
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="87dp"
         android:orientation="horizontal">
-
         <Button
-            android:id="@+id/loadMakeRequest"
+            android:id="@+id/loadPending"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:onClick="loadMakeRequest"
-            android:text="Make Request" />
+            android:onClick="loadAvailable"
+            android:text="Available" />
         <Button
             android:id="@+id/loadRequests"
             android:layout_width="wrap_content"

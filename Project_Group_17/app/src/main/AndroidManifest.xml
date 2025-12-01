@@ -96,6 +96,14 @@
             android:name=".StudentFunctions.StudentPreviousSessions"
             android:exported="true">
         </activity>
+        <activity
+            android:name=".StudentFunctions.PastSessions"
+            android:exported="true">
+        </activity>
+        <activity
+            android:name=".StudentFunctions.StudentListView"
+            android:exported="true">
+        </activity>
     </application>
 
 </manifest>

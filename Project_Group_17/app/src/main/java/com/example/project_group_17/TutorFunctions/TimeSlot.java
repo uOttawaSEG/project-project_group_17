@@ -32,8 +32,10 @@ public class TimeSlot implements Serializable, Comparable<TimeSlot> {
     private boolean auto;
     private String studentID;
     private String tutorID;
-    private String tutorFirstName;
-    private String tutorLastName;
+
+    private String tutorName;
+
+    private double tutorRating;
 
     private String slotID;
 
@@ -42,9 +44,8 @@ public class TimeSlot implements Serializable, Comparable<TimeSlot> {
 
     public TimeSlot() {}
 
-    public TimeSlot(String tutorFirstName, String tutorLastName,String date, String start, String end, boolean auto, String tutorID, String slotID) {
-        this.tutorFirstName=tutorFirstName;
-        this.tutorLastName=tutorLastName;
+    public TimeSlot(String date, String start, String end, boolean auto, String tutorID, String slotID, String tutorName, double tutorRating) {
+
         this.date = date;
         this.start = start;
         this.end = end;
@@ -53,6 +54,8 @@ public class TimeSlot implements Serializable, Comparable<TimeSlot> {
         this.studentID = "Not added yet";
         this.tutorID = tutorID;
         this.slotID = slotID;
+        this.tutorName = tutorName;
+        this.tutorRating = tutorRating;
         studentsRequesting=new ArrayList<>();
     }
 
@@ -82,18 +85,6 @@ public class TimeSlot implements Serializable, Comparable<TimeSlot> {
     public void setStudentID(String id){
         this.studentID=id;
     }
-    public String getTutorFirstName() {
-        return tutorFirstName;
-    }
-    public void setTutorFirstName(String firstName){
-        this.tutorFirstName=firstName;
-    }
-    public String getTutorLastName() {
-        return tutorLastName;
-    }
-    public void setTutorLastName(String lastName){
-        this.tutorLastName=lastName;
-    }
 
     public String getSlotID() {
         return slotID;
@@ -104,6 +95,26 @@ public class TimeSlot implements Serializable, Comparable<TimeSlot> {
 
     public String getTutorID() {
         return tutorID;
+    }
+
+    public String getTutorName() {
+        return this.tutorName;
+    }
+
+    public double getTutorRating() {
+        return this.tutorRating;
+    }
+
+    public void setTutorRating(double rating) {
+        this.tutorRating = rating;
+    }
+
+    public String getTutorRatingStar() {
+        if (getTutorRating() == 0) {
+            return "No ratings yet";
+        } else {
+            return (Math.floor(getTutorRating() * 10) / 10.0) +" stars";
+        }
     }
 
     public static boolean isValidTime(String time) {
@@ -154,7 +165,7 @@ public class TimeSlot implements Serializable, Comparable<TimeSlot> {
 
     @Override
     public String toString() {
-        return "TimeSlot{" + getDate() + " " + getStart() + "-" + getEnd() + ", status=" + getStatus() + ", created by: " + getTutorID() + "}";
+        return "TimeSlot{" + getDate() + " " + getStart() + "-" + getEnd() + ", status=" + getStatus() + ", created by: " + getTutorName() + " " + getTutorRatingStar() + "}";
     }
 
     public boolean getPast() {

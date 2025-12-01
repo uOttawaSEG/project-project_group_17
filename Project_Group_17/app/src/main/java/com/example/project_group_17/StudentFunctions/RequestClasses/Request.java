@@ -30,17 +30,15 @@ public class Request implements Serializable, Comparable<com.example.project_gro
     private Status status;
     private String studentID;
     private String tutorID;
-    private String tutorFirstName;
-    private String tutorLastName;
+    private String tutorName;
+    private String tutorRating;
     //Eventually add Rating and class being offered
 
     private String slotID;
 
     public Request() {}
 
-    public Request(String tutorFirstName, String tutorLastName, String date, String start, String end, String studentID,String tutorID, String slotID) {
-        this.tutorFirstName=tutorFirstName;
-        this.tutorLastName=tutorLastName;
+    public Request(String date, String start, String end, String studentID,String tutorID, String slotID,String tutorName, String tutorRating) {
         this.date = date;
         this.start = start;
         this.end = end;
@@ -48,6 +46,8 @@ public class Request implements Serializable, Comparable<com.example.project_gro
         this.studentID = studentID;
         this.tutorID = tutorID;
         this.slotID = slotID;
+        this.tutorName=tutorName;
+        this.tutorRating=tutorRating;
     }
 
     public String getDate() {
@@ -72,17 +72,17 @@ public class Request implements Serializable, Comparable<com.example.project_gro
     public void setStudentID(String id){
         this.studentID=id;
     }
-    public String getTutorFirstName() {
-        return tutorFirstName;
+    public String getTutorName() {
+        return tutorName;
     }
-    public void setTutorFirstName(String firstName){
-        this.tutorFirstName=firstName;
+    public void setTutorName(String name){
+        this.tutorName=name;
     }
-    public String getTutorLastName() {
-        return tutorLastName;
+    public String getTutorRating() {
+        return tutorRating;
     }
-    public void setTutorLastName(String lastName){
-        this.tutorLastName=lastName;
+    public void setTutorNRating(String rating){
+        this.tutorRating=rating;
     }
 
     public String getSlotID() {
@@ -144,7 +144,7 @@ public class Request implements Serializable, Comparable<com.example.project_gro
 
     @Override
     public String toString() {
-        return "Session with " + tutorFirstName + " " + tutorLastName +
+        return "Session with " + tutorName +
                 " on " + date + " " + start + "-" + end +
                 " (" + status + ")";
     }

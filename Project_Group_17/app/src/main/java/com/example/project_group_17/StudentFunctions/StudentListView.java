@@ -12,6 +12,9 @@ import com.example.project_group_17.AdminFunctions.RejectedRequests;
 import com.example.project_group_17.R;
 import com.example.project_group_17.Screens.LoginScreen;
 import com.example.project_group_17.Screens.UserScreen;
+import com.example.project_group_17.StudentFunctions.PastSessions;
+import com.example.project_group_17.StudentFunctions.StudentSessions;
+import com.example.project_group_17.StudentFunctions.StudentUpcomingSessions;
 import com.example.project_group_17.TutorFunctions.ListDisplays.PendingSessions;
 import com.example.project_group_17.TutorFunctions.ListDisplays.PreviousSessions;
 import com.example.project_group_17.TutorFunctions.ListDisplays.UpcomingSessions;
@@ -30,13 +33,13 @@ public class StudentListView extends AppCompatActivity {
         u = (User) se;
     }
     public void loadUpcoming(View view){
-        Intent intent = new Intent(StudentListView.this, StudentUpcomingSessions.class);
+        Intent intent = new Intent(StudentListView.this, UpcomingSessions.class);
         intent.putExtra("userInfo", u);
         startActivity(intent);
         finish();
     }
     public void loadPrevious(View view){
-        Intent intent = new Intent(StudentListView.this, StudentPreviousSessions.class);
+        Intent intent = new Intent(StudentListView.this, PastSessions.class);
         intent.putExtra("userInfo", u);
         startActivity(intent);
         finish();
@@ -48,7 +51,7 @@ public class StudentListView extends AppCompatActivity {
         finish();
     }
 
-    public void loadMakeRequest(View view){
+    public void loadAvailable(View view){
         Intent intent = new Intent(StudentListView.this, StudentSessions.class);
         intent.putExtra("userInfo", u);
         startActivity(intent);

@@ -14,6 +14,7 @@ import com.example.project_group_17.AdminFunctions.AdminInbox;
 import com.example.project_group_17.R;
 import com.example.project_group_17.TutorFunctions.Schedule;
 import com.example.project_group_17.TutorFunctions.TimeSlot;
+import com.example.project_group_17.UserHierarchy.Tutor;
 import com.example.project_group_17.UserHierarchy.User;
 
 import java.io.Serializable;
@@ -40,11 +41,13 @@ public class TutorCreatingSlots extends AppCompatActivity {
     private EditText endTime;
     private CheckBox isAutoApporved;
     private String tutorID;
-    private String tutorFirstName;
-    private String tutorLastName;
     private Schedule schedule;
     private Button create;
     private String id;
+
+    private String tutorName;
+
+    private double tutorRating;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,10 +63,10 @@ public class TutorCreatingSlots extends AppCompatActivity {
         isAutoApporved = findViewById(R.id.cbAutoApprove);
         create = findViewById(R.id.btnCreate);
         Serializable se = getIntent().getSerializableExtra("userInfo");
-        User u = (User) se;
+        Tutor u = (Tutor) se;
         tutorID = u.getId();
-        tutorFirstName=u.getFirstName();
-        tutorLastName=u.getLastName();
+        tutorName = u.getFirstName()+" "+u.getLastName();
+        tutorRating = u.getAvgRating();
 
         createSchedule();
         create.setOnClickListener(v -> createTimeSlot());
@@ -117,7 +120,7 @@ public class TutorCreatingSlots extends AppCompatActivity {
             Toast.makeText(this, "Conflicting Slot: A timeslot is already registered within that period", Toast.LENGTH_SHORT).show();
         } else {
             String slotID = databaseSchedules.child(id).child("timeSlots").push().getKey();
-            TimeSlot timeSlot = new TimeSlot(tutorFirstName, tutorLastName, d,start, end, auto, tutorID, slotID);
+            TimeSlot timeSlot = new TimeSlot(d, start, end, auto, tutorID, slotID, tutorName, tutorRating);
             schedule.add(timeSlot);
             databaseSchedules.child(id).setValue(schedule);
             Toast.makeText(this, "Successfully created timeslot.", Toast.LENGTH_SHORT).show();

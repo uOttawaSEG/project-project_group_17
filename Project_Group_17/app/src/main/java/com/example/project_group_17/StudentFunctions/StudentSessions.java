@@ -174,7 +174,7 @@ public class StudentSessions extends AppCompatActivity {
         if (schedule.overlapChecking(d, start, end)) {
             Toast.makeText(this, "Conflicting Slot: You have already registered for a session in that perios", Toast.LENGTH_SHORT).show();
         } else {
-            Request r = new Request(slot.getTutorFirstName(), slot.getTutorLastName(), d, start,end,u.getId(),slot.getTutorID(),slot.getSlotID());
+            Request r = new Request(d, start,end,u.getId(),slot.getTutorID(),slot.getSlotID(), slot.getTutorName(), slot.getTutorRatingStar());
             schedule.add(r);
             databaseStudentSchedules.child(id).setValue(schedule);
             updateSlot(slot, adapter);

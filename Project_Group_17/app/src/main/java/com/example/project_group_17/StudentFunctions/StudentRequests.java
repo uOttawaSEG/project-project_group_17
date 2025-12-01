@@ -144,7 +144,8 @@ public class StudentRequests extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 String msg;
                 if (snapshot.exists()) {
-                    msg = "Requested slot offered by: "+selectedRequest.getTutorFirstName()+" "+ selectedRequest.getTutorLastName()+
+                    msg = "Requested slot offered by: "+selectedRequest.getTutorName()+
+                            "\n With a rating of: "+selectedRequest.getTutorRating()+
                             "\n On: "+selectedRequest.getDate()+
                             "\n From: "+selectedRequest.getStart()+
                             "\n To: "+selectedRequest.getEnd();
