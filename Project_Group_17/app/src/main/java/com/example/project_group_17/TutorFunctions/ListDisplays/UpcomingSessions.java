@@ -3,6 +3,7 @@ package com.example.project_group_17.TutorFunctions.ListDisplays;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -39,11 +40,14 @@ public class UpcomingSessions extends AppCompatActivity {
     DatabaseReference databaseSchedules;
     private Button goBack;
     List<TimeSlot> upComingSlots = new ArrayList<TimeSlot>();
+    ArrayAdapter<TimeSlot> adapter;
     User u;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.upcoming_sessions);
+
+        adapter = new ArrayAdapter<TimeSlot>(this, android.R.layout.simple_list_item_1, upComingSlots);
 
         Serializable se = getIntent().getSerializableExtra("userInfo");
         u = (User) se;
@@ -67,7 +71,6 @@ public class UpcomingSessions extends AppCompatActivity {
     private void loadUpcomingSessions(){
         ListView listView = findViewById(R.id.listView);
 
-        ArrayAdapter<TimeSlot> adapter = new ArrayAdapter<TimeSlot>(this, android.R.layout.simple_list_item_1, upComingSlots);
         listView.setAdapter(adapter);
         //IN the schedules database see if there is one with the same userid as the tutor that opened this class
         databaseSchedules.orderByChild("userID").equalTo(u.getId()).addListenerForSingleValueEvent(new ValueEventListener() {
@@ -122,9 +125,6 @@ public class UpcomingSessions extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 cancelSession(selectedSession);
-                upComingSlots.remove(selectedSession);
-                adapter.notifyDataSetChanged();
-                Toast.makeText(com.example.project_group_17.TutorFunctions.ListDisplays.UpcomingSessions.this, "Session Cancelled", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -167,9 +167,6 @@ public class UpcomingSessions extends AppCompatActivity {
     }
 
     private void cancelSession(@NonNull TimeSlot slot) {
-        //Cancels locally
-        slot.cancel();
-
         //Cancels in the database
         // Get the tutor schedule
         databaseSchedules.orderByChild("userID").equalTo(u.getId()).addListenerForSingleValueEvent(new ValueEventListener() {
@@ -184,6 +181,9 @@ public class UpcomingSessions extends AppCompatActivity {
                                 Toast.makeText(UpcomingSessions.this, "Cannot Cancel a booked session", Toast.LENGTH_LONG).show();
                             }
                             else{
+                                slot.cancel();
+                                upComingSlots.remove(slot);
+                                adapter.notifyDataSetChanged();
                                 slotSnapshot.getRef().child("status").setValue("CANCELLED")
                                         .addOnSuccessListener(aVoid ->
                                                 Toast.makeText(UpcomingSessions.this, "Session cancelled successfully", Toast.LENGTH_SHORT).show()
