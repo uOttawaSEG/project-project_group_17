@@ -76,7 +76,7 @@ public class PastSessions extends AppCompatActivity {
         ArrayAdapter<TimeSlot> adapter = new ArrayAdapter<TimeSlot>(this, android.R.layout.simple_list_item_1, pastSlots);
         listView.setAdapter(adapter);
 
-        // get all free time slots
+        // get all past time slots
         databaseSchedules.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -146,6 +146,7 @@ public class PastSessions extends AppCompatActivity {
                                                 databaseUsers.child(selectedTutor.getId()).setValue(selectedTutor)
                                                         .addOnSuccessListener(aVoid -> Toast.makeText(PastSessions.this, "Successfully rated tutor!", Toast.LENGTH_SHORT).show())
                                                         .addOnFailureListener(e -> Toast.makeText(PastSessions.this, "Failed to rate tutor", Toast.LENGTH_SHORT).show());
+                                                updateTimeSlots(adapter, selectedTutor, selectedTutor.getAvgRating());
                                             }
                                         } catch(NumberFormatException e) {
                                             Toast.makeText(PastSessions.this, "Invalid input", Toast.LENGTH_LONG).show();
@@ -169,6 +170,38 @@ public class PastSessions extends AppCompatActivity {
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
                 Toast.makeText(PastSessions.this, "Database Error", Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    private void updateTimeSlots(ArrayAdapter<TimeSlot> adapter, Tutor tu, double rating) {
+        databaseSchedules.orderByChild("userID").equalTo(tu.getId()).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    for (DataSnapshot scheduleSnapshot : snapshot.getChildren()) {
+                        GenericTypeIndicator<List<TimeSlot>> t = new GenericTypeIndicator<List<TimeSlot>>() {};
+                        List<TimeSlot> allSlots = scheduleSnapshot.child("timeSlots").getValue(t);
+                        if(allSlots !=null) {
+                            for (int i = 0; i < Objects.requireNonNull(allSlots).size(); i++) {
+                                TimeSlot slot = allSlots.get(i);
+                                slot.setTutorRating(rating);
+                                scheduleSnapshot.child("timeSlots").child(slot.getSlotID()).getRef().setValue(slot)
+                                        .addOnFailureListener(e -> Toast.makeText(PastSessions.this, "Failed to update time slots.", Toast.LENGTH_SHORT).show());
+                            }
+                        }
+                    }
+                    adapter.notifyDataSetChanged();
+                }
+                else {
+                    Toast.makeText(PastSessions.this, "Couldn't update timeslots", Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(PastSessions.this, "Database error", Toast.LENGTH_LONG).show();
+                return;
             }
         });
     }
