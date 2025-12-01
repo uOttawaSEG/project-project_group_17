@@ -49,7 +49,7 @@ public class StudentSchedule implements Serializable {
 
             if (d.equals(slot.getDate())) {
 
-                if ((parseTime(s) < parseTime(slot.getEnd())) && (parseTime(e) > parseTime(slot.getStart()))) {
+                if ((parseTime(s) < parseTime(slot.getEnd())) && (parseTime(e) > parseTime(slot.getStart()))&&(!slot.isRejected())&&(!slot.isCancelled())) {
 
                     return true;
                 }

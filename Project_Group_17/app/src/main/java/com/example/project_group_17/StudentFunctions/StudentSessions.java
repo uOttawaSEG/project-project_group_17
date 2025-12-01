@@ -169,20 +169,27 @@ public class StudentSessions extends AppCompatActivity {
         String d = slot.getDate();
         String start = slot.getStart();
         String end = slot.getEnd();
-        //boolean auto = isAutoApporved.isChecked();
+        boolean auto = slot.getAuto();
 
         if (schedule.overlapChecking(d, start, end)) {
             Toast.makeText(this, "Conflicting Slot: You have already registered for a session in that perios", Toast.LENGTH_SHORT).show();
         } else {
             Request r = new Request(d, start,end,u.getId(),slot.getTutorID(),slot.getSlotID(), slot.getTutorName(), slot.getTutorRatingStar());
+            TimeSlot.Status status;
+            if(auto){
+                status = TimeSlot.Status.BOOKED;
+                r.approve();
+            } else {
+                status = TimeSlot.Status.PENDING;
+            }
             schedule.add(r);
             databaseStudentSchedules.child(id).setValue(schedule);
-            updateSlot(slot, adapter);
+            updateSlot(slot, adapter, status);
             Toast.makeText(this, "Successfully created request.", Toast.LENGTH_SHORT).show();
         }
     }
     // updating session status to pending and filling in student id
-    private void updateSlot(@NonNull TimeSlot slot, ArrayAdapter<TimeSlot> adapter) {
+    private void updateSlot(@NonNull TimeSlot slot, ArrayAdapter<TimeSlot> adapter, TimeSlot.Status status) {
 
         //Updates the timeslot with the new student request and sets it to Pending
         databaseSchedules.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -192,9 +199,13 @@ public class StudentSessions extends AppCompatActivity {
                     for (DataSnapshot slotSnapshot : scheduleSnapshot.child("timeSlots").getChildren()) {
                         TimeSlot dbSlot = slotSnapshot.getValue(TimeSlot.class);
                         if (dbSlot != null && Objects.equals(dbSlot.getSlotID(), slot.getSlotID())) {
-                            slot.addRequest(u.getId());
-                            slot.setPending();
-                            slotSnapshot.getRef().child("status").setValue("PENDING")
+                            if(slot.getAuto()){
+                                slot.clearRequests();
+                            }else{
+                                slot.addRequest(u.getId());
+                            }
+                            slot.setStatus(status);
+                            slotSnapshot.getRef().child("status").setValue(status)
                                     .addOnFailureListener(e ->
                                             Toast.makeText(StudentSessions.this, "Error requesting: " + e.getMessage(), Toast.LENGTH_LONG).show()
                                     );
