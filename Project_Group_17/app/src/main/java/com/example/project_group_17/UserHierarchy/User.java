@@ -21,7 +21,7 @@ public class User implements Serializable {
         this.email = email;
         this.password = pass;
         this.phoneNumber = pn;
-        this.registrationStatus="pending";
+        this.setRegistrationStatus("pending");
     }
 
     public String getUserType(){
@@ -49,10 +49,11 @@ public class User implements Serializable {
         return  registrationStatus;
     }
     public void setRegistrationStatus(String reg){
-        if(!reg.equals("approved")||!reg.equals("rejected")){
+        if(!reg.equals("approved") && !reg.equals("rejected") && !reg.equals("pending")) {
             System.out.println("Invalid");
+            return;
         }
-        registrationStatus=reg;
+        this.registrationStatus = reg;
     }
 
 }

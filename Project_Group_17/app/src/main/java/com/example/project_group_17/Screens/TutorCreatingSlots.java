@@ -40,6 +40,8 @@ public class TutorCreatingSlots extends AppCompatActivity {
     private EditText endTime;
     private CheckBox isAutoApporved;
     private String tutorID;
+    private String tutorFirstName;
+    private String tutorLastName;
     private Schedule schedule;
     private Button create;
     private String id;
@@ -60,6 +62,8 @@ public class TutorCreatingSlots extends AppCompatActivity {
         Serializable se = getIntent().getSerializableExtra("userInfo");
         User u = (User) se;
         tutorID = u.getId();
+        tutorFirstName=u.getFirstName();
+        tutorLastName=u.getLastName();
 
         createSchedule();
         create.setOnClickListener(v -> createTimeSlot());
@@ -113,7 +117,7 @@ public class TutorCreatingSlots extends AppCompatActivity {
             Toast.makeText(this, "Conflicting Slot: A timeslot is already registered within that period", Toast.LENGTH_SHORT).show();
         } else {
             String slotID = databaseSchedules.child(id).child("timeSlots").push().getKey();
-            TimeSlot timeSlot = new TimeSlot(d, start, end, auto, tutorID, slotID);
+            TimeSlot timeSlot = new TimeSlot(tutorFirstName, tutorLastName, d,start, end, auto, tutorID, slotID);
             schedule.add(timeSlot);
             databaseSchedules.child(id).setValue(schedule);
             Toast.makeText(this, "Successfully created timeslot.", Toast.LENGTH_SHORT).show();

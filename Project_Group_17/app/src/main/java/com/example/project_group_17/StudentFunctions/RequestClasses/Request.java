@@ -1,4 +1,4 @@
-package com.example.project_group_17.TutorFunctions;
+package com.example.project_group_17.StudentFunctions.RequestClasses;
 
 import android.widget.Toast;
 
@@ -10,50 +10,44 @@ import android.widget.Toast;
 
 import android.text.TextUtils;
 
+import com.example.project_group_17.TutorFunctions.TimeSlot;
 import com.example.project_group_17.UserHierarchy.Student;
 import com.example.project_group_17.UserHierarchy.User;
 
 
-public class TimeSlot implements Serializable, Comparable<TimeSlot> {
+public class Request implements Serializable, Comparable<com.example.project_group_17.StudentFunctions.RequestClasses.Request> {
 
     public enum Status {
-
-        FREE,
+        APPROVED,
+        REJECTED,
         PENDING,
-        BOOKED,
         CANCELLED
-
     }
 
     private String date;
     private String start;
     private String end;
     private Status status;
-    private boolean auto;
     private String studentID;
     private String tutorID;
     private String tutorFirstName;
     private String tutorLastName;
+    //Eventually add Rating and class being offered
 
     private String slotID;
 
-    private List<String> studentsRequesting;
+    public Request() {}
 
-
-    public TimeSlot() {}
-
-    public TimeSlot(String tutorFirstName, String tutorLastName,String date, String start, String end, boolean auto, String tutorID, String slotID) {
+    public Request(String tutorFirstName, String tutorLastName, String date, String start, String end, String studentID,String tutorID, String slotID) {
         this.tutorFirstName=tutorFirstName;
         this.tutorLastName=tutorLastName;
         this.date = date;
         this.start = start;
         this.end = end;
-        this.status = Status.FREE;
-        this.auto = auto;
-        this.studentID = "Not added yet";
+        this.status = Request.Status.PENDING;
+        this.studentID = studentID;
         this.tutorID = tutorID;
         this.slotID = slotID;
-        studentsRequesting=new ArrayList<>();
     }
 
     public String getDate() {
@@ -70,10 +64,6 @@ public class TimeSlot implements Serializable, Comparable<TimeSlot> {
 
     public Status getStatus() {
         return status;
-    }
-
-    public boolean getAuto() {
-        return auto;
     }
 
     public String getStudentID() {
@@ -128,7 +118,7 @@ public class TimeSlot implements Serializable, Comparable<TimeSlot> {
     }
 
     @Override
-    public int compareTo(TimeSlot time) {
+    public int compareTo(com.example.project_group_17.StudentFunctions.RequestClasses.Request time) {
 
         return this.start.compareTo((time.start));
     }
@@ -138,12 +128,12 @@ public class TimeSlot implements Serializable, Comparable<TimeSlot> {
         if (this == obj) {
             return true;
         }
-        else if (!(obj instanceof TimeSlot)) {
+        else if (!(obj instanceof Request)) {
             return false;
         }
 
-        TimeSlot other = (TimeSlot) obj;
-        return Objects.equals(this.start,other.start) && Objects.equals(this.end, other.end);
+        Request other = (Request) obj;
+        return Objects.equals(this.slotID, other.slotID) && Objects.equals(this.studentID, other.studentID);
 
     }
 
@@ -154,7 +144,9 @@ public class TimeSlot implements Serializable, Comparable<TimeSlot> {
 
     @Override
     public String toString() {
-        return "TimeSlot{" + getDate() + " " + getStart() + "-" + getEnd() + ", status=" + getStatus() + ", created by: " + getTutorID() + "}";
+        return "Session with " + tutorFirstName + " " + tutorLastName +
+                " on " + date + " " + start + "-" + end +
+                " (" + status + ")";
     }
 
     public boolean getPast() {
@@ -163,61 +155,35 @@ public class TimeSlot implements Serializable, Comparable<TimeSlot> {
         return (this.getDate().compareTo(today) < 0);
     }
 
-    public void cancel(){
-        this.status = Status.CANCELLED;
+    public void reject(){
+        this.status = com.example.project_group_17.StudentFunctions.RequestClasses.Request.Status.REJECTED;
     }
 
-    //Book eventually needs to assign the student chosen for the slot
-    public void book(){
-        this.status = Status.BOOKED;
+    public void approve(){
+        this.status = com.example.project_group_17.StudentFunctions.RequestClasses.Request.Status.APPROVED;
     }
-    public boolean isPending(){
-        return getStatus() == Status.PENDING;
-    }
-    public boolean isBooked(){
-        return getStatus() == Status.BOOKED;
+    public void cancel(){
+        this.status = Status.CANCELLED;
     }
     public boolean isCancelled(){
         return getStatus() == Status.CANCELLED;
     }
+    public boolean isPending(){
+        return getStatus() == com.example.project_group_17.StudentFunctions.RequestClasses.Request.Status.PENDING;
+    }
+    public boolean isApproved(){
+        return getStatus() == com.example.project_group_17.StudentFunctions.RequestClasses.Request.Status.APPROVED;
+    }
+    public boolean isRejected(){
+        return getStatus() == com.example.project_group_17.StudentFunctions.RequestClasses.Request.Status.REJECTED;
+    }
     public void setPending(){
-        this.status=Status.PENDING;
-    }
-    public void addRequest(String id){
-        if(studentsRequesting ==null){
-            studentsRequesting=new ArrayList<>();
-        }
-        studentsRequesting.add(id);
-    }
-    public void clearRequests(){
-        if(studentsRequesting!=null) {
-            studentsRequesting.clear();
-        }else{
-            studentsRequesting=new ArrayList<>();
-        }
-    }
-    public List<String> getStudentsRequesting() {
-        return studentsRequesting;
-    }
-    public int numberOfRequests(){
-        if(studentsRequesting==null){
-            return 0;
-        }
-        else {
-            return studentsRequesting.size();
-        }
-    }
-    public void removeRequest(String request){
-        studentsRequesting.remove(request);
+        this.status = com.example.project_group_17.StudentFunctions.RequestClasses.Request.Status.PENDING;
     }
 
     public void setDate(String date) { this.date = date; }
     public void setStart(String start) { this.start = start; }
     public void setEnd(String end) { this.end = end; }
-    public void setStatus(Status status) { this.status = status; }
-    public void setAuto(boolean auto) { this.auto = auto; }
+    public void setStatus(com.example.project_group_17.StudentFunctions.RequestClasses.Request.Status status) { this.status = status; }
     public void setTutorID(String tutorID) { this.tutorID = tutorID; }
-    public void setStudentsRequesting(List<String> studentsRequesting) {
-        this.studentsRequesting = studentsRequesting;
-    }
 }

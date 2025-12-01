@@ -81,7 +81,19 @@
             android:exported="true">
         </activity>
         <activity
-            android:name=".StudentFunctions.UpcomingSessions"
+            android:name=".StudentFunctions.StudentUpcomingSessions"
+            android:exported="true">
+        </activity>
+        <activity
+            android:name=".StudentFunctions.StudentRequests"
+            android:exported="true">
+        </activity>
+        <activity
+            android:name=".StudentFunctions.StudentListView"
+            android:exported="true">
+        </activity>
+        <activity
+            android:name=".StudentFunctions.StudentPreviousSessions"
             android:exported="true">
         </activity>
     </application>

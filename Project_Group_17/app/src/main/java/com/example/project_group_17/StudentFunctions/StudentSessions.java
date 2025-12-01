@@ -15,8 +15,12 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.project_group_17.R;
+import com.example.project_group_17.Screens.TutorCreatingSlots;
 import com.example.project_group_17.Screens.UserScreen;
+import com.example.project_group_17.StudentFunctions.RequestClasses.Request;
+import com.example.project_group_17.StudentFunctions.RequestClasses.StudentSchedule;
 import com.example.project_group_17.TutorFunctions.ListDisplays.UpcomingSessions;
+import com.example.project_group_17.TutorFunctions.Schedule;
 import com.example.project_group_17.TutorFunctions.TimeSlot;
 import com.example.project_group_17.UserHierarchy.Student;
 import com.example.project_group_17.UserHierarchy.User;
@@ -34,7 +38,10 @@ import java.util.Objects;
 
 public class StudentSessions extends AppCompatActivity {
     DatabaseReference databaseSchedules;
+    DatabaseReference databaseStudentSchedules;
     private Button goBack;
+    private StudentSchedule schedule;
+    private String id;
     List<TimeSlot> availableSlots = new ArrayList<TimeSlot>();
     Student u;
 
@@ -63,6 +70,7 @@ public class StudentSessions extends AppCompatActivity {
         });
 
         databaseSchedules = FirebaseDatabase.getInstance().getReference("Schedules");
+        databaseStudentSchedules = FirebaseDatabase.getInstance().getReference("StudentSchedules");
         loadAvailableSessions();
     }
 
@@ -121,7 +129,7 @@ public class StudentSessions extends AppCompatActivity {
         builder.setNegativeButton("Request Session", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                sessionRequested(selectedSession, adapter);
+                createSchedule(selectedSession, adapter);
                 availableSlots.remove(selectedSession);
                 adapter.notifyDataSetChanged();
             }
@@ -129,11 +137,54 @@ public class StudentSessions extends AppCompatActivity {
         builder.setNeutralButton("Exit", null);
         builder.show();
     }
+    //Creates or loads the schedule
+    public void createSchedule(TimeSlot slot, ArrayAdapter<TimeSlot> adapter) {
+        databaseStudentSchedules.orderByChild("userID").equalTo(u.getId()).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    for (DataSnapshot scheduleSnapshot : snapshot.getChildren()) {
+                        DataSnapshot child = snapshot.getChildren().iterator().next();
+                        id = child.getKey();
+                        schedule = child.getValue(StudentSchedule.class);
+                    }
+                } else {
+                    id = databaseStudentSchedules.push().getKey();
+                    schedule = new StudentSchedule(u.getId());
+                    databaseStudentSchedules.child(id).setValue(schedule);
+                }
+                createRequest(slot, adapter);
+            }
 
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(StudentSessions.this, "Database error", Toast.LENGTH_LONG).show();
+                return;
+            }
+        });
+    }
+
+    public void createRequest(TimeSlot slot, ArrayAdapter<TimeSlot> adapter) {
+
+        String d = slot.getDate();
+        String start = slot.getStart();
+        String end = slot.getEnd();
+        //boolean auto = isAutoApporved.isChecked();
+
+        if (schedule.overlapChecking(d, start, end)) {
+            Toast.makeText(this, "Conflicting Slot: You have already registered for a session in that perios", Toast.LENGTH_SHORT).show();
+        } else {
+            Request r = new Request(slot.getTutorFirstName(), slot.getTutorLastName(), d, start,end,u.getId(),slot.getTutorID(),slot.getSlotID());
+            schedule.add(r);
+            databaseStudentSchedules.child(id).setValue(schedule);
+            updateSlot(slot, adapter);
+            Toast.makeText(this, "Successfully created request.", Toast.LENGTH_SHORT).show();
+        }
+    }
     // updating session status to pending and filling in student id
-    private void sessionRequested(@NonNull TimeSlot slot, ArrayAdapter<TimeSlot> adapter) {
-        slot.addRequest(u.getId());
-        slot.setPending();
+    private void updateSlot(@NonNull TimeSlot slot, ArrayAdapter<TimeSlot> adapter) {
+
+        //Updates the timeslot with the new student request and sets it to Pending
         databaseSchedules.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -141,6 +192,8 @@ public class StudentSessions extends AppCompatActivity {
                     for (DataSnapshot slotSnapshot : scheduleSnapshot.child("timeSlots").getChildren()) {
                         TimeSlot dbSlot = slotSnapshot.getValue(TimeSlot.class);
                         if (dbSlot != null && Objects.equals(dbSlot.getSlotID(), slot.getSlotID())) {
+                            slot.addRequest(u.getId());
+                            slot.setPending();
                             slotSnapshot.getRef().child("status").setValue("PENDING")
                                     .addOnFailureListener(e ->
                                             Toast.makeText(StudentSessions.this, "Error requesting: " + e.getMessage(), Toast.LENGTH_LONG).show()
@@ -149,10 +202,7 @@ public class StudentSessions extends AppCompatActivity {
                                     .addOnFailureListener(e ->
                                             Toast.makeText(StudentSessions.this, "Error requesting: " + e.getMessage(), Toast.LENGTH_LONG).show()
                                     );
-                            availableSlots.remove(slot);
-                            adapter.notifyDataSetChanged();
                             Toast.makeText(StudentSessions.this, "Session Requested", Toast.LENGTH_LONG).show();
-                            return;
                         }
                     }
                 }

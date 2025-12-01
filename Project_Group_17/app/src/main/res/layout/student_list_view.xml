@@ -1,0 +1,60 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:padding="20dp">
+
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="87dp"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/loadUpcoming"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:onClick="loadUpcoming"
+            android:text="Upcoming Sessions" />
+
+        <Button
+            android:id="@+id/loadPrevious"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:onClick="loadPrevious"
+            android:text="Previous Sessions" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="87dp"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/loadMakeRequest"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:onClick="loadMakeRequest"
+            android:text="Make Request" />
+        <Button
+            android:id="@+id/loadRequests"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:onClick="loadRequests"
+            android:text="View Requests" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/goBack"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:onClick="goBack"
+        android:text="Go Back" />
+
+</LinearLayout>

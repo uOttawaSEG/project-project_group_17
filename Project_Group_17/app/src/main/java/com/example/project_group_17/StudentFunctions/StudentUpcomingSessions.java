@@ -2,5 +2,5 @@ package com.example.project_group_17.StudentFunctions;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-public class UpcomingSessions extends AppCompatActivity {
+public class StudentUpcomingSessions extends AppCompatActivity {
 }

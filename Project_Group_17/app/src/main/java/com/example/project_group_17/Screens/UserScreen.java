@@ -9,6 +9,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.project_group_17.R;
+import com.example.project_group_17.StudentFunctions.StudentListView;
 import com.example.project_group_17.StudentFunctions.StudentSessions;
 import com.example.project_group_17.TutorFunctions.TutorListView;
 import com.example.project_group_17.UserHierarchy.Admin;
@@ -57,7 +58,7 @@ public class UserScreen extends AppCompatActivity {
                 listBtn = findViewById(R.id.list);
                 listBtn.setText("View Sessions");
                 listBtn.setOnClickListener(v -> {
-                    Intent intent = new Intent(UserScreen.this, StudentSessions.class);
+                    Intent intent = new Intent(UserScreen.this, StudentListView.class);
                     intent.putExtra("userInfo", u);
                     startActivity(intent);
                     finish();

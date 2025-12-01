@@ -1,6 +1,12 @@
 package com.example.project_group_17.UserHierarchy;
 
+import android.util.Log;
+
 import androidx.annotation.NonNull;
+
+import com.example.project_group_17.TutorFunctions.TimeSlot;
+
+import java.util.ArrayList;
 
 public class Student extends User{
     private String programOfStudy;
@@ -11,7 +17,7 @@ public class Student extends User{
 
     public Student(String id, String first, String last, String email, String pass, String pn, String programOfStudy) {
         super("Student", id, first, last, email, pass, pn);
-        this.programOfStudy = programOfStudy;
+        this.setProgramOfStudy(programOfStudy);
     }
 
     public String getProgramOfStudy() {
@@ -22,4 +28,8 @@ public class Student extends User{
     public String toString(){
         return "User Type: " + this.getUserType() + "\nName: " + this.getFirstName() + " " + this.getLastName() + "\nEmail: " + this.getEmail() + "\nPhone Number: " + this.getPhoneNumber() + "\nProgram of Study: " + this.getProgramOfStudy();
     }
+    public void setProgramOfStudy(String programOfStudy) {
+        this.programOfStudy = programOfStudy;
+    }
+
 }

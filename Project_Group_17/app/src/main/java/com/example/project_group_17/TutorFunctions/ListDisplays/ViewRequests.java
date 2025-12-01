@@ -3,6 +3,7 @@ package com.example.project_group_17.TutorFunctions.ListDisplays;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -15,9 +16,14 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.project_group_17.R;
+import com.example.project_group_17.Screens.LoginScreen;
+import com.example.project_group_17.Screens.UserScreen;
+import com.example.project_group_17.StudentFunctions.RequestClasses.Request;
 import com.example.project_group_17.TutorFunctions.Schedule;
 import com.example.project_group_17.TutorFunctions.TimeSlot;
 import com.example.project_group_17.TutorFunctions.TutorListView;
+import com.example.project_group_17.UserHierarchy.Student;
+import com.example.project_group_17.UserHierarchy.Tutor;
 import com.example.project_group_17.UserHierarchy.User;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -33,6 +39,8 @@ import java.util.Objects;
 
 public class ViewRequests extends AppCompatActivity {
     DatabaseReference databaseSchedules;
+    DatabaseReference databaseStudentSchedules;
+    DatabaseReference databaseUsers;
     private Button goBack;
     DatabaseReference scheduleReference;
     List<String> students = new ArrayList<String>();
@@ -58,6 +66,8 @@ public class ViewRequests extends AppCompatActivity {
         });
 
         databaseSchedules = FirebaseDatabase.getInstance().getReference("Schedules");
+        databaseUsers = FirebaseDatabase.getInstance().getReference("Users");
+        databaseStudentSchedules=FirebaseDatabase.getInstance().getReference("StudentSchedules");
         loadRequests();
     }
 
@@ -142,6 +152,7 @@ public class ViewRequests extends AppCompatActivity {
         //Clears the list of requesting students
         slot.clearRequests();
         slot.setStudentID(studentID);
+        List<String> requestsToUpdate = slot.getStudentsRequesting();
 
 
         //Cancels in the database
@@ -170,6 +181,8 @@ public class ViewRequests extends AppCompatActivity {
                             students.remove(studentID);
                             adapter.notifyDataSetChanged();
                             Toast.makeText(ViewRequests.this, "Session Booked", Toast.LENGTH_LONG).show();
+                            updateRequestApproved(studentID);
+                            rejectAllOtherRequests(studentID);
                             return;
                         }
                     }
@@ -181,6 +194,7 @@ public class ViewRequests extends AppCompatActivity {
                 Toast.makeText(ViewRequests.this, "Error updating session status", Toast.LENGTH_SHORT).show();
             }
         });
+
         //Since the request has been approved send back to the slot view
         Intent intent = new Intent(com.example.project_group_17.TutorFunctions.ListDisplays.ViewRequests.this, PendingSessions.class);
         intent.putExtra("userInfo", u);
@@ -207,6 +221,7 @@ public class ViewRequests extends AppCompatActivity {
                             students.remove(studentID);
                             adapter.notifyDataSetChanged();
                             Toast.makeText(ViewRequests.this, "Request rejected", Toast.LENGTH_LONG).show();
+                            updateRequestRejected(studentID);
                             return;
                         }
                     }
@@ -218,5 +233,67 @@ public class ViewRequests extends AppCompatActivity {
                 Toast.makeText(ViewRequests.this, "Error updating session status", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private void updateRequestRejected(String studentIdPicked){
+        databaseStudentSchedules.orderByChild("userID").equalTo(studentIdPicked).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot scheduleSnapshot : snapshot.getChildren()) {
+                    for (DataSnapshot slotSnapshot : scheduleSnapshot.child("requests").getChildren()) {
+                        Request dbreq = slotSnapshot.getValue(Request.class);
+                        if (dbreq != null && Objects.equals(dbreq.getSlotID(), slot.getSlotID())) {
+                            // Update status field in Firebase
+                            dbreq.reject();
+                            slotSnapshot.getRef().child("status").setValue("REJECTED")
+                                    .addOnFailureListener(e ->
+                                            Toast.makeText(ViewRequests.this, "Error requesting: " + e.getMessage(), Toast.LENGTH_LONG).show()
+                                    );
+                            Toast.makeText(ViewRequests.this, "Request updated", Toast.LENGTH_LONG).show();
+                            return;
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(ViewRequests.this, "Error updating request status", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+    private void updateRequestApproved(String studentIdPicked){
+        databaseStudentSchedules.orderByChild("userID").equalTo(studentIdPicked).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot scheduleSnapshot : snapshot.getChildren()) {
+                    for (DataSnapshot slotSnapshot : scheduleSnapshot.child("requests").getChildren()) {
+                        Request dbreq = slotSnapshot.getValue(Request.class);
+                        if (dbreq != null && Objects.equals(dbreq.getSlotID(), slot.getSlotID())) {
+                            // Update status field in Firebase
+                            dbreq.approve();
+                            slotSnapshot.getRef().child("status").setValue("APPROVED")
+                                    .addOnFailureListener(e ->
+                                            Toast.makeText(ViewRequests.this, "Error requesting: " + e.getMessage(), Toast.LENGTH_LONG).show()
+                                    );
+                            Toast.makeText(ViewRequests.this, "Request updated", Toast.LENGTH_LONG).show();
+                            return;
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(ViewRequests.this, "Error updating request status", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+    private void rejectAllOtherRequests(String notRejected){
+        for(String student : students){
+            if(!student.equals(notRejected)){
+                updateRequestRejected(student);
+            }
+        }
     }
 }

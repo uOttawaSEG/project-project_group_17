@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.project_group_17.AdminFunctions.AdminInbox;
 import com.example.project_group_17.R;
+import com.example.project_group_17.StudentFunctions.RequestClasses.StudentSchedule;
 import com.example.project_group_17.UserHierarchy.Admin;
 import com.example.project_group_17.UserHierarchy.Student;
 import com.example.project_group_17.UserHierarchy.Tutor;
@@ -52,8 +53,8 @@ public class LoginScreen extends AppCompatActivity {
         EditText passwordView = findViewById(R.id.passwordId);
         String enteredEmail = emailView.getText().toString();
         String enteredPassword = passwordView.getText().toString();
-        Log.d("DEBUG_LOGIN", "Entered Email: [" + enteredEmail + "]");
         //Checks to see if the user entered the admin login information
+
         if(enteredEmail.equals(admin.getUsername())&&enteredPassword.equals(admin.getPassword())){
             Intent intent = new Intent(LoginScreen.this, AdminInbox.class);
             startActivity(intent);
@@ -70,12 +71,13 @@ public class LoginScreen extends AppCompatActivity {
             databaseUsers.orderByChild("email").equalTo(enteredEmail).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    Log.d("DEBUG_LOGIN", "Snapshot exists: " + snapshot.exists());
-                    Log.d("DEBUG_LOGIN", "Snapshot children: " + snapshot.getValue());
                     if (snapshot.exists()) {
                         for (DataSnapshot userSnapshot : snapshot.getChildren()) {
+                            Log.d("DEBUG_USER", "Key: " + userSnapshot.getKey() + ", Email: [" + userSnapshot.child("email").getValue(String.class) + "]");
+
                             String type = userSnapshot.child("userType").getValue(String.class);
                             User user;
+
                             if(type.equals("Student")){
                                 user = userSnapshot.getValue(Student.class);
                             } else if(type.equals("Tutor")){
@@ -83,6 +85,8 @@ public class LoginScreen extends AppCompatActivity {
                             } else{
                                 user = userSnapshot.getValue(User.class);
                             }
+                            String status = user.getRegistrationStatus();
+                            Log.d("DEBUG", "registrationStatus = " + status);
                              if(user.getRegistrationStatus().equals("pending")){
                                 Toast.makeText(LoginScreen.this, "Your account approval is pending. Please try again later.", Toast.LENGTH_LONG).show();
                             }
@@ -90,6 +94,32 @@ public class LoginScreen extends AppCompatActivity {
                                 Toast.makeText(LoginScreen.this, "Your account has been rejected. Please contact 123456 for more information.", Toast.LENGTH_LONG).show();
                             }else if(user.getPassword().equals(enteredPassword)){
                                 Toast.makeText(LoginScreen.this, "Login successful", Toast.LENGTH_LONG).show();
+                                 if (type.equals("Student")) {
+                                     DatabaseReference ref = FirebaseDatabase.getInstance()
+                                             .getReference("StudentSchedules");
+
+                                     ref.child(user.getId()).addListenerForSingleValueEvent(new ValueEventListener(){
+                                         @Override
+                                         public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                             if (!snapshot.exists()) {
+                                                 // Create empty schedule to avoid crashes later
+                                                 StudentSchedule schedule = new StudentSchedule(user.getId());
+                                                 ref.child(user.getId()).setValue(schedule);
+                                             }
+
+                                             // Now safely continue to UserScreen
+                                             Intent intent = new Intent(LoginScreen.this, UserScreen.class);
+                                             intent.putExtra("userInfo", user);
+                                             startActivity(intent);
+                                             finish();
+                                         }
+
+                                         @Override
+                                         public void onCancelled(@NonNull DatabaseError error) { }
+                                     });
+
+                                     return; // Important! Prevents the bottom block from also running
+                                 }
                                 Intent intent = new Intent(LoginScreen.this, UserScreen.class);
                                 intent.putExtra("userInfo", user);
                                 startActivity(intent);
