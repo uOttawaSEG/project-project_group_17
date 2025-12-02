@@ -1,6 +1,5 @@
 package com.example.project_group_17.StudentFunctions;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -25,7 +24,6 @@ public class StudentSearch extends AppCompatActivity {
     EditText searchBar;
 
 
-    @SuppressLint("MissingInflatedId")
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.student_search);
@@ -34,6 +32,9 @@ public class StudentSearch extends AppCompatActivity {
         enteredCourse = searchBar.getText().toString();
 
         enterButton = findViewById(R.id.enterButton);
+        enterButton.setOnClickListener(v -> {
+            enteredCourse();
+        });
 
         Serializable se = getIntent().getSerializableExtra("userInfo");
         if(se instanceof Student){
@@ -45,9 +46,6 @@ public class StudentSearch extends AppCompatActivity {
             startActivity(intent);
             finish();
         }
-        enterButton.setOnClickListener(v -> {
-            enteredCourse();
-        });
     }
 
     public void enteredCourse(){

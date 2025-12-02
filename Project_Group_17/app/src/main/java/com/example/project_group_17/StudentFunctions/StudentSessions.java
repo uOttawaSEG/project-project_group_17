@@ -72,7 +72,7 @@ public class StudentSessions extends AppCompatActivity {
         goBack = findViewById(R.id.gobackBtn);
 
         goBack.setOnClickListener(v ->{
-            Intent intent = new Intent(StudentSessions.this, UserScreen.class);
+            Intent intent = new Intent(StudentSessions.this, StudentSearch.class);
             intent.putExtra("userInfo", u);
             startActivity(intent);
             finish();
