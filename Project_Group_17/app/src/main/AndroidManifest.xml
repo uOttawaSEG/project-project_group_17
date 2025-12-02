@@ -101,10 +101,6 @@
             android:exported="true">
         </activity>
         <activity
-            android:name=".StudentFunctions.StudentListView"
-            android:exported="true">
-        </activity>
-        <activity
             android:name=".StudentFunctions.StudentSearch"
             android:exported="true">
         </activity>

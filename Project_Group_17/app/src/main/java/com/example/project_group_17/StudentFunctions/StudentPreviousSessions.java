@@ -1,4 +1,6 @@
 package com.example.project_group_17.StudentFunctions;
 
-public class StudentPreviousSessions {
+import androidx.appcompat.app.AppCompatActivity;
+
+public class StudentPreviousSessions extends AppCompatActivity {
 }
