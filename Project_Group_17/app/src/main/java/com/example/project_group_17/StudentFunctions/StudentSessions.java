@@ -23,6 +23,7 @@ import com.example.project_group_17.TutorFunctions.ListDisplays.UpcomingSessions
 import com.example.project_group_17.TutorFunctions.Schedule;
 import com.example.project_group_17.TutorFunctions.TimeSlot;
 import com.example.project_group_17.UserHierarchy.Student;
+import com.example.project_group_17.UserHierarchy.Tutor;
 import com.example.project_group_17.UserHierarchy.User;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -39,17 +40,25 @@ import java.util.Objects;
 public class StudentSessions extends AppCompatActivity {
     DatabaseReference databaseSchedules;
     DatabaseReference databaseStudentSchedules;
+
+    DatabaseReference databaseUsers;
     private Button goBack;
     private StudentSchedule schedule;
     private String id;
     List<TimeSlot> availableSlots = new ArrayList<TimeSlot>();
+    List<String> tutorList = new ArrayList<>();
     Student u;
+    String sCourse;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.student_sessions);
 
         Serializable se = getIntent().getSerializableExtra("userInfo");
+        Serializable sc = getIntent().getSerializableExtra("courseCode");
+        if (sc instanceof String) {
+            sCourse = (String) sc;
+        }
         if(se instanceof Student){
             u = (Student) se;
         } else{
@@ -71,34 +80,24 @@ public class StudentSessions extends AppCompatActivity {
 
         databaseSchedules = FirebaseDatabase.getInstance().getReference("Schedules");
         databaseStudentSchedules = FirebaseDatabase.getInstance().getReference("StudentSchedules");
+        databaseUsers = FirebaseDatabase.getInstance().getReference("Users");
         loadAvailableSessions();
     }
 
-    private void loadAvailableSessions() {
-        ListView listView = findViewById(R.id.sessions_list);
-
-        ArrayAdapter<TimeSlot> adapter = new ArrayAdapter<TimeSlot>(this, android.R.layout.simple_list_item_1, availableSlots);
-        listView.setAdapter(adapter);
-
-        // get all free time slots
-        databaseSchedules.addListenerForSingleValueEvent(new ValueEventListener() {
+    private void loadTutors() {
+        databaseUsers.orderByChild("userType").equalTo("Tutor").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                availableSlots.clear();
+                tutorList.clear();
                 if (snapshot.exists()) {
-                    for (DataSnapshot scheduleSnapshot : snapshot.getChildren()) {
-                        GenericTypeIndicator<List<TimeSlot>> t = new GenericTypeIndicator<List<TimeSlot>>() {};
-                        List<TimeSlot> allSlots = scheduleSnapshot.child("timeSlots").getValue(t);
-                        if(allSlots !=null) {
-                            for (int i = 0; i < Objects.requireNonNull(allSlots).size(); i++) {
-                                TimeSlot slot = allSlots.get(i);
-                                if (!slot.getPast() &&(slot.getStatus() == TimeSlot.Status.FREE||slot.getStatus()==TimeSlot.Status.PENDING)) {
-                                    availableSlots.add(slot);
-                                }
+                    for (DataSnapshot tutorSnap : snapshot.getChildren()) {
+                        Tutor tutor = tutorSnap.getValue(Tutor.class);
+                        if (tutor != null && tutor.getCourses() != null) {
+                            if (tutor.getCourses().contains(sCourse)) {
+                                tutorList.add(tutor.getId());
                             }
                         }
                     }
-                    adapter.notifyDataSetChanged();
                 } else {
                     Toast.makeText(StudentSessions.this, "No available sessions found", Toast.LENGTH_LONG).show();
                 }
@@ -110,6 +109,48 @@ public class StudentSessions extends AppCompatActivity {
                 return;
             }
         });
+    }
+
+    private void loadAvailableSessions() {
+        loadTutors();
+
+        ListView listView = findViewById(R.id.sessions_list);
+
+        ArrayAdapter<TimeSlot> adapter = new ArrayAdapter<TimeSlot>(this, android.R.layout.simple_list_item_1, availableSlots);
+        listView.setAdapter(adapter);
+
+        for (String id : tutorList) {
+            databaseSchedules.orderByChild("userId").equalTo(id).addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    availableSlots.clear();
+                    if (snapshot.exists()) {
+                        for (DataSnapshot scheduleSnapshot : snapshot.getChildren()) {
+                            GenericTypeIndicator<List<TimeSlot>> t = new GenericTypeIndicator<List<TimeSlot>>() {};
+                            List<TimeSlot> allSlots = scheduleSnapshot.child("timeSlots").getValue(t);
+                            if(allSlots !=null) {
+                                for (int i = 0; i < Objects.requireNonNull(allSlots).size(); i++) {
+                                    TimeSlot slot = allSlots.get(i);
+                                    if (!slot.getPast() &&(slot.getStatus() == TimeSlot.Status.FREE||slot.getStatus()==TimeSlot.Status.PENDING)) {
+                                        availableSlots.add(slot);
+                                    }
+                                }
+                            }
+                        }
+                        adapter.notifyDataSetChanged();
+                    } else {
+                        Toast.makeText(StudentSessions.this, "No available sessions found", Toast.LENGTH_LONG).show();
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                    Toast.makeText(StudentSessions.this, "Database Error", Toast.LENGTH_LONG).show();
+                    return;
+                }
+            });
+        }
+
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

@@ -52,7 +52,7 @@ public class StudentListView extends AppCompatActivity {
     }
 
     public void loadAvailable(View view){
-        Intent intent = new Intent(StudentListView.this, StudentSessions.class);
+        Intent intent = new Intent(StudentListView.this, StudentSearch.class);
         intent.putExtra("userInfo", u);
         startActivity(intent);
         finish();
