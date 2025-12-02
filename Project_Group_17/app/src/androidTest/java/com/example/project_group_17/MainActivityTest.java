@@ -25,11 +25,25 @@ public class MainActivityTest {
     public void checkEmail() throws Exception {
 
         onView(withId(R.id.emailId)).perform(typeText("email@example.com"), closeSoftKeyboard());
-        onView(withId(R.id.passwordId)).perform(typeText("1234"), closeSoftKeyboard());
-        onView(withId(R.id.login)).perform(click());
         onView(withId(R.id.emailId)).check(matches(withText("email@example.com")));
 
     }
+
+    @Test
+    public void checkPassword() throws Exception {
+
+        onView(withId(R.id.passwordId)).perform(typeText("1234"), closeSoftKeyboard());
+
+    }
+    @Test
+    public void checkLogin() throws Exception {
+
+        onView(withId(R.id.login)).perform(click());
+
+    }
+
+
+
 
 
 
