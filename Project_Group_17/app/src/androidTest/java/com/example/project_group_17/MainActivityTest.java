@@ -42,6 +42,13 @@ public class MainActivityTest {
 
     }
 
+    @Test
+    public void checkRegister() throws Exception {
+
+        onView(withId(R.id.btnGoRegister)).perform(click());
+
+    }
+
 
 
 
