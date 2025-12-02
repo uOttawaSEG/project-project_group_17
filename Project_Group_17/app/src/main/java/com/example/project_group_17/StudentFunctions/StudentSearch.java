@@ -27,15 +27,6 @@ public class StudentSearch extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.student_search);
-
-        searchBar = findViewById(R.id.searchBarId);
-        enteredCourse = searchBar.getText().toString();
-
-        enterButton = findViewById(R.id.enterButton);
-        enterButton.setOnClickListener(v -> {
-            enteredCourse();
-        });
-
         Serializable se = getIntent().getSerializableExtra("userInfo");
         if(se instanceof Student){
             u = (Student) se;
@@ -46,6 +37,15 @@ public class StudentSearch extends AppCompatActivity {
             startActivity(intent);
             finish();
         }
+
+        searchBar = findViewById(R.id.searchBarId);
+        enteredCourse = searchBar.getText().toString();
+
+        enterButton = findViewById(R.id.enterButton);
+        enterButton.setOnClickListener(v -> {
+            enteredCourse();
+        });
+
     }
 
     public void enteredCourse(){

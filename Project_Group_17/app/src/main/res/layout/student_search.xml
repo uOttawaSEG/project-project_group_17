@@ -10,17 +10,13 @@
         android:id="@+id/searchBarId"
         android:layout_width="250dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
         android:autofillHints=""
         android:hint="Enter course here."
         android:importantForAutofill="no"
         android:inputType="textEmailAddress|textNoSuggestions"
-        app:layout_constraintBottom_toTopOf="@+id/enterButton"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.613" />
+        tools:layout_editor_absoluteY="278dp" />
 
     <TextView
         android:id="@+id/textView4"
@@ -43,6 +39,7 @@
         android:text="Enter"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/searchBarId" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
