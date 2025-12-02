@@ -81,7 +81,7 @@ public class StudentSessions extends AppCompatActivity {
         databaseSchedules = FirebaseDatabase.getInstance().getReference("Schedules");
         databaseStudentSchedules = FirebaseDatabase.getInstance().getReference("StudentSchedules");
         databaseUsers = FirebaseDatabase.getInstance().getReference("Users");
-        loadAvailableSessions();
+        loadTutors();
     }
 
     private void loadTutors() {
@@ -98,6 +98,7 @@ public class StudentSessions extends AppCompatActivity {
                             }
                         }
                     }
+                    loadAvailableSessions();
                 } else {
                     Toast.makeText(StudentSessions.this, "No available sessions found", Toast.LENGTH_LONG).show();
                 }
@@ -112,18 +113,16 @@ public class StudentSessions extends AppCompatActivity {
     }
 
     private void loadAvailableSessions() {
-        loadTutors();
 
         ListView listView = findViewById(R.id.sessions_list);
 
         ArrayAdapter<TimeSlot> adapter = new ArrayAdapter<TimeSlot>(this, android.R.layout.simple_list_item_1, availableSlots);
         listView.setAdapter(adapter);
-
+        availableSlots.clear();
         for (String id : tutorList) {
             databaseSchedules.orderByChild("userId").equalTo(id).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    availableSlots.clear();
                     if (snapshot.exists()) {
                         for (DataSnapshot scheduleSnapshot : snapshot.getChildren()) {
                             GenericTypeIndicator<List<TimeSlot>> t = new GenericTypeIndicator<List<TimeSlot>>() {};
