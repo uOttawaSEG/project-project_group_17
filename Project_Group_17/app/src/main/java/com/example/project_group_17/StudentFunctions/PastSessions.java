@@ -4,6 +4,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.InputType;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -18,6 +19,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.project_group_17.R;
 import com.example.project_group_17.Screens.UserScreen;
+import com.example.project_group_17.StudentFunctions.RequestClasses.Request;
 import com.example.project_group_17.TutorFunctions.TimeSlot;
 import com.example.project_group_17.UserHierarchy.Student;
 import com.example.project_group_17.UserHierarchy.Tutor;
@@ -38,7 +40,7 @@ public class PastSessions extends AppCompatActivity {
     DatabaseReference databaseSchedules;
     DatabaseReference databaseUsers;
     private Button goBack;
-    List<TimeSlot> pastSlots = new ArrayList<TimeSlot>();
+    List<Request> pastRequests = new ArrayList<Request>();
     Student u;
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,33 +76,37 @@ public class PastSessions extends AppCompatActivity {
     private void loadPastSessions() {
         ListView listView = findViewById(R.id.listView);
 
-        ArrayAdapter<TimeSlot> adapter = new ArrayAdapter<TimeSlot>(this, android.R.layout.simple_list_item_1, pastSlots);
+        ArrayAdapter<Request> adapter = new ArrayAdapter<Request>(this, android.R.layout.simple_list_item_1, pastRequests);
         listView.setAdapter(adapter);
 
         // get all past time slots
         databaseStudentSchedules.orderByChild("userID").equalTo(u.getId()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                pastSlots.clear();
+                pastRequests.clear();
                 if (snapshot.exists()) {
                     for (DataSnapshot scheduleSnapshot : snapshot.getChildren()) {
-                        GenericTypeIndicator<List<TimeSlot>> t = new GenericTypeIndicator<List<TimeSlot>>() {};
-                        List<TimeSlot> allSlots = scheduleSnapshot.child("timeSlots").getValue(t);
-                        if(allSlots !=null) {
-                            for (int i = 0; i < Objects.requireNonNull(allSlots).size(); i++) {
-                                TimeSlot slot = allSlots.get(i);
-                                if (slot.getPast()) {
-                                    pastSlots.add(slot);
+                        DataSnapshot requestsSnapshot = scheduleSnapshot.child("requests");
+
+                        if (requestsSnapshot.exists()) {
+                            for (DataSnapshot requestSnapshot : requestsSnapshot.getChildren()) {
+                                Request request = requestSnapshot.getValue(Request.class);
+
+                                if (request != null) {
+                                    if (request.getPast() && request.getStatus() == Request.Status.APPROVED) {
+                                        pastRequests.add(request);
+                                    }
                                 }
-                            }
-                            if (pastSlots.isEmpty()) {
-                                Toast.makeText(PastSessions.this, "There are no past sessions", Toast.LENGTH_LONG).show();
                             }
                         }
                     }
                     adapter.notifyDataSetChanged();
+
+                    if (pastRequests.isEmpty()) {
+                        Toast.makeText(PastSessions.this, "There are no past sessions", Toast.LENGTH_LONG).show();
+                    }
                 } else {
-                    Toast.makeText(PastSessions.this, "No past sessions found", Toast.LENGTH_LONG).show();
+                    Toast.makeText(PastSessions.this, "Error: No student schedule for this ID found", Toast.LENGTH_LONG).show();
                 }
             }
 
@@ -114,13 +120,13 @@ public class PastSessions extends AppCompatActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                TimeSlot selectedSession = pastSlots.get(position);
+                Request selectedSession = pastRequests.get(position);
                 rateTutor(selectedSession, adapter);
             }
         });
     }
 
-    private void rateTutor(TimeSlot selectedSession, ArrayAdapter<TimeSlot> adapter) {
+    private void rateTutor(Request selectedSession, ArrayAdapter<Request> adapter) {
         databaseUsers.child(selectedSession.getTutorID()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -129,7 +135,10 @@ public class PastSessions extends AppCompatActivity {
                     builder.setTitle("Rate this tutor?");
                     Tutor selectedTutor = snapshot.getValue(Tutor.class);
                     if (selectedTutor != null) {
-                        if (!selectedTutor.getRatedBy().contains(u.getId())) {
+                        if (selectedTutor.getRatedBy() == null) {
+                            selectedTutor.setRatedBy(new ArrayList<>());
+                        }
+                        if (!(selectedTutor.getRatedBy().contains(u.getId()))) {
                             builder.setMessage("Rate "+selectedTutor.getFirstName()+" "+selectedTutor.getLastName()+" from 1 to 5");
                             final EditText input = new EditText(PastSessions.this);
                             input.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
@@ -150,7 +159,7 @@ public class PastSessions extends AppCompatActivity {
                                                 databaseUsers.child(selectedTutor.getId()).setValue(selectedTutor)
                                                         .addOnSuccessListener(aVoid -> Toast.makeText(PastSessions.this, "Successfully rated tutor!", Toast.LENGTH_SHORT).show())
                                                         .addOnFailureListener(e -> Toast.makeText(PastSessions.this, "Failed to rate tutor", Toast.LENGTH_SHORT).show());
-                                                updateTimeSlots(adapter, selectedTutor, selectedTutor.getAvgRating());
+                                                updateRequests(adapter, selectedTutor, selectedTutor.getAvgRating());
                                             }
                                         } catch(NumberFormatException e) {
                                             Toast.makeText(PastSessions.this, "Invalid input", Toast.LENGTH_LONG).show();
@@ -178,26 +187,27 @@ public class PastSessions extends AppCompatActivity {
         });
     }
 
-    private void updateTimeSlots(ArrayAdapter<TimeSlot> adapter, Tutor tu, double rating) {
+    private void updateRequests(ArrayAdapter<Request> adapter, Tutor tu, double rating) {
         databaseSchedules.orderByChild("userID").equalTo(tu.getId()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()) {
                     for (DataSnapshot scheduleSnapshot : snapshot.getChildren()) {
-                        GenericTypeIndicator<List<TimeSlot>> t = new GenericTypeIndicator<List<TimeSlot>>() {};
-                        List<TimeSlot> allSlots = scheduleSnapshot.child("timeSlots").getValue(t);
-                        if(allSlots !=null) {
-                            for (int i = 0; i < Objects.requireNonNull(allSlots).size(); i++) {
-                                TimeSlot slot = allSlots.get(i);
-                                slot.setTutorRating(rating);
-                                scheduleSnapshot.child("timeSlots").child(slot.getSlotID()).getRef().setValue(slot)
-                                        .addOnFailureListener(e -> Toast.makeText(PastSessions.this, "Failed to update time slots.", Toast.LENGTH_SHORT).show());
+                        DataSnapshot timeSlotsSnapshot = scheduleSnapshot.child("timeSlots");
+
+                        if (timeSlotsSnapshot.exists()) {
+                            for (DataSnapshot slotSnapshot : timeSlotsSnapshot.getChildren()) {
+                                TimeSlot slot = slotSnapshot.getValue(TimeSlot.class);
+
+                                if (slot != null) {
+                                    slot.setTutorRating(rating);
+                                }
                             }
+
                         }
                     }
                     adapter.notifyDataSetChanged();
-                }
-                else {
+                } else {
                     Toast.makeText(PastSessions.this, "Couldn't update timeslots", Toast.LENGTH_LONG).show();
                 }
             }

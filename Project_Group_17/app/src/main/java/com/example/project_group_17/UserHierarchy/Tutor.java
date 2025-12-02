@@ -26,7 +26,6 @@ public class Tutor extends User {
         this.courses = courses;
         this.averageRating = 0;
         this.numOfRatings = 0;
-        this.ratedBy = new ArrayList<>();
     }
     public String getDegree() {
         return degree;
@@ -39,6 +38,10 @@ public class Tutor extends User {
     public double getAvgRating() { return this.averageRating; }
 
     public List<String> getRatedBy() {return this.ratedBy;}
+
+    public void setRatedBy(List<String> ratings) {
+        this.ratedBy = ratings;
+    }
 
     public void addRating(double rating) {
         this.numOfRatings++;
