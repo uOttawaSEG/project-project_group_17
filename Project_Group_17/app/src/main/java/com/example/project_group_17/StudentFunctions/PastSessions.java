@@ -71,7 +71,7 @@ public class PastSessions extends AppCompatActivity {
     }
 
     private void loadPastSessions() {
-        ListView listView = findViewById(R.id.sessions_list);
+        ListView listView = findViewById(R.id.listView);
 
         ArrayAdapter<TimeSlot> adapter = new ArrayAdapter<TimeSlot>(this, android.R.layout.simple_list_item_1, pastSlots);
         listView.setAdapter(adapter);
