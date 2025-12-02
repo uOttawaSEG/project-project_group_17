@@ -55,7 +55,7 @@ public class StudentSessions extends AppCompatActivity {
         setContentView(R.layout.student_sessions);
 
         Serializable se = getIntent().getSerializableExtra("userInfo");
-        Serializable sc = getIntent().getSerializableExtra("courseCode");
+        Serializable sc = getIntent().getSerializableExtra("courseInfo");
         if (sc instanceof String) {
             sCourse = (String) sc;
         }

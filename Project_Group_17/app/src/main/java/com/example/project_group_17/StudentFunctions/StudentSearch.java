@@ -39,7 +39,7 @@ public class StudentSearch extends AppCompatActivity {
         }
 
         searchBar = findViewById(R.id.searchBarId);
-        enteredCourse = searchBar.getText().toString();
+        enteredCourse = searchBar.getText().toString().trim();
 
         enterButton = findViewById(R.id.enterButton);
         enterButton.setOnClickListener(v -> {
