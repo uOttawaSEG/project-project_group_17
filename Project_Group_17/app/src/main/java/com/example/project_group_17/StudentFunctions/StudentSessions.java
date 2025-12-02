@@ -3,6 +3,7 @@ package com.example.project_group_17.StudentFunctions;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -68,6 +69,7 @@ public class StudentSessions extends AppCompatActivity {
             startActivity(intent);
             finish();
         }
+        Log.d("StudentSessions", "Course code:["+sCourse+"]");
 
         goBack = findViewById(R.id.gobackBtn);
 
@@ -95,6 +97,7 @@ public class StudentSessions extends AppCompatActivity {
                         if (tutor != null && tutor.getCourses() != null) {
                             if (tutor.getCourses().contains(sCourse)) {
                                 tutorList.add(tutor.getId());
+                                Log.d("StudentSessions", "Tutor added: "+tutor.getId());
                             }
                         }
                     }
@@ -119,6 +122,7 @@ public class StudentSessions extends AppCompatActivity {
         ArrayAdapter<TimeSlot> adapter = new ArrayAdapter<TimeSlot>(this, android.R.layout.simple_list_item_1, availableSlots);
         listView.setAdapter(adapter);
         availableSlots.clear();
+        Log.d("StudentSessions", "The tutor list is currently: "+tutorList);
         for (String id : tutorList) {
             databaseSchedules.orderByChild("userId").equalTo(id).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
@@ -132,11 +136,13 @@ public class StudentSessions extends AppCompatActivity {
                                     TimeSlot slot = allSlots.get(i);
                                     if (!slot.getPast() &&(slot.getStatus() == TimeSlot.Status.FREE||slot.getStatus()==TimeSlot.Status.PENDING)) {
                                         availableSlots.add(slot);
+                                        Log.d("StudentSessions", "Slot added: "+slot);
                                     }
                                 }
                             }
                         }
                         adapter.notifyDataSetChanged();
+                        Log.d("StudentSessions", "The slot list is currently: "+availableSlots);
                     } else {
                         Toast.makeText(StudentSessions.this, "No available sessions found", Toast.LENGTH_LONG).show();
                     }
