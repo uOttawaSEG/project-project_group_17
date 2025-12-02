@@ -34,8 +34,8 @@ import java.util.List;
 import java.util.Objects;
 
 public class PastSessions extends AppCompatActivity {
+    DatabaseReference databaseStudentSchedules;
     DatabaseReference databaseSchedules;
-
     DatabaseReference databaseUsers;
     private Button goBack;
     List<TimeSlot> pastSlots = new ArrayList<TimeSlot>();
@@ -65,6 +65,7 @@ public class PastSessions extends AppCompatActivity {
             finish();
         });
 
+        databaseStudentSchedules = FirebaseDatabase.getInstance().getReference("StudentSchedules");
         databaseSchedules = FirebaseDatabase.getInstance().getReference("Schedules");
         databaseUsers = FirebaseDatabase.getInstance().getReference("Users");
         loadPastSessions();
@@ -77,7 +78,7 @@ public class PastSessions extends AppCompatActivity {
         listView.setAdapter(adapter);
 
         // get all past time slots
-        databaseSchedules.addListenerForSingleValueEvent(new ValueEventListener() {
+        databaseStudentSchedules.orderByChild("userID").equalTo(u.getId()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 pastSlots.clear();
@@ -88,9 +89,12 @@ public class PastSessions extends AppCompatActivity {
                         if(allSlots !=null) {
                             for (int i = 0; i < Objects.requireNonNull(allSlots).size(); i++) {
                                 TimeSlot slot = allSlots.get(i);
-                                if (slot.getPast() &&(slot.getStudentID() == u.getId())) {
+                                if (slot.getPast()) {
                                     pastSlots.add(slot);
                                 }
+                            }
+                            if (pastSlots.isEmpty()) {
+                                Toast.makeText(PastSessions.this, "There are no past sessions", Toast.LENGTH_LONG).show();
                             }
                         }
                     }
