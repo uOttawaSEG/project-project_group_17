@@ -201,6 +201,7 @@ public class PastSessions extends AppCompatActivity {
 
                                 if (slot != null) {
                                     slot.setTutorRating(rating);
+                                    slotSnapshot.getRef().setValue(slot);
                                 }
                             }
 
