@@ -124,7 +124,7 @@ public class StudentSessions extends AppCompatActivity {
         availableSlots.clear();
         Log.d("StudentSessions", "The tutor list is currently: "+tutorList);
         for (String id : tutorList) {
-            databaseSchedules.orderByChild("userId").equalTo(id).addListenerForSingleValueEvent(new ValueEventListener() {
+            databaseSchedules.orderByChild("userID").equalTo(id).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     if (snapshot.exists()) {
